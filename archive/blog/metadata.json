@@ -29,6 +29,16 @@
       "category_no": "21",
       "category_name": "매일 5천",
       "parent_category_no": "1"
+    },
+    {
+      "category_no": "17",
+      "category_name": "트릭컬 리바이브",
+      "parent_category_no": "14"
+    },
+    {
+      "category_no": "1",
+      "category_name": "소설",
+      "parent_category_no": "1"
     }
   ],
   "source_url": "https://m.blog.naver.com/abydost"

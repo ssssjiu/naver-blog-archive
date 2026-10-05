@@ -3,13 +3,19 @@
     "category_no": "8",
     "category_name": "블로그",
     "parent_category_no": "",
-    "count": 1
+    "count": 0
   },
   {
     "category_no": "21",
     "category_name": "매일 5천",
     "parent_category_no": "1",
-    "count": 17
+    "count": 34
+  },
+  {
+    "category_no": "1",
+    "category_name": "소설",
+    "parent_category_no": "1",
+    "count": 2
   },
   {
     "category_no": "24",
@@ -18,15 +24,21 @@
     "count": 11
   },
   {
+    "category_no": "17",
+    "category_name": "트릭컬 리바이브",
+    "parent_category_no": "14",
+    "count": 1
+  },
+  {
     "category_no": "20",
     "category_name": "매일 기록",
     "parent_category_no": "20",
-    "count": 131
+    "count": 179
   },
   {
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "count": 18
+    "count": 43
   }
 ]
