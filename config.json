@@ -3,5 +3,6 @@
   "archive_title": "abydost Naver Blog Archive",
   "initial_discovery_pages": 30,
   "deletion_checks_per_run": 20,
-  "request_delay_seconds": 0.5
+  "request_delay_seconds": 0.5,
+  "enabled": true
 }
