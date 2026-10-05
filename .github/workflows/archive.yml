@@ -9,7 +9,7 @@ on:
       - "requirements.txt"
       - ".github/workflows/archive.yml"
   schedule:
-    - cron: "2/5 * * * *"
+    - cron: "2-59/5 * * * *"
     - cron: "23 */6 * * *"
     - cron: "41 18 * * *"
   workflow_dispatch:
@@ -59,7 +59,7 @@ jobs:
             MODE="$INPUT_MODE"
           elif [ "$EVENT_NAME" = "push" ]; then
             MODE="maintenance"
-          elif [ "$EVENT_SCHEDULE" = "2/5 * * * *" ]; then
+          elif [ "$EVENT_SCHEDULE" = "2-59/5 * * * *" ]; then
             MODE="fast"
           elif [ "$EVENT_SCHEDULE" = "41 18 * * *" ]; then
             MODE="discover"
