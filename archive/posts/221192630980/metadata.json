@@ -1,15 +1,16 @@
 {
   "post_id": "221192630980",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "날씨가 많이 춥습니다.",
   "original_url": "https://blog.naver.com/abydost/221192630980",
   "published": "",
   "first_archived_at": "2026-10-05T20:24:05+09:00",
-  "last_archived_at": "2026-10-05T20:24:05+09:00",
+  "last_archived_at": "2026-10-05T20:49:06+09:00",
   "source_status": "active",
-  "content_hash": "0a5a12990a4139b578f0368ad7185d7904eeca88d763673c2036553a855defca",
+  "content_hash": "c6c613540d778b9408d5008dd00f7b0a969d227e9e780e75a9dce882e0db76ea",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1
+  "version_count": 2
 }

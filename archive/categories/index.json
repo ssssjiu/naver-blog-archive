@@ -1,5 +1,11 @@
 [
   {
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "parent_category_no": "0",
+    "count": 11
+  },
+  {
     "category_no": "19",
     "category_name": "그늘에서 피어난 날개",
     "parent_category_no": "1",
@@ -22,12 +28,6 @@
     "category_name": "심야의 랑데부",
     "parent_category_no": "1",
     "count": 3
-  },
-  {
-    "category_no": "24",
-    "category_name": "욕구전사 +",
-    "parent_category_no": "1",
-    "count": 11
   },
   {
     "category_no": "11",
