@@ -563,6 +563,33 @@ def shell(title,body,prefix="",blogmeta=None,version="0"):
 </body>
 </html>'''
 
+def ordered_categories(blogmeta):
+    cats=[dict(x) for x in blogmeta.get("categories",[]) if x.get("category_no") and x.get("category_name")]
+    by_no={str(x.get("category_no")):x for x in cats}
+    children={}
+    roots=[]
+    for cat in cats:
+        no=str(cat.get("category_no"))
+        parent=str(cat.get("parent_category_no") or "")
+        if parent in ("","0","-1",no) or parent not in by_no:
+            roots.append(cat)
+        else:
+            children.setdefault(parent,[]).append(cat)
+
+    out=[];seen=set()
+    def add(cat,depth=0):
+        no=str(cat.get("category_no"))
+        if no in seen:return
+        seen.add(no)
+        item=dict(cat);item["_depth"]=depth;out.append(item)
+        for child in children.get(no,[]):
+            add(child,depth+1)
+
+    for cat in roots:add(cat,0)
+    for cat in cats:
+        if str(cat.get("category_no")) not in seen:add(cat,0)
+    return out
+
 def build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts):
     pname=blogmeta.get("nickname") or blogmeta.get("blog_name") or BLOG
     intro=blogmeta.get("introduction") or "공개 게시물을 자동으로 보존하는 개인 아카이브입니다."
@@ -570,12 +597,12 @@ def build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts):
     avatar=(f'<img src="blog/{esc(pfile)}" alt="" class="profile-photo">' if pfile else f'<div class="avatar">{esc(BLOG[:1].upper())}</div>')
     cats=[]
     cats.append(f'<button class="side-btn active" type="button" data-filter="all"><span>전체글</span><span class="side-count">{total}</span></button>')
-    for cat in blogmeta.get("categories",[]):
+    for cat in ordered_categories(blogmeta):
         no=str(cat.get("category_no",""))
         name=cat.get("category_name","")
         if not no or not name:continue
-        parent=str(cat.get("parent_category_no") or "")
-        nested=" category-child" if parent not in ("","0","-1",no) else ""
+        depth=int(cat.get("_depth",0) or 0)
+        nested=" category-child" if depth>0 else ""
         cats.append(f'<a class="side-btn category-link{nested}" href="categories/{esc(no)}/index.html"><span>{esc(name)}</span><span class="side-count">{category_counts.get(no,0)}</span></a>')
     cats.append(f'<button class="side-btn" type="button" data-filter="deleted"><span>원본 삭제됨</span><span class="side-count">{deleted_n}</span></button>')
     cats.append(f'<button class="side-btn" type="button" data-filter="private_or_unavailable"><span>접근불가</span><span class="side-count">{priv}</span></button>')
