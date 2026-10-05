@@ -1,11 +1,5 @@
 [
   {
-    "category_no": "8",
-    "category_name": "블로그",
-    "parent_category_no": "",
-    "count": 0
-  },
-  {
     "category_no": "19",
     "category_name": "그늘에서 피어난 날개",
     "parent_category_no": "1",
@@ -21,7 +15,7 @@
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "count": 34
+    "count": 38
   },
   {
     "category_no": "18",
@@ -81,13 +75,19 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "count": 258
+    "count": 281
   },
   {
     "category_no": "7",
     "category_name": "?",
     "parent_category_no": "7",
     "count": 9
+  },
+  {
+    "category_no": "8",
+    "category_name": "프롤로그",
+    "parent_category_no": "8",
+    "count": 1
   },
   {
     "category_no": "9",

@@ -1,9 +1,11 @@
 {
   "category": {
     "category_no": "8",
-    "category_name": "블로그",
-    "parent_category_no": "",
-    "count": 0
+    "category_name": "프롤로그",
+    "parent_category_no": "8",
+    "count": 1
   },
-  "posts": []
+  "posts": [
+    "221020733023"
+  ]
 }

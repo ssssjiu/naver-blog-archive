@@ -8,7 +8,8 @@
   "categories": [
     {
       "category_no": "8",
-      "category_name": "블로그"
+      "category_name": "프롤로그",
+      "parent_category_no": "8"
     },
     {
       "category_no": "20",
