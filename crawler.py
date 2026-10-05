@@ -695,9 +695,13 @@ def build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts):
 </aside>'''
 
 def ensure_manual_media_crops():
-    """Materialize real image files from the supplied source screenshots."""
+    """Materialize manual media only when curated assets are missing."""
     pid="manual-20250720-1500-first-date"
     idir=POSTS/pid/"images"
+    targets=[idir/"sticker.webp",idir/"photo-1.webp",idir/"photo-2.webp",idir/"photo-3.webp"]
+    # Curated/verified crops must never be overwritten by automatic recropping.
+    if all(p.exists() for p in targets):
+        return
     s1=idir/"screenshot-01.webp"; s2=idir/"screenshot-02.webp"
     if not (s1.exists() and s2.exists()):return
     specs=[
