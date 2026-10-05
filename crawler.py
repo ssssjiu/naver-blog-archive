@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import hashlib, html, json, mimetypes, re, shutil, sys, time
+import hashlib, html, json, mimetypes, re, shutil, subprocess, sys, time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -216,6 +216,25 @@ def build_site(index):
     home=f'<section class="hero"><p class="eyebrow">AUTOMATIC MIRROR + ARCHIVE</p><h1>{esc(title)}</h1><p>GitHub Actions가 보존하는 네이버 블로그 아카이브</p></section><section class="stats"><div><strong>{len(rows)}</strong><span>보존 글</span></div><div><strong>{active}</strong><span>원본 확인</span></div><div><strong>{deleted_n}</strong><span>삭제 감지</span></div><div><strong>{priv}</strong><span>접근불가</span></div></section><input id="search" type="search" placeholder="제목 검색"><section class="grid">{"".join(cards) if cards else "<p>아직 보존된 글이 없습니다.</p>"}</section><script src="assets/app.js"></script>'
     (DOCS/"index.html").write_text(shell(title,home),encoding="utf-8");(DOCS/".nojekyll").write_text("",encoding="utf-8")
 
+def checkpoint(index, reason):
+    """Persist a partial archive and push it so GitHub Pages can update mid-run."""
+    save(INDEX,index);build_site(index)
+    subprocess.run(["git","add","archive","docs","state"],check=False)
+    status=subprocess.run(["git","status","--porcelain"],capture_output=True,text=True,check=False)
+    if not status.stdout.strip():
+        return False
+    stamp=now().strftime("%Y-%m-%d %H:%M KST")
+    subprocess.run(["git","commit","-m",f"archive: checkpoint {reason} ({stamp})"],check=True)
+    for attempt in range(3):
+        pushed=subprocess.run(["git","push"],capture_output=True,text=True,check=False)
+        if pushed.returncode==0:
+            print(f"[CHECKPOINT] pushed: {reason}")
+            return True
+        print("[CHECKPOINT] push retry",attempt+1,pushed.stderr.strip())
+        subprocess.run(["git","pull","--rebase","--autostash"],check=False)
+        time.sleep(2)
+    raise RuntimeError("Could not push progressive archive checkpoint")
+
 def main():
     POSTS.mkdir(parents=True,exist_ok=True);STATE.mkdir(parents=True,exist_ok=True)
     index=load(INDEX,{})
@@ -229,12 +248,30 @@ def main():
         except Exception as e:print("Discovery warning:",e)
     for k,v in backfill().items():c.setdefault(k,v)
     stats={}
+    pending_changes=0
+    last_checkpoint=time.monotonic()
+    changed_results={"new","updated","deleted","private"}
+
     for i,x in enumerate(c.values(),1):
         result=archive_one(x,index);stats[result]=stats.get(result,0)+1
         print(f"[{i}/{len(c)}] {x['post_id']} {result}")
+        if result in changed_results:
+            pending_changes+=1
+
+        # Publish partial results during a large first import:
+        # whichever happens first, 5 changed posts or 60 seconds.
+        if pending_changes and (pending_changes>=5 or time.monotonic()-last_checkpoint>=60):
+            checkpoint(index,f"{i}/{len(c)} posts")
+            pending_changes=0
+            last_checkpoint=time.monotonic()
+
         time.sleep(float(CFG.get("request_delay_seconds",.5)))
-    if mode=="maintenance":maintenance(index,set(c))
-    save(INDEX,index);build_site(index)
+
+    if mode=="maintenance":
+        maintenance(index,set(c))
+
+    # Flush any remaining posts/status changes at the end.
+    checkpoint(index,"final")
     print("mode",mode,"stats",stats)
 
 if __name__=="__main__":main()
