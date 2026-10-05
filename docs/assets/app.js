@@ -1,34 +1,163 @@
-const search=document.querySelector("#search");
-const cards=[...document.querySelectorAll(".card")];
-const filters=[...document.querySelectorAll("[data-filter],[data-category]")];
-let activeFilter="all";
-let activeCategory="";
 
-function apply(){
-  const q=(search?.value||"").trim().toLowerCase();
-  for(const card of cards){
-    const matchText=!q||card.dataset.search.includes(q);
-    const matchStatus=activeFilter==="all"||card.dataset.status===activeFilter;
-    const matchCategory=!activeCategory||card.dataset.category===activeCategory;
-    card.hidden=!(matchText&&matchStatus&&matchCategory);
+const search=document.querySelector("#search");
+const list=document.querySelector(".post-list");
+const allCards=list?[...list.querySelectorAll(".card")]:[];
+const filters=[...document.querySelectorAll("[data-filter]")];
+
+let activeFilter="all";
+let query="";
+let currentPage=1;
+const pageSizeByView={list:10,card:8,album:12,video:8};
+const validViews=new Set(["list","card","album","video"]);
+let view=localStorage.getItem("naverArchiveView")||"list";
+if(!validViews.has(view))view="list";
+
+function ensureControls(){
+  if(!list)return;
+  const head=document.querySelector(".list-head");
+  if(head&&!head.querySelector(".view-controls")){
+    const wrap=document.createElement("div");
+    wrap.className="view-controls";
+    wrap.setAttribute("aria-label","글 목록 보기 방식");
+    wrap.innerHTML=[
+      ["list","목록형","☰"],
+      ["card","카드형","▤"],
+      ["album","앨범형","▦"],
+      ["video","동영상형","▶"]
+    ].map(([v,label,icon])=>
+      '<button type="button" class="view-btn" data-view="'+v+'" title="'+label+'" aria-label="'+label+'">'+
+      '<span class="view-icon">'+icon+'</span><span class="view-label">'+label+'</span></button>'
+    ).join("");
+    head.appendChild(wrap);
+  }
+  if(!document.querySelector(".pager")){
+    const pager=document.createElement("nav");
+    pager.className="pager";
+    pager.setAttribute("aria-label","글 목록 페이지");
+    list.after(pager);
+  }
+  if(!document.querySelector(".list-empty")){
+    const empty=document.createElement("div");
+    empty.className="list-empty";
+    empty.hidden=true;
+    empty.textContent="조건에 맞는 글이 없습니다.";
+    list.after(empty);
+  }
+  for(const card of allCards){
+    if(!card.querySelector(".card-thumb"))card.classList.add("no-thumb");
   }
 }
-if(search) search.addEventListener("input",apply);
-for(const btn of filters){
-  btn.addEventListener("click",()=>{
-    if(btn.dataset.category!==undefined){
-      activeCategory=btn.dataset.category||"";
-      activeFilter="all";
-    }else{
-      activeFilter=btn.dataset.filter||"all";
-      activeCategory="";
-    }
-    for(const b of filters)b.classList.toggle("active",b===btn);
-    apply();
+
+function matches(card){
+  const text=(card.dataset.search||"").toLowerCase();
+  const status=card.dataset.status||"";
+  const isVideo=card.dataset.video==="1"||card.classList.contains("has-video");
+  if(query&&!text.includes(query))return false;
+  if(activeFilter!=="all"&&status!==activeFilter)return false;
+  if(view==="video"&&!isVideo)return false;
+  return true;
+}
+
+function renderPager(totalPages){
+  const pager=document.querySelector(".pager");
+  if(!pager)return;
+  if(totalPages<=1){pager.innerHTML="";pager.hidden=true;return;}
+  pager.hidden=false;
+
+  const parts=[];
+  parts.push('<button type="button" class="page-btn" data-page="prev"'+(currentPage===1?" disabled":"")+'>‹</button>');
+
+  const start=Math.max(1,currentPage-2);
+  const end=Math.min(totalPages,start+4);
+  const realStart=Math.max(1,end-4);
+  if(realStart>1){
+    parts.push('<button type="button" class="page-btn" data-page="1">1</button>');
+    if(realStart>2)parts.push('<span class="page-gap">…</span>');
+  }
+  for(let p=realStart;p<=end;p++){
+    parts.push('<button type="button" class="page-btn'+(p===currentPage?" active":"")+'" data-page="'+p+'">'+p+'</button>');
+  }
+  if(end<totalPages){
+    if(end<totalPages-1)parts.push('<span class="page-gap">…</span>');
+    parts.push('<button type="button" class="page-btn" data-page="'+totalPages+'">'+totalPages+'</button>');
+  }
+  parts.push('<button type="button" class="page-btn" data-page="next"'+(currentPage===totalPages?" disabled":"")+'>›</button>');
+  pager.innerHTML=parts.join("");
+}
+
+function renderList(){
+  if(!list)return;
+  list.dataset.view=view;
+  document.querySelectorAll(".view-btn").forEach(btn=>{
+    const active=btn.dataset.view===view;
+    btn.classList.toggle("active",active);
+    btn.setAttribute("aria-pressed",active?"true":"false");
+  });
+
+  const matched=allCards.filter(matches);
+  const perPage=pageSizeByView[view]||10;
+  const totalPages=Math.max(1,Math.ceil(matched.length/perPage));
+  currentPage=Math.min(currentPage,totalPages);
+  const start=(currentPage-1)*perPage;
+  const visible=new Set(matched.slice(start,start+perPage));
+
+  for(const card of allCards)card.hidden=!visible.has(card);
+
+  const empty=document.querySelector(".list-empty");
+  if(empty)empty.hidden=matched.length!==0;
+
+  const count=document.querySelector(".list-head > span");
+  if(count){
+    const label=view==="video"?"동영상 글":"글";
+    count.textContent="총 "+matched.length+"개의 "+label;
+  }
+
+  renderPager(totalPages);
+}
+
+ensureControls();
+renderList();
+
+if(search){
+  search.addEventListener("input",()=>{
+    query=search.value.trim().toLowerCase();
+    currentPage=1;
+    renderList();
   });
 }
 
-/* Naver-style post image viewer */
+for(const btn of filters){
+  btn.addEventListener("click",()=>{
+    activeFilter=btn.dataset.filter||"all";
+    currentPage=1;
+    filters.forEach(b=>b.classList.toggle("active",b===btn));
+    renderList();
+  });
+}
+
+document.addEventListener("click",e=>{
+  const viewBtn=e.target.closest(".view-btn");
+  if(viewBtn){
+    view=viewBtn.dataset.view||"list";
+    localStorage.setItem("naverArchiveView",view);
+    currentPage=1;
+    renderList();
+    return;
+  }
+  const pageBtn=e.target.closest(".page-btn");
+  if(pageBtn&&!pageBtn.disabled){
+    const matched=allCards.filter(matches);
+    const totalPages=Math.max(1,Math.ceil(matched.length/(pageSizeByView[view]||10)));
+    const p=pageBtn.dataset.page;
+    if(p==="prev")currentPage=Math.max(1,currentPage-1);
+    else if(p==="next")currentPage=Math.min(totalPages,currentPage+1);
+    else currentPage=Math.max(1,Math.min(totalPages,Number(p)||1));
+    renderList();
+    document.querySelector(".list-head")?.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+});
+
+/* Post image viewer */
 const articleImages=[...document.querySelectorAll(".content img")]
   .filter(img=>img.getAttribute("src"));
 
@@ -42,7 +171,7 @@ if(articleImages.length){
   viewer.innerHTML=[
     '<div class="image-viewer-toolbar">',
     '<button class="image-viewer-btn" data-action="minus" aria-label="축소">−</button>',
-    '<button class="image-viewer-btn" data-action="actual">100%</button>',
+    '<button class="image-viewer-btn" data-action="actual">원본크기</button>',
     '<button class="image-viewer-btn" data-action="plus" aria-label="확대">＋</button>',
     '<button class="image-viewer-btn" data-action="fit">화면맞춤</button>',
     '<span class="image-viewer-count"></span>',
@@ -58,11 +187,10 @@ if(articleImages.length){
   const large=viewer.querySelector(".image-viewer-img");
   const count=viewer.querySelector(".image-viewer-count");
 
-  function render(){
+  function renderImage(){
     const src=articleImages[current].currentSrc||articleImages[current].src;
     large.src=src;
     count.textContent=(current+1)+" / "+articleImages.length;
-
     if(fit){
       stage.classList.add("fit");
       stage.classList.remove("actual");
@@ -76,15 +204,14 @@ if(articleImages.length){
         large.style.width=Math.round(w*scale)+"px";
         large.style.height="auto";
       };
-      if(large.complete)setSize();
-      else large.onload=setSize;
+      if(large.complete)setSize(); else large.onload=setSize;
     }
   }
   function openViewer(i){
     current=i;scale=1;fit=true;
     viewer.classList.add("open");
     document.body.classList.add("viewer-open");
-    render();
+    renderImage();
   }
   function closeViewer(){
     viewer.classList.remove("open");
@@ -93,11 +220,11 @@ if(articleImages.length){
   function zoom(delta){
     fit=false;
     scale=Math.max(.25,Math.min(4,scale+delta));
-    render();
+    renderImage();
   }
   function move(delta){
     current=(current+delta+articleImages.length)%articleImages.length;
-    scale=1;fit=true;render();
+    scale=1;fit=true;renderImage();
   }
 
   articleImages.forEach((img,i)=>{
@@ -118,8 +245,8 @@ if(articleImages.length){
     else if(action==="next")move(1);
     else if(action==="minus")zoom(-.25);
     else if(action==="plus")zoom(.25);
-    else if(action==="actual"){fit=false;scale=1;render();}
-    else if(action==="fit"){fit=true;scale=1;render();}
+    else if(action==="actual"){fit=false;scale=1;renderImage();}
+    else if(action==="fit"){fit=true;scale=1;renderImage();}
     else if(e.target===viewer||e.target===stage)closeViewer();
   });
 
@@ -130,8 +257,7 @@ if(articleImages.length){
   },{passive:false});
 
   large.addEventListener("dblclick",()=>{
-    if(fit){fit=false;scale=1;}else{fit=true;scale=1;}
-    render();
+    fit=!fit;scale=1;renderImage();
   });
 
   document.addEventListener("keydown",e=>{
@@ -141,6 +267,6 @@ if(articleImages.length){
     else if(e.key==="ArrowRight")move(1);
     else if(e.key==="+"||e.key==="=")zoom(.25);
     else if(e.key==="-")zoom(-.25);
-    else if(e.key==="0"){fit=false;scale=1;render();}
+    else if(e.key==="0"){fit=false;scale=1;renderImage();}
   });
 }
