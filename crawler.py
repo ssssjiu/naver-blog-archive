@@ -410,8 +410,30 @@ def ext_for(url,ctype):
     if re.fullmatch(r"\.[a-z0-9]{1,5}",e or ""):return e
     return mimetypes.guess_extension((ctype or "").split(";")[0].strip()) or ".bin"
 
+def clean_naver_chrome(fragment):
+    """Remove Naver page controls accidentally captured as post content."""
+    soup=BeautifulSoup(str(fragment),"html.parser")
+    junk_phrases=(
+      "URL 복사","이웃추가","본문 기타 기능","공유하기","신고하기",
+      "공유하기 신고하기","공감","댓글 쓰기"
+    )
+    # Remove obvious control links/buttons by their visible label.
+    for tag in list(soup.find_all(["a","button"])):
+        txt=re.sub(r"\s+"," ",tag.get_text(" ",strip=True)).strip()
+        if txt and any(p==txt or p in txt for p in junk_phrases):
+            tag.decompose()
+    # Remove now-empty control wrappers and standalone chrome text.
+    for tag in list(soup.find_all(["div","span","p","li"])):
+        txt=re.sub(r"\s+"," ",tag.get_text(" ",strip=True)).strip()
+        if txt and len(txt)<80 and any(
+            txt==p or txt.replace(" ","") in ("URL복사","이웃추가","본문기타기능","공유하기신고하기")
+            for p in junk_phrases
+        ):
+            tag.decompose()
+    return str(soup)
+
 def localize(node,pdir,referer):
-    soup=BeautifulSoup(str(node),"html.parser")
+    soup=BeautifulSoup(clean_naver_chrome(node),"html.parser")
     idir=pdir/"images"; idir.mkdir(parents=True,exist_ok=True)
     for tag in soup.find_all(["script","noscript"]):tag.decompose()
     for img in soup.find_all("img"):
@@ -532,7 +554,10 @@ def label(s): return {"active":"","deleted":"원본 삭제 감지","private_or_u
 def archive_badge(m):
     if m.get("source_type")=="screenshot_archive":
         return "삭제 전 스크린샷 보존본"
-    return label(m.get("source_status","active"))
+    status=m.get("source_status","active")
+    if status=="active":
+        return ""
+    return label(status)
 
 def published_text(m):
     return m.get("published_display") or m.get("published") or m.get("first_archived_at","")
@@ -763,6 +788,11 @@ def build_site(index):
             shutil.copytree(src/"images",dst/"images")
 
         body=(src/"content.html").read_text(encoding="utf-8") if (src/"content.html").exists() else ""
+        if body:
+            cleaned=clean_naver_chrome(body)
+            if cleaned!=body:
+                body=cleaned
+                (src/"content.html").write_text(body,encoding="utf-8")
         notice=""
         if status=="deleted":
             notice='<div class="notice danger">원본 게시물의 삭제가 감지되었습니다. 아래 내용은 삭제 전에 저장된 보존본입니다.</div>'
