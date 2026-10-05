@@ -1,0 +1,19 @@
+{
+  "blog_id": "abydost",
+  "blog_name": "지나가던 공상가",
+  "nickname": "하소",
+  "introduction": "행복은 그다지 멀리 있지 않기에.",
+  "profile_image_source": "",
+  "profile_image_file": "",
+  "categories": [
+    {
+      "category_no": "8",
+      "category_name": "블로그"
+    },
+    {
+      "category_no": "20",
+      "category_name": "매일 기록"
+    }
+  ],
+  "source_url": "https://m.blog.naver.com/abydost"
+}
