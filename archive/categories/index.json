@@ -21,7 +21,7 @@
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "count": 15
+    "count": 34
   },
   {
     "category_no": "18",
@@ -36,10 +36,16 @@
     "count": 11
   },
   {
+    "category_no": "11",
+    "category_name": "브랜디",
+    "parent_category_no": "10",
+    "count": 1
+  },
+  {
     "category_no": "12",
     "category_name": "위스키",
     "parent_category_no": "10",
-    "count": 1
+    "count": 2
   },
   {
     "category_no": "16",
@@ -75,12 +81,18 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "count": 204
+    "count": 258
   },
   {
     "category_no": "7",
     "category_name": "?",
     "parent_category_no": "7",
-    "count": 8
+    "count": 9
+  },
+  {
+    "category_no": "9",
+    "category_name": "달콤한 것",
+    "parent_category_no": "9",
+    "count": 3
   }
 ]

@@ -74,6 +74,16 @@
       "category_no": "18",
       "category_name": "심야의 랑데부",
       "parent_category_no": "1"
+    },
+    {
+      "category_no": "11",
+      "category_name": "브랜디",
+      "parent_category_no": "10"
+    },
+    {
+      "category_no": "9",
+      "category_name": "달콤한 것",
+      "parent_category_no": "9"
     }
   ],
   "source_url": "https://m.blog.naver.com/abydost"
