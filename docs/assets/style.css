@@ -714,3 +714,47 @@ body.viewer-open{overflow:hidden}
   .post-list[data-view="list"] .card-thumb{flex-basis:92px;width:92px;height:70px}
   .post-list[data-view="card"] .card-thumb{height:210px;flex-basis:210px}
 }
+
+/* MANUAL_SCREENSHOT_MEDIA_V1 */
+.manual-media{
+  margin:28px auto;
+  max-width:100%;
+}
+.manual-media svg{
+  display:block;
+  width:100%;
+  height:auto;
+  background:#fff;
+}
+.manual-sticker{
+  width:min(145px,45%);
+  margin-left:0;
+}
+.manual-photo{
+  width:min(665px,100%);
+}
+.manual-media figcaption{
+  margin-top:7px;
+  color:#999;
+  font-size:11px;
+  text-align:center;
+}
+.manual-evidence{
+  margin:34px 0 18px;
+  padding:12px 14px;
+  border:1px solid #e7e9eb;
+  background:#fafbfb;
+  color:#777;
+  font-size:12px;
+}
+.manual-evidence summary{cursor:pointer;font-weight:600;color:#555}
+.manual-evidence a{color:#555}
+.manual-archive-note{
+  margin:18px 0;
+  padding:13px 15px;
+  border:1px solid #e4e7ea;
+  background:#f8f9fa;
+  color:#666;
+  font-size:12px;
+  line-height:1.65;
+}
