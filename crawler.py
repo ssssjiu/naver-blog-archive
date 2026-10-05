@@ -590,6 +590,10 @@ def main():
     except Exception as e:
         print("Blog metadata warning:",e)
     mode="fast" if "--fast" in sys.argv else ("discover" if "--discover" in sys.argv else "maintenance")
+    initial_done=STATE/"initial_discovery_complete.json"
+    if mode=="maintenance" and not initial_done.exists():
+        mode="discover"
+        print("[INFO] Initial discovery is incomplete; resuming full discovery.")
     c={}
     try:c.update(rss_candidates())
     except Exception as e:print("RSS warning:",e)
@@ -609,9 +613,9 @@ def main():
         if result in changed_results:
             pending_changes+=1
 
-        # Publish partial results during a large first import:
-        # whichever happens first, 10 changed posts or 60 seconds.
-        if pending_changes and (pending_changes>=10 or time.monotonic()-last_checkpoint>=60):
+        # Publish partial results during a large import, but give GitHub Pages
+        # enough time to finish each deployment before the next checkpoint.
+        if pending_changes and time.monotonic()-last_checkpoint>=90:
             checkpoint(index,f"{i}/{len(c)} posts")
             pending_changes=0
             last_checkpoint=time.monotonic()
@@ -620,6 +624,13 @@ def main():
 
     if mode=="maintenance":
         maintenance(index,set(c))
+
+    if mode=="discover":
+        save(initial_done,{
+          "completed_at":iso(),
+          "candidate_count":len(c),
+          "archived_count":len(index)
+        })
 
     # Flush any remaining posts/status changes at the end.
     checkpoint(index,"final")
