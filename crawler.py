@@ -8,6 +8,7 @@ from pathlib import Path
 from urllib.parse import urlparse, unquote_plus
 import requests
 from bs4 import BeautifulSoup
+from PIL import Image
 
 ROOT=Path(__file__).resolve().parent
 CFG=json.loads((ROOT/"config.json").read_text(encoding="utf-8"))
@@ -693,11 +694,34 @@ def build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts):
   </section>
 </aside>'''
 
+def ensure_manual_media_crops():
+    """Materialize real image files from the supplied source screenshots."""
+    pid="manual-20250720-1500-first-date"
+    idir=POSTS/pid/"images"
+    s1=idir/"screenshot-01.webp"; s2=idir/"screenshot-02.webp"
+    if not (s1.exists() and s2.exists()):return
+    specs=[
+      (s1,(180,1395,325,1533),idir/"sticker.webp",90),
+      (s1,(175,1560,840,2048),idir/"photo-1.webp",82),
+      (s2,(175,0,840,505),idir/"photo-2.webp",82),
+      (s2,(175,710,840,1605),idir/"photo-3.webp",76),
+    ]
+    for src,box,dst,quality in specs:
+        try:
+            with Image.open(src) as im:
+                crop=im.convert("RGB").crop(box)
+                crop.save(dst,"WEBP",quality=quality,method=6)
+        except Exception as e:
+            print("Manual media crop warning:",dst.name,e)
+
 def post_preview(pid, base_prefix=""):
     meta=load(POSTS/pid/"metadata.json",{})
     # Screenshot archives keep full-page screenshots as evidence files.
     # Do not misrepresent those source screenshots as the post's own photos.
     if meta.get("source_type")=="screenshot_archive":
+        thumb=POSTS/pid/"images"/"photo-1.webp"
+        if thumb.exists():
+            return f'{base_prefix}posts/{pid}/images/photo-1.webp',int(meta.get("media_count",0) or 0)
         return "",int(meta.get("media_count",0) or 0)
     idir=POSTS/pid/"images"
     if not idir.exists():return "",0
@@ -727,6 +751,7 @@ def post_search_text(pid,title,category):
     return " ".join([str(title or ""),str(category or ""),text]).strip()
 
 def build_site(index):
+    ensure_manual_media_crops()
     blogmeta=load(BLOG_META_PATH,{})
     DOCS.mkdir(parents=True,exist_ok=True)
     (DOCS/"assets").mkdir(exist_ok=True)
