@@ -55,7 +55,7 @@ def rss_candidates():
 def discover_history():
     """Discover public posts and retain Naver's category hierarchy fields."""
     out={}
-    pages=int(CFG.get("initial_discovery_pages",30))
+    pages=int(CFG.get("initial_discovery_pages",30) if not (STATE/"initial_discovery_complete.json").exists() else CFG.get("daily_discovery_pages",5))
     delay=float(CFG.get("request_delay_seconds",.5))
     empty_rounds=0
 
@@ -431,11 +431,9 @@ def localize(node,pdir,referer):
             a["target"]="_blank";a["rel"]="noopener noreferrer"
     return str(soup)
 
-def archive_one(c,index):
+def archive_response(c,index,r):
     pid=c["post_id"]; pdir=POSTS/pid; pdir.mkdir(parents=True,exist_ok=True)
     mp=pdir/"metadata.json"; cp=pdir/"content.html"; old=load(mp,{})
-    try:r=get(postview(pid),c["url"])
-    except requests.RequestException:return "error"
     if deleted(r.text,r.status_code):
         if old and old.get("source_status")!="deleted":
             old["source_status"]="deleted";old["deleted_detected_at"]=iso();save(mp,old);index[pid]=old;return "deleted"
@@ -481,28 +479,51 @@ def archive_one(c,index):
     cp.write_text(body,encoding="utf-8");save(mp,meta);index[pid]=meta
     return "new" if not old else "updated"
 
+
+def archive_one(c,index):
+    try:r=get(postview(c["post_id"]),c.get("url") or canonical(c["post_id"]))
+    except requests.RequestException:return "error"
+    return archive_response(c,index,r)
+
 def maintenance(index,seen):
-    ids=sorted(index); n=int(CFG.get("deletion_checks_per_run",20))
+    """Check a tiny rotating sample of known posts; reuse each GET to detect edits/status."""
+    ids=sorted(index)
+    n=int(CFG.get("deletion_checks_per_run",5))
     if not ids or n<=0:return
     sp=STATE/"cursor.json"; st=load(sp,{"cursor":0,"misses":{}})
     cur=int(st.get("cursor",0))%len(ids); misses=st.get("misses",{})
-    for k in range(min(n,len(ids))):
-        pid=ids[(cur+k)%len(ids)]
+    checked=0;offset=0
+    while checked<min(n,len(ids)) and offset<len(ids):
+        pid=ids[(cur+offset)%len(ids)];offset+=1
         if pid in seen:continue
+        m=index[pid]
         try:r=get(postview(pid),canonical(pid))
         except requests.RequestException:continue
-        m=index[pid]; old_status=m.get("source_status","active")
+
         if deleted(r.text,r.status_code):
             misses[pid]=int(misses.get(pid,0))+1
-            if misses[pid]>=2:m["source_status"]="deleted";m.setdefault("deleted_detected_at",iso())
+            if misses[pid]>=2 and m.get("source_status")!="deleted":
+                m["source_status"]="deleted";m.setdefault("deleted_detected_at",iso())
+                save(POSTS/pid/"metadata.json",m)
+            index[pid]=m
         elif private(r.text):
-            misses.pop(pid,None);m["source_status"]="private_or_unavailable";m.setdefault("unavailable_detected_at",iso())
+            misses.pop(pid,None)
+            if m.get("source_status")!="private_or_unavailable":
+                m["source_status"]="private_or_unavailable";m.setdefault("unavailable_detected_at",iso())
+                save(POSTS/pid/"metadata.json",m)
+            index[pid]=m
         else:
-            misses.pop(pid,None);m["source_status"]="active";m.pop("deleted_detected_at",None)
-        if m.get("source_status")!=old_status:
-            save(POSTS/pid/"metadata.json",m)
-        index[pid]=m;time.sleep(float(CFG.get("request_delay_seconds",.5)))
-    st={"cursor":(cur+min(n,len(ids)))%len(ids),"misses":misses};save(sp,st)
+            misses.pop(pid,None)
+            cand={
+              "post_id":pid,"url":canonical(pid),"title":m.get("title",""),
+              "published":m.get("published",""),
+              "category_no":m.get("category_no",""),
+              "parent_category_no":m.get("parent_category_no","")
+            }
+            archive_response(cand,index,r)
+        checked+=1
+        time.sleep(float(CFG.get("request_delay_seconds",.75)))
+    st={"cursor":(cur+offset)%len(ids),"misses":misses};save(sp,st)
 
 def esc(x): return html.escape(str(x or ""),quote=True)
 def label(s): return {"active":"원본 확인됨","deleted":"원본 삭제 감지","private_or_unavailable":"원본 비공개/접근불가"}.get(s,s or "상태 미확인")
@@ -900,55 +921,87 @@ def checkpoint(index, reason):
 def main():
     POSTS.mkdir(parents=True,exist_ok=True);STATE.mkdir(parents=True,exist_ok=True)
     index=load(INDEX,{})
-    try:
-        discover_blog_metadata()
-    except Exception as e:
-        print("Blog metadata warning:",e)
     mode="fast" if "--fast" in sys.argv else ("discover" if "--discover" in sys.argv else "maintenance")
     initial_done=STATE/"initial_discovery_complete.json"
     if mode=="maintenance" and not initial_done.exists():
         mode="discover"
         print("[INFO] Initial discovery is incomplete; resuming full discovery.")
-    c={}
-    try:c.update(rss_candidates())
-    except Exception as e:print("RSS warning:",e)
-    if mode in ("discover","maintenance") and (mode=="discover" or not index):
+
+    # Profile/category pages are not requested every 5 minutes.
+    # Refresh them only during daily discovery or the very first run.
+    if mode=="discover" or not BLOG_META_PATH.exists():
+        try:discover_blog_metadata()
+        except Exception as e:print("Blog metadata warning:",e)
+
+    candidates={}
+    rss={}
+    try:
+        rss=rss_candidates()
+        candidates.update(rss)
+    except Exception as e:
+        print("RSS warning:",e)
+
+    if mode=="discover":
         try:
-            for k,v in discover_history().items():c.setdefault(k,v)
-        except Exception as e:print("Discovery warning:",e)
-    for k,v in backfill().items():c.setdefault(k,v)
+            history=discover_history()
+            for k,v in history.items():
+                if k in candidates:
+                    for key,val in v.items():
+                        if val:candidates[k][key]=val
+                else:
+                    candidates[k]=v
+        except Exception as e:
+            print("Discovery warning:",e)
+
+    for k,v in backfill().items():candidates.setdefault(k,v)
+
+    # Critical analytics-minimization rule:
+    # only open PostView for posts we have never archived before.
+    # Existing RSS/list entries are metadata-only and cause no PostView request.
+    todo=[]
+    for pid,cand in candidates.items():
+        if pid not in index:
+            todo.append(cand)
+            continue
+        old=index[pid]
+        changed=False
+        # Safe metadata corrections from public list/RSS without opening the post.
+        if cand.get("title") and cand.get("title")!=old.get("title"):
+            old["title"]=cand["title"];changed=True
+        for key in ("category_no","parent_category_no"):
+            if cand.get(key) and str(cand.get(key))!=str(old.get(key,"")):
+                old[key]=str(cand[key]);changed=True
+        if changed:
+            save(POSTS/pid/"metadata.json",old);index[pid]=old
+
     stats={}
     pending_changes=0
     last_checkpoint=time.monotonic()
     changed_results={"new","updated","metadata","deleted","private"}
 
-    for i,x in enumerate(c.values(),1):
+    for i,x in enumerate(todo,1):
         result=archive_one(x,index);stats[result]=stats.get(result,0)+1
-        print(f"[{i}/{len(c)}] {x['post_id']} {result}")
-        if result in changed_results:
-            pending_changes+=1
-
-        # Publish partial results during a large import, but give GitHub Pages
-        # enough time to finish each deployment before the next checkpoint.
+        print(f"[new {i}/{len(todo)}] {x['post_id']} {result}")
+        if result in changed_results:pending_changes+=1
         if pending_changes and time.monotonic()-last_checkpoint>=90:
-            checkpoint(index,f"{i}/{len(c)} posts")
-            pending_changes=0
-            last_checkpoint=time.monotonic()
+            checkpoint(index,f"{i}/{len(todo)} new posts")
+            pending_changes=0;last_checkpoint=time.monotonic()
+        time.sleep(float(CFG.get("request_delay_seconds",.75)))
 
-        time.sleep(float(CFG.get("request_delay_seconds",.5)))
-
+    # Every 6 hours, inspect only a small rotating sample of old posts.
+    # The same single request checks deletion/private status AND content edits.
     if mode=="maintenance":
-        maintenance(index,set(c))
+        maintenance(index,set(x["post_id"] for x in todo))
 
     if mode=="discover":
         save(initial_done,{
           "completed_at":iso(),
-          "candidate_count":len(c),
+          "candidate_count":len(candidates),
           "archived_count":len(index)
         })
 
-    # Flush any remaining posts/status changes at the end.
+    # Rebuild only when state/site needs it; checkpoint itself skips clean commits.
     checkpoint(index,"final")
-    print("mode",mode,"stats",stats)
+    print("mode",mode,"new_posts",len(todo),"stats",stats)
 
 if __name__=="__main__":main()
