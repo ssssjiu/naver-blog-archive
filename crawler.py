@@ -559,6 +559,7 @@ def shell(title,body,prefix="",blogmeta=None,version="0"):
   </nav>
   {body}
   <footer class="footer">이 사이트는 네이버 공식 서비스가 아닌 개인 보존용 아카이브입니다.</footer>
+  <script src="{prefix}assets/app.js?v={esc(version)}"></script>
 </body>
 </html>'''
 
@@ -599,6 +600,13 @@ def build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts):
   </section>
 </aside>'''
 
+def post_preview(pid, base_prefix=""):
+    idir=POSTS/pid/"images"
+    if not idir.exists():return "",0
+    files=sorted([p for p in idir.iterdir() if p.is_file()])
+    if not files:return "",0
+    return f'{base_prefix}posts/{pid}/images/{files[0].name}',len(files)
+
 def build_site(index):
     blogmeta=load(BLOG_META_PATH,{})
     DOCS.mkdir(parents=True,exist_ok=True)
@@ -638,12 +646,18 @@ def build_site(index):
     for m in rows:
         pid=m["post_id"]
         status=m.get("source_status","active")
+        preview,preview_count=post_preview(pid)
+        preview_html=(
+          f'<a class="card-thumb" href="posts/{pid}/index.html"><img src="{esc(preview)}" alt="" loading="lazy">'
+          f'{f"<span>{preview_count}</span>" if preview_count>1 else ""}</a>'
+          if preview else ""
+        )
         cards.append(
           f'<article class="card" data-search="{esc(m.get("title","")).lower()}" data-status="{esc(status)}" data-category="{esc(m.get("category_no",""))}">'
-          f'<div class="card-row"><div>'
+          f'<div class="card-row"><div class="card-main">'
           f'<h2><a href="posts/{pid}/index.html">{esc(m.get("title"))}</a></h2>'
           f'<div class="meta">{esc(m.get("category_name") or "전체글")} · {esc(m.get("published") or m.get("first_archived_at"))}</div>'
-          f'</div><span class="status status-{esc(status)}">{esc(label(status))}</span></div>'
+          f'</div>{preview_html}<span class="status status-{esc(status)}">{esc(label(status))}</span></div>'
           f'</article>'
         )
 
@@ -743,11 +757,17 @@ def build_site(index):
         cat_cards=[]
         for m in cat_rows:
             status=m.get("source_status","active")
+            preview,preview_count=post_preview(m["post_id"],"../../")
+            preview_html=(
+              f'<a class="card-thumb" href="../../posts/{m["post_id"]}/index.html"><img src="{esc(preview)}" alt="" loading="lazy">'
+              f'{f"<span>{preview_count}</span>" if preview_count>1 else ""}</a>'
+              if preview else ""
+            )
             cat_cards.append(
               f'<article class="card" data-search="{esc(m.get("title","")).lower()}" data-status="{esc(status)}" data-category="{esc(no)}">'
-              f'<div class="card-row"><div><h2><a href="../../posts/{m["post_id"]}/index.html">{esc(m.get("title"))}</a></h2>'
+              f'<div class="card-row"><div class="card-main"><h2><a href="../../posts/{m["post_id"]}/index.html">{esc(m.get("title"))}</a></h2>'
               f'<div class="meta">{esc(m.get("published") or m.get("first_archived_at"))}</div></div>'
-              f'<span class="status status-{esc(status)}">{esc(label(status))}</span></div></article>'
+              f'{preview_html}<span class="status status-{esc(status)}">{esc(label(status))}</span></div></article>'
             )
         cat_body=f'''
 <div class="blog-layout">
@@ -782,7 +802,6 @@ def build_site(index):
     </section>
   </section>
 </div>
-<script src="assets/app.js?v={build_version}"></script>
 '''
     (DOCS/"index.html").write_text(shell(CFG.get("archive_title",BLOG+" Archive"),home,"",blogmeta,build_version),encoding="utf-8")
     (DOCS/".nojekyll").write_text("",encoding="utf-8")
