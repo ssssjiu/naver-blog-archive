@@ -8,7 +8,8 @@
   "last_archived_at": "2026-10-05T20:04:49+09:00",
   "source_status": "active",
   "content_hash": "3ff8b4c8a5ac4e23f58f3b2c309a080cac6d9ab374ccefa1c780229e73afd9c5",
-  "category_no": "8",
-  "category_name": "블로그",
-  "version_count": 1
+  "category_no": "21",
+  "category_name": "매일 5천",
+  "version_count": 1,
+  "parent_category_no": "1"
 }

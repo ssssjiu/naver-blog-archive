@@ -8,7 +8,8 @@
   "last_archived_at": "2026-10-05T20:04:03+09:00",
   "source_status": "active",
   "content_hash": "25201c5374e7130448c53aedcd70661f64d93c15f9e2d32e9aa806a3e1af97dd",
-  "category_no": "8",
-  "category_name": "블로그",
-  "version_count": 1
+  "category_no": "20",
+  "category_name": "매일 기록",
+  "version_count": 1,
+  "parent_category_no": "20"
 }
