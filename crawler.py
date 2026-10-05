@@ -949,9 +949,18 @@ def checkpoint(index, reason):
         time.sleep(2)
     raise RuntimeError("Could not push progressive archive checkpoint")
 
+def load_manual_entries(index):
+    """Keep manually supplied screenshot archives in the main index."""
+    if not POSTS.exists(): return
+    for mp in POSTS.glob("*/metadata.json"):
+        m=load(mp,{})
+        if m.get("source_type") and m.get("source_type")!="naver" and m.get("post_id"):
+            index[str(m["post_id"])]=m
+
 def main():
     POSTS.mkdir(parents=True,exist_ok=True);STATE.mkdir(parents=True,exist_ok=True)
     index=load(INDEX,{})
+    load_manual_entries(index)
     mode="fast" if "--fast" in sys.argv else ("discover" if "--discover" in sys.argv else "maintenance")
     initial_done=STATE/"initial_discovery_complete.json"
     if mode=="maintenance" and not initial_done.exists():
