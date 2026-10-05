@@ -21,7 +21,13 @@
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "count": 10
+    "count": 15
+  },
+  {
+    "category_no": "18",
+    "category_name": "심야의 랑데부",
+    "parent_category_no": "1",
+    "count": 3
   },
   {
     "category_no": "24",
@@ -30,22 +36,34 @@
     "count": 11
   },
   {
+    "category_no": "12",
+    "category_name": "위스키",
+    "parent_category_no": "10",
+    "count": 1
+  },
+  {
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "count": 14
+    "count": 17
   },
   {
     "category_no": "14",
     "category_name": "오락",
     "parent_category_no": "14",
-    "count": 2
+    "count": 4
   },
   {
     "category_no": "17",
     "category_name": "트릭컬 리바이브",
     "parent_category_no": "14",
     "count": 5
+  },
+  {
+    "category_no": "15",
+    "category_name": "페그오 (한그오)",
+    "parent_category_no": "14",
+    "count": 3
   },
   {
     "category_no": "20",
@@ -57,12 +75,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "count": 146
+    "count": 204
   },
   {
     "category_no": "7",
     "category_name": "?",
     "parent_category_no": "7",
-    "count": 4
+    "count": 8
   }
 ]

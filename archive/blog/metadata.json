@@ -59,6 +59,21 @@
       "category_no": "14",
       "category_name": "오락",
       "parent_category_no": "14"
+    },
+    {
+      "category_no": "15",
+      "category_name": "페그오 (한그오)",
+      "parent_category_no": "14"
+    },
+    {
+      "category_no": "12",
+      "category_name": "위스키",
+      "parent_category_no": "10"
+    },
+    {
+      "category_no": "18",
+      "category_name": "심야의 랑데부",
+      "parent_category_no": "1"
     }
   ],
   "source_url": "https://m.blog.naver.com/abydost"
