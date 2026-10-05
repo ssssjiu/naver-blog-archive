@@ -8222,17 +8222,18 @@
   "221382185842": {
     "post_id": "221382185842",
     "blog_id": "abydost",
+    "source_type": "naver",
     "title": "요통에는 무엇인가.",
     "original_url": "https://blog.naver.com/abydost/221382185842",
     "published": "",
     "first_archived_at": "2026-10-05T20:23:46+09:00",
-    "last_archived_at": "2026-10-05T20:23:46+09:00",
+    "last_archived_at": "2026-10-05T21:53:21+09:00",
     "source_status": "active",
-    "content_hash": "9f8636ea31ea5fcc6f75c8d1ebb2160e80f535205d28dd634c6c566c6845b2a0",
+    "content_hash": "1530cfd10838e04fd391a7707fae8ee47d49cfa263adb57a9825658379f84aa5",
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 2
   },
   "221360204906": {
     "post_id": "221360204906",
@@ -8252,17 +8253,18 @@
   "221343270687": {
     "post_id": "221343270687",
     "blog_id": "abydost",
+    "source_type": "naver",
     "title": "가려진 시간의 연 - 2",
     "original_url": "https://blog.naver.com/abydost/221343270687",
     "published": "",
     "first_archived_at": "2026-10-05T20:23:48+09:00",
-    "last_archived_at": "2026-10-05T20:23:48+09:00",
+    "last_archived_at": "2026-10-05T21:53:18+09:00",
     "source_status": "active",
-    "content_hash": "1ced722bc8f6889f5cb62b0f5b01248b2ba93906ada0eb551ca9267b8c94593f",
+    "content_hash": "7b3e0cb113933953a9c2381fa2b5228e2331a0b5914342f9392f10234a97f7cf",
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "version_count": 1
+    "version_count": 2
   },
   "221331933166": {
     "post_id": "221331933166",
@@ -9182,25 +9184,23 @@
   "manual-20250720-1500-first-date": {
     "post_id": "manual-20250720-1500-first-date",
     "blog_id": "abydost",
-    "source_type": "screenshot_archive",
-    "source_status": "archived_from_screenshot",
     "title": "주인장 인생 첫 데이트 해보았습니다.",
     "original_url": "",
+    "published_iso": "2025-07-20T15:00:00+09:00",
+    "published_display": "2025-07-20 오후 3시경 (스크린샷의 '10시간 전' 표시로 추정)",
+    "published_is_estimated": true,
+    "screenshot_captured_at": "2025-07-21T01:00:00+09:00",
+    "screenshot_captured_display": "2025-07-21 오전 1시경",
+    "publication_time_basis": "스크린샷 촬영 시각 오전 1시경과 화면의 '10시간 전' 표시를 기준으로 역산",
+    "first_archived_at": "2026-10-05T21:33:00+09:00",
+    "last_archived_at": "2026-10-05T21:33:00+09:00",
+    "source_status": "deleted",
+    "source_type": "screenshot_archive",
+    "source_note": "친구가 제공한 삭제 전 스크린샷 2장을 바탕으로 OCR/육안 교정하여 복원",
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "published_iso": "2025-07-20T15:00:00+09:00",
-    "published_display": "2025-07-20 오후 3시경 (추정)",
-    "published_estimated": true,
-    "published_estimate_basis": "2025-07-21 오전 1시경 촬영 스크린샷의 ‘10시간 전’ 표기에서 역산",
-    "screenshot_captured_at": "2025-07-21T01:00:00+09:00",
-    "screenshot_captured_display": "2025-07-21 오전 1시경",
-    "first_archived_at": "2026-10-05T20:00:00+09:00",
-    "last_archived_at": "2026-10-05T20:00:00+09:00",
-    "content_hash": "941d0e325ca0fb7401f012e21ab0d38a1cb68282ad038d89b95071e2bc4095ce",
     "version_count": 1,
-    "ocr_reviewed": true,
-    "evidence_count": 2,
-    "note": "친구가 제공한 삭제 전 스크린샷 2장을 바탕으로 OCR 복원"
+    "content_hash": "manual-screenshot-20250720-v1"
   }
 }
