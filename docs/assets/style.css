@@ -398,3 +398,8 @@ a{color:inherit}
   .post-title{font-size:25px}
   .content{font-size:16px;line-height:1.85}
 }
+
+.profile-photo{
+  width:74px;height:74px;object-fit:cover;border-radius:50%;
+  display:block;margin:0 auto 13px;border:1px solid #e1e3e5;background:#f0f1f2
+}
