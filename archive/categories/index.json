@@ -6,6 +6,12 @@
     "count": 0
   },
   {
+    "category_no": "19",
+    "category_name": "그늘에서 피어난 날개",
+    "parent_category_no": "1",
+    "count": 20
+  },
+  {
     "category_no": "21",
     "category_name": "매일 5천",
     "parent_category_no": "1",
@@ -15,13 +21,19 @@
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "count": 2
+    "count": 3
   },
   {
     "category_no": "24",
     "category_name": "욕구전사 +",
     "parent_category_no": "1",
     "count": 11
+  },
+  {
+    "category_no": "16",
+    "category_name": "블루 아카이브",
+    "parent_category_no": "14",
+    "count": 1
   },
   {
     "category_no": "17",
@@ -39,6 +51,6 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "count": 43
+    "count": 106
   }
 ]
