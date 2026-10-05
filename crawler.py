@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib, html, json, mimetypes, re, shutil, subprocess, sys, time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from urllib.parse import urlparse, unquote_plus
 import requests
@@ -467,7 +468,7 @@ def archive_response(c,index,r):
         vd=pdir/"versions"/now().strftime("%Y%m%dT%H%M%S%z");vd.mkdir(parents=True,exist_ok=True)
         shutil.copy2(cp,vd/"content.html");shutil.copy2(mp,vd/"metadata.json")
     meta={
-      "post_id":pid,"blog_id":BLOG,"title":title,"original_url":canonical(pid),
+      "post_id":pid,"blog_id":BLOG,"source_type":"naver","title":title,"original_url":canonical(pid),
       "published":c.get("published") or old.get("published",""),
       "first_archived_at":old.get("first_archived_at",iso()),
       "last_archived_at":iso(),"source_status":"active","content_hash":h,
@@ -487,7 +488,7 @@ def archive_one(c,index):
 
 def maintenance(index,seen):
     """Check a tiny rotating sample of known posts; reuse each GET to detect edits/status."""
-    ids=sorted(index)
+    ids=sorted(pid for pid,m in index.items() if m.get("source_type","naver")=="naver" and str(pid).isdigit())
     n=int(CFG.get("deletion_checks_per_run",5))
     if not ids or n<=0:return
     sp=STATE/"cursor.json"; st=load(sp,{"cursor":0,"misses":{}})
@@ -526,7 +527,26 @@ def maintenance(index,seen):
     st={"cursor":(cur+offset)%len(ids),"misses":misses};save(sp,st)
 
 def esc(x): return html.escape(str(x or ""),quote=True)
-def label(s): return {"active":"원본 확인됨","deleted":"원본 삭제 감지","private_or_unavailable":"원본 비공개/접근불가"}.get(s,s or "상태 미확인")
+def label(s): return {"active":"","deleted":"원본 삭제 감지","private_or_unavailable":"원본 비공개/접근불가"}.get(s,s or "")
+
+def archive_badge(m):
+    if m.get("source_type")=="screenshot_archive":
+        return "삭제 전 스크린샷 보존본"
+    return label(m.get("source_status","active"))
+
+def published_text(m):
+    return m.get("published_display") or m.get("published") or m.get("first_archived_at","")
+
+def sort_timestamp(m):
+    raw=m.get("published_iso") or m.get("published") or m.get("first_archived_at","")
+    if not raw:return 0
+    try:
+        if isinstance(raw,str) and "T" in raw:
+            return datetime.fromisoformat(raw.replace("Z","+00:00")).timestamp()
+        return parsedate_to_datetime(raw).timestamp()
+    except Exception:
+        try:return datetime.fromisoformat(str(raw).replace("Z","+00:00")).timestamp()
+        except Exception:return 0
 
 def shell(title,body,prefix="",blogmeta=None,version="0"):
     blogmeta=blogmeta or load(BLOG_META_PATH,{})
@@ -685,7 +705,7 @@ def build_site(index):
     if pfile and (BLOG_META_DIR/pfile).exists(): shutil.copy2(BLOG_META_DIR/pfile,blog_out/pfile)
     out=DOCS/"posts"; out.mkdir(exist_ok=True)
 
-    rows=sorted(index.values(),key=lambda m:m.get("published") or m.get("first_archived_at",""),reverse=True)
+    rows=sorted(index.values(),key=sort_timestamp,reverse=True)
     active=sum(m.get("source_status")=="active" for m in rows)
     deleted_n=sum(m.get("source_status")=="deleted" for m in rows)
     priv=sum(m.get("source_status")=="private_or_unavailable" for m in rows)
@@ -723,12 +743,14 @@ def build_site(index):
           f'{f"<span>{preview_count}</span>" if preview_count>1 else ""}</a>'
           if preview else ""
         )
+        badge=archive_badge(m)
+        badge_html=(f'<span class="status status-{esc(status)}">{esc(badge)}</span>' if badge else "")
         cards.append(
           f'<article class="card" data-search="{esc(search_blob).lower()}" data-status="{esc(status)}" data-category="{esc(m.get("category_no",""))}" data-video="{video_flag}">'
           f'<div class="card-row"><div class="card-main">'
           f'<h2><a href="posts/{pid}/index.html">{esc(m.get("title"))}</a></h2>'
-          f'<div class="meta">{esc(m.get("category_name") or "전체글")} · {esc(m.get("published") or m.get("first_archived_at"))}</div>'
-          f'</div>{preview_html}<span class="status status-{esc(status)}">{esc(label(status))}</span></div>'
+          f'<div class="meta">{esc(m.get("category_name") or "전체글")} · {esc(published_text(m))}</div>'
+          f'</div>{preview_html}{badge_html}</div>'
           f'</article>'
         )
 
@@ -757,6 +779,13 @@ def build_site(index):
             neighbors+=f'<a class="neighbor" href="../{older["post_id"]}/index.html"><span class="neighbor-label">이전글</span><span class="neighbor-title">{esc(older.get("title"))}</span></a>'
         neighbors+='</div>'
 
+        badge=archive_badge(m)
+        badge_meta=(f'<span>{esc(badge)}</span>' if badge else "")
+        if m.get("source_type")=="screenshot_archive":
+            source_block='<div class="source archive-source">친구가 제공한 삭제 전 스크린샷을 OCR 복원한 보존본</div>'
+        else:
+            source_block=f'<div class="source"><a href="{esc(m.get("original_url"))}" target="_blank" rel="noopener noreferrer">네이버 원문 보기 ↗</a></div>'
+
         main=f'''
 <div class="blog-layout">
   {build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts).replace('id="search"','').replace('href="categories/','href="../../categories/').replace('src="blog/','src="../../blog/')}
@@ -770,13 +799,13 @@ def build_site(index):
       <article class="post">
         <h1 class="post-title">{esc(m.get("title"))}</h1>
         <div class="postmeta">
-          <span>{esc(m.get("published") or m.get("first_archived_at"))}</span>
+          <span>{esc(published_text(m))}</span>
           <span>{esc(m.get("category_name") or "전체글")}</span>
-          <span>{esc(label(status))}</span>
+          {badge_meta}
           <span>보존 버전 {esc(m.get("version_count",1))}</span>
         </div>
         {notice}
-        <div class="source"><a href="{esc(m.get("original_url"))}" target="_blank" rel="noopener noreferrer">네이버 원문 보기 ↗</a></div>
+        {source_block}
         <div class="content">{body}</div>
         {neighbors}
       </article>
@@ -836,11 +865,13 @@ def build_site(index):
               f'{f"<span>{preview_count}</span>" if preview_count>1 else ""}</a>'
               if preview else ""
             )
+            badge=archive_badge(m)
+            badge_html=(f'<span class="status status-{esc(status)}">{esc(badge)}</span>' if badge else "")
             cat_cards.append(
               f'<article class="card" data-search="{esc(search_blob).lower()}" data-status="{esc(status)}" data-category="{esc(no)}" data-video="{video_flag}">'
               f'<div class="card-row"><div class="card-main"><h2><a href="../../posts/{m["post_id"]}/index.html">{esc(m.get("title"))}</a></h2>'
-              f'<div class="meta">{esc(m.get("published") or m.get("first_archived_at"))}</div></div>'
-              f'{preview_html}<span class="status status-{esc(status)}">{esc(label(status))}</span></div></article>'
+              f'<div class="meta">{esc(published_text(m))}</div></div>'
+              f'{preview_html}{badge_html}</div></article>'
             )
         cat_body=f'''
 <div class="blog-layout">
