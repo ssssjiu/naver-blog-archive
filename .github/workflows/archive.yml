@@ -1,6 +1,13 @@
 name: Archive Naver Blog
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "crawler.py"
+      - "config.json"
+      - "requirements.txt"
+      - ".github/workflows/archive.yml"
   schedule:
     - cron: "2/5 * * * *"
     - cron: "23 */6 * * *"
@@ -34,6 +41,8 @@ jobs:
           python-version: "3.12"
           cache: "pip"
       - run: pip install -r requirements.txt
+      - name: Validate crawler
+        run: python -m py_compile crawler.py
       - name: Choose mode and archive
         shell: bash
         env:
@@ -44,6 +53,8 @@ jobs:
         run: |
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             MODE="$INPUT_MODE"
+          elif [ "$EVENT_NAME" = "push" ]; then
+            MODE="maintenance"
           elif [ "$EVENT_SCHEDULE" = "2/5 * * * *" ]; then
             MODE="fast"
           elif [ "$EVENT_SCHEDULE" = "41 18 * * *" ]; then
