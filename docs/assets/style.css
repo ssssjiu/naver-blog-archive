@@ -472,3 +472,245 @@ body.viewer-open{overflow:hidden}
   .image-viewer-prev,.image-viewer-next{width:38px;height:54px;font-size:24px}
   .image-viewer-prev{left:4px}.image-viewer-next{right:4px}
 }
+
+/* NAVER_FUNCTIONAL_VIEWS_V1 */
+.list-head{
+  align-items:center;
+  gap:12px;
+  min-height:38px;
+}
+.list-head>span{margin-left:auto}
+.view-controls{
+  display:inline-flex;
+  align-items:center;
+  border:1px solid #dfe3e6;
+  border-radius:3px;
+  overflow:hidden;
+  background:#fff
+}
+.view-btn{
+  height:32px;
+  padding:0 9px;
+  border:0;
+  border-right:1px solid #e4e6e8;
+  background:#fff;
+  color:#777;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font:inherit;
+  font-size:11px;
+  cursor:pointer
+}
+.view-btn:last-child{border-right:0}
+.view-btn:hover{background:#f7f8f9}
+.view-btn.active{background:#f1f3f5;color:#111;font-weight:700}
+.view-icon{font-size:13px;line-height:1}
+.view-label{white-space:nowrap}
+
+.pager{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:3px;
+  padding:24px 0 6px
+}
+.page-btn{
+  min-width:30px;height:30px;
+  border:1px solid transparent;
+  background:transparent;
+  color:#666;
+  font-size:12px;
+  cursor:pointer
+}
+.page-btn:hover:not(:disabled){border-color:#ddd;background:#fff}
+.page-btn.active{color:#111;font-weight:700;border-color:#bbb;background:#fff}
+.page-btn:disabled{opacity:.35;cursor:default}
+.page-gap{padding:0 4px;color:#aaa}
+.list-empty{
+  padding:70px 20px;
+  border-top:1px solid #ddd;
+  background:#fff;
+  text-align:center;
+  color:#999;
+  font-size:13px
+}
+
+/* 목록형: 네이버 블로그의 전통적인 제목+썸네일 목록 흐름 */
+.post-list[data-view="list"]{
+  display:block;
+  border-top:1px solid #bfc4c8
+}
+.post-list[data-view="list"] .card{
+  padding:18px 18px;
+  border:0;
+  border-bottom:1px solid #eceef0
+}
+.post-list[data-view="list"] .card-row{
+  min-height:82px;
+  align-items:center
+}
+.post-list[data-view="list"] .card-thumb{
+  order:2;
+  flex:0 0 110px;
+  width:110px;
+  height:82px;
+  margin-left:auto
+}
+.post-list[data-view="list"] .status{
+  order:3;
+  margin-left:8px
+}
+
+/* 카드형: 이미지와 글 정보를 한 카드에 묶음 */
+.post-list[data-view="card"]{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  border:0;
+  background:transparent
+}
+.post-list[data-view="card"] .card{
+  position:relative;
+  padding:0;
+  overflow:hidden;
+  border:1px solid #e3e6e8;
+  background:#fff
+}
+.post-list[data-view="card"] .card-row{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  height:100%
+}
+.post-list[data-view="card"] .card-main{
+  order:2;
+  width:100%;
+  padding:15px 16px 17px
+}
+.post-list[data-view="card"] .card-thumb{
+  order:1;
+  width:100%;
+  height:190px;
+  flex:0 0 190px;
+  border:0;
+  border-bottom:1px solid #eceef0
+}
+.post-list[data-view="card"] .status{
+  position:absolute;
+  right:8px;
+  top:8px;
+  background:rgba(255,255,255,.92)
+}
+.post-list[data-view="card"] .no-thumb .card-row:before{
+  content:"이미지 없음";
+  order:1;
+  height:190px;
+  width:100%;
+  display:grid;
+  place-items:center;
+  background:#f5f6f7;
+  color:#b3b6ba;
+  font-size:11px
+}
+
+/* 앨범형: 이미지를 중심으로 빠르게 훑기 */
+.post-list[data-view="album"]{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  border:0;
+  background:transparent
+}
+.post-list[data-view="album"] .card{
+  position:relative;
+  padding:0;
+  overflow:hidden;
+  border:1px solid #e3e6e8;
+  background:#fff
+}
+.post-list[data-view="album"] .card-row{
+  display:flex;
+  flex-direction:column;
+  gap:0
+}
+.post-list[data-view="album"] .card-thumb{
+  order:1;
+  width:100%;
+  height:160px;
+  flex:0 0 160px;
+  border:0
+}
+.post-list[data-view="album"] .card-main{
+  order:2;
+  width:100%;
+  padding:11px 12px 13px
+}
+.post-list[data-view="album"] .card h2{
+  font-size:13px;
+  line-height:1.45;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden
+}
+.post-list[data-view="album"] .meta{font-size:10px}
+.post-list[data-view="album"] .status{display:none}
+.post-list[data-view="album"] .no-thumb .card-row:before{
+  content:"이미지 없음";
+  order:1;
+  height:160px;
+  display:grid;
+  place-items:center;
+  background:#f5f6f7;
+  color:#b3b6ba;
+  font-size:11px
+}
+
+/* 동영상형: 동영상이 포함된 글만 JS가 남기고 카드형으로 표시 */
+.post-list[data-view="video"]{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+  border:0;
+  background:transparent
+}
+.post-list[data-view="video"] .card{
+  position:relative;
+  padding:0;
+  overflow:hidden;
+  border:1px solid #e3e6e8;
+  background:#fff
+}
+.post-list[data-view="video"] .card-row{display:flex;flex-direction:column}
+.post-list[data-view="video"] .card-thumb{
+  order:1;width:100%;height:0;padding-top:56.25%;position:relative;border:0
+}
+.post-list[data-view="video"] .card-thumb img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover
+}
+.post-list[data-view="video"] .card-thumb:after{
+  content:"▶";
+  position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;
+  background:rgba(0,0,0,.62);color:#fff;font-size:17px
+}
+.post-list[data-view="video"] .card-main{order:2;padding:14px 16px 17px}
+.post-list[data-view="video"] .status{display:none}
+
+@media(max-width:800px){
+  .list-head{flex-wrap:wrap}
+  .list-head>span{margin-left:0}
+  .view-controls{width:100%;display:grid;grid-template-columns:repeat(4,1fr)}
+  .view-btn{justify-content:center;border-bottom:0}
+  .view-label{display:none}
+  .post-list[data-view="card"],
+  .post-list[data-view="video"]{grid-template-columns:1fr;gap:0}
+  .post-list[data-view="album"]{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:8px}
+  .post-list[data-view="album"] .card-thumb{height:130px;flex-basis:130px}
+  .post-list[data-view="album"] .no-thumb .card-row:before{height:130px}
+  .post-list[data-view="list"] .card-thumb{flex-basis:92px;width:92px;height:70px}
+  .post-list[data-view="card"] .card-thumb{height:210px;flex-basis:210px}
+}
