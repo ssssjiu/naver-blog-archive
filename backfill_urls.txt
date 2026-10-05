@@ -1,0 +1,2 @@
+# Optional old post URLs, one per line.
+# https://blog.naver.com/abydost/223000000000
