@@ -54,10 +54,10 @@ def rss_candidates():
             out[pid]={"post_id":pid,"url":canonical(pid),"title":(item.findtext("title") or "").strip(),"published":(item.findtext("pubDate") or "").strip()}
     return out
 
-def discover_history():
-    """Discover public posts and retain Naver's category hierarchy fields."""
+def discover_history(force_full=False):
+    """Discover public posts and retain Naver category/date metadata."""
     out={}
-    pages=int(CFG.get("initial_discovery_pages",30) if not (STATE/"initial_discovery_complete.json").exists() else CFG.get("daily_discovery_pages",5))
+    pages=int(CFG.get("initial_discovery_pages",30) if force_full or not (STATE/"initial_discovery_complete.json").exists() else CFG.get("daily_discovery_pages",5))
     delay=float(CFG.get("request_delay_seconds",.5))
     empty_rounds=0
 
@@ -470,6 +470,7 @@ def archive_response(c,index,r):
     category_no,category_name,parent_category_no=category_from_post(soup,r.text,c)
     if not node:return "unparsed"
     title=title_of(soup,c.get("title","")); body=localize(node,pdir,c["url"])
+    source_published=c.get("published") or extract_post_published(soup,r.text) or old.get("published","")
     h=hashlib.sha256((title+"\n"+re.sub(r"\s+"," ",body)).encode()).hexdigest()
     if old.get("content_hash")==h and old.get("source_status")=="active":
         metadata_changed=False
@@ -492,7 +493,7 @@ def archive_response(c,index,r):
         shutil.copy2(cp,vd/"content.html");shutil.copy2(mp,vd/"metadata.json")
     meta={
       "post_id":pid,"blog_id":BLOG,"source_type":"naver","title":title,"original_url":canonical(pid),
-      "published":c.get("published") or old.get("published",""),
+      "published":source_published,
       "first_archived_at":old.get("first_archived_at",iso()),
       "last_archived_at":iso(),"source_status":"active","content_hash":h,
       "category_no":category_no or c.get("category_no") or old.get("category_no",""),
@@ -560,19 +561,82 @@ def archive_badge(m):
         return ""
     return label(status)
 
+def parse_source_datetime(raw):
+    """Parse Naver RSS/list/post date formats into a timezone-aware datetime."""
+    if raw is None:return None
+    if isinstance(raw,(int,float)):
+        n=float(raw)
+        if n>1e12:n/=1000.0
+        try:return datetime.fromtimestamp(n,KST)
+        except Exception:return None
+    s=str(raw).strip()
+    if not s:return None
+
+    # Epoch or compact calendar forms.
+    if re.fullmatch(r"\d{10,14}",s):
+        try:
+            if len(s)==13:return datetime.fromtimestamp(int(s)/1000,KST)
+            if len(s)==10:return datetime.fromtimestamp(int(s),KST)
+            if len(s)==14:return datetime.strptime(s,"%Y%m%d%H%M%S").replace(tzinfo=KST)
+            if len(s)==12:return datetime.strptime(s,"%Y%m%d%H%M").replace(tzinfo=KST)
+        except Exception:
+            pass
+
+    # RFC 2822 from RSS.
+    try:
+        d=parsedate_to_datetime(s)
+        if d:
+            return d if d.tzinfo else d.replace(tzinfo=KST)
+    except Exception:
+        pass
+
+    # ISO forms.
+    try:
+        d=datetime.fromisoformat(s.replace("Z","+00:00"))
+        return d if d.tzinfo else d.replace(tzinfo=KST)
+    except Exception:
+        pass
+
+    # Naver list/display forms: 2025.07.20., 2025. 07. 20. 15:03, etc.
+    m=re.search(
+      r"(?P<y>\d{4})\s*[.\-/]\s*(?P<m>\d{1,2})\s*[.\-/]\s*(?P<d>\d{1,2})"
+      r"(?:\s*[.]?\s*(?P<h>\d{1,2})\s*:\s*(?P<mi>\d{2})(?:\s*:\s*(?P<sec>\d{2}))?)?",
+      s
+    )
+    if m:
+        try:
+            return datetime(
+              int(m.group("y")),int(m.group("m")),int(m.group("d")),
+              int(m.group("h") or 0),int(m.group("mi") or 0),int(m.group("sec") or 0),
+              tzinfo=KST
+            )
+        except Exception:
+            pass
+    return None
+
+def extract_post_published(soup,raw_text):
+    selectors=(
+      'meta[property="article:published_time"]',
+      '.se_publishDate','.se_publish_date',
+      'span.date','.date.fil5.pcol2._postAddDate','._postAddDate'
+    )
+    for sel in selectors:
+        n=soup.select_one(sel)
+        if not n:continue
+        v=n.get("content","") if n.name=="meta" else n.get_text(" ",strip=True)
+        if parse_source_datetime(v):return v.strip()
+    for name in ("addDate","postAddDate","publishedDate","writeDate"):
+        v=script_string(raw_text,[name])
+        if parse_source_datetime(v):return v
+    return ""
+
 def published_text(m):
     return m.get("published_display") or m.get("published") or m.get("first_archived_at","")
 
 def sort_timestamp(m):
-    raw=m.get("published_iso") or m.get("published") or m.get("first_archived_at","")
-    if not raw:return 0
-    try:
-        if isinstance(raw,str) and "T" in raw:
-            return datetime.fromisoformat(raw.replace("Z","+00:00")).timestamp()
-        return parsedate_to_datetime(raw).timestamp()
-    except Exception:
-        try:return datetime.fromisoformat(str(raw).replace("Z","+00:00")).timestamp()
-        except Exception:return 0
+    raw=m.get("published_iso") or m.get("published") or ""
+    d=parse_source_datetime(raw)
+    return d.timestamp() if d else 0
 
 def shell(title,body,prefix="",blogmeta=None,version="0"):
     blogmeta=blogmeta or load(BLOG_META_PATH,{})
@@ -1037,6 +1101,9 @@ def main():
         try:discover_blog_metadata()
         except Exception as e:print("Blog metadata warning:",e)
 
+    date_repair_done=STATE/"source_date_repair_complete.json"
+    needs_date_repair=not date_repair_done.exists()
+
     candidates={}
     rss={}
     try:
@@ -1045,15 +1112,18 @@ def main():
     except Exception as e:
         print("RSS warning:",e)
 
-    if mode=="discover":
+    history={}
+    if mode=="discover" or needs_date_repair:
         try:
-            history=discover_history()
+            history=discover_history(force_full=needs_date_repair)
             for k,v in history.items():
                 if k in candidates:
                     for key,val in v.items():
                         if val:candidates[k][key]=val
                 else:
                     candidates[k]=v
+            if needs_date_repair:
+                print(f"[INFO] Source-date repair scan found {len(history)} public post records.")
         except Exception as e:
             print("Discovery warning:",e)
 
@@ -1075,6 +1145,12 @@ def main():
         for key in ("category_no","parent_category_no"):
             if cand.get(key) and str(cand.get(key))!=str(old.get(key,"")):
                 old[key]=str(cand[key]);changed=True
+        incoming_published=cand.get("published")
+        if incoming_published and parse_source_datetime(incoming_published):
+            existing=parse_source_datetime(old.get("published"))
+            if existing is None:
+                old["published"]=incoming_published
+                changed=True
         if changed:
             save(POSTS/pid/"metadata.json",old);index[pid]=old
 
@@ -1101,6 +1177,15 @@ def main():
         save(initial_done,{
           "completed_at":iso(),
           "candidate_count":len(candidates),
+          "archived_count":len(index)
+        })
+
+    if needs_date_repair:
+        repaired=sum(1 for m in index.values() if m.get("source_type")=="naver" and parse_source_datetime(m.get("published")))
+        save(date_repair_done,{
+          "completed_at":iso(),
+          "history_records":len(history),
+          "naver_posts_with_source_date":repaired,
           "archived_count":len(index)
         })
 
