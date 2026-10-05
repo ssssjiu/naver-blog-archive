@@ -49,6 +49,16 @@
       "category_no": "16",
       "category_name": "블루 아카이브",
       "parent_category_no": "14"
+    },
+    {
+      "category_no": "7",
+      "category_name": "?",
+      "parent_category_no": "7"
+    },
+    {
+      "category_no": "14",
+      "category_name": "오락",
+      "parent_category_no": "14"
     }
   ],
   "source_url": "https://m.blog.naver.com/abydost"

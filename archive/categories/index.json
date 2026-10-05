@@ -21,7 +21,7 @@
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "count": 3
+    "count": 10
   },
   {
     "category_no": "24",
@@ -33,13 +33,19 @@
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "count": 1
+    "count": 14
+  },
+  {
+    "category_no": "14",
+    "category_name": "오락",
+    "parent_category_no": "14",
+    "count": 2
   },
   {
     "category_no": "17",
     "category_name": "트릭컬 리바이브",
     "parent_category_no": "14",
-    "count": 1
+    "count": 5
   },
   {
     "category_no": "20",
@@ -51,6 +57,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "count": 106
+    "count": 146
+  },
+  {
+    "category_no": "7",
+    "category_name": "?",
+    "parent_category_no": "7",
+    "count": 4
   }
 ]
