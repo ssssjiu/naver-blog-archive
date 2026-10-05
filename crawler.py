@@ -564,6 +564,8 @@ def build_site(index):
 def checkpoint(index, reason):
     """Persist a partial archive and push it so GitHub Pages can update mid-run."""
     save(INDEX,index);build_site(index)
+    subprocess.run(["git","config","user.name","github-actions[bot]"],check=True)
+    subprocess.run(["git","config","user.email","41898282+github-actions[bot]@users.noreply.github.com"],check=True)
     subprocess.run(["git","add","archive","docs","state"],check=False)
     status=subprocess.run(["git","status","--porcelain"],capture_output=True,text=True,check=False)
     if not status.stdout.strip():
@@ -608,8 +610,8 @@ def main():
             pending_changes+=1
 
         # Publish partial results during a large first import:
-        # whichever happens first, 5 changed posts or 60 seconds.
-        if pending_changes and (pending_changes>=5 or time.monotonic()-last_checkpoint>=60):
+        # whichever happens first, 10 changed posts or 60 seconds.
+        if pending_changes and (pending_changes>=10 or time.monotonic()-last_checkpoint>=60):
             checkpoint(index,f"{i}/{len(c)} posts")
             pending_changes=0
             last_checkpoint=time.monotonic()
