@@ -12,6 +12,7 @@ ROOT=Path(__file__).resolve().parent
 CFG=json.loads((ROOT/"config.json").read_text(encoding="utf-8"))
 BLOG=CFG["blog_id"]
 ARCH=ROOT/"archive"; POSTS=ARCH/"posts"; INDEX=ARCH/"index.json"
+BLOG_META_DIR=ARCH/"blog"; BLOG_META_PATH=BLOG_META_DIR/"metadata.json"
 DOCS=ROOT/"docs"; STATE=ROOT/"state"
 KST=timezone(timedelta(hours=9))
 UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/124 Safari/537.36"
@@ -83,6 +84,183 @@ def backfill():
         pid=pid_from(line) or (re.search(r"(\d{6,})",line).group(1) if re.search(r"(\d{6,})",line) else None)
         if pid:out[pid]={"post_id":pid,"url":canonical(pid),"title":"","published":""}
     return out
+
+
+def js_value(text, keys):
+    """Best-effort extractor for public values embedded in Naver page scripts."""
+    for key in keys:
+        patterns=[
+            rf'"{re.escape(key)}"\s*:\s*"((?:\\.|[^"\\])*)"',
+            rf"'{re.escape(key)}'\s*:\s*'((?:\\.|[^'\\])*)'",
+        ]
+        for pat in patterns:
+            m=re.search(pat,text,re.I)
+            if m:
+                raw=m.group(1)
+                try:
+                    return html.unescape(json.loads('"'+raw.replace('"','\\"')+'"')).strip()
+                except Exception:
+                    return html.unescape(raw.replace("\\/","/")).strip()
+    return ""
+
+def meta_content(soup, selectors):
+    for sel in selectors:
+        n=soup.select_one(sel)
+        if n:
+            v=(n.get("content") or n.get_text(" ",strip=True) or "").strip()
+            if v:return v
+    return ""
+
+def normalize_blog_title(v):
+    v=(v or "").strip()
+    for suffix in (" : 네이버 블로그"," - 네이버 블로그"," | 네이버 블로그"," 네이버 블로그"):
+        if v.endswith(suffix):v=v[:-len(suffix)].strip()
+    return v
+
+def extract_categories(soup, raw_text):
+    found={}
+    order=[]
+    for a in soup.find_all("a",href=True):
+        href=html.unescape(a.get("href",""))
+        m=re.search(r"[?&]categoryNo=(\d+)",href)
+        if not m:continue
+        no=m.group(1)
+        if no=="0":continue
+        name=a.get_text(" ",strip=True)
+        name=re.sub(r"\s+"," ",name).strip()
+        if not name or len(name)>80:continue
+        if no not in found:
+            found[no]=name;order.append(no)
+
+    # Script/JSON fallback.
+    for m in re.finditer(r'"categoryNo"\s*:\s*"?(\d+)"?.{0,180}?"(?:categoryName|name)"\s*:\s*"((?:\\.|[^"\\])*)"',raw_text,re.S):
+        no,name=m.group(1),html.unescape(m.group(2).replace("\\/","/")).strip()
+        if no!="0" and name and no not in found:
+            found[no]=name;order.append(no)
+
+    return [{"category_no":no,"category_name":found[no]} for no in order]
+
+def download_blog_profile(url, referer):
+    if not url or not url.startswith(("http://","https://")):return ""
+    try:
+        r=get(url,referer,30)
+        if not r.ok or not r.content:return ""
+        ctype=r.headers.get("Content-Type","")
+        if ctype and not ctype.startswith("image/"):return ""
+        digest=hashlib.sha256(r.content).hexdigest()
+        ext=ext_for(url,ctype)
+        BLOG_META_DIR.mkdir(parents=True,exist_ok=True)
+        target=BLOG_META_DIR/f"profile{ext}"
+        current=next(iter(BLOG_META_DIR.glob("profile.*")),None)
+        if current and current.read_bytes()==r.content:
+            return current.name
+        # Keep old profile versions before replacing.
+        if current and current.exists():
+            vd=BLOG_META_DIR/"profile_versions";vd.mkdir(exist_ok=True)
+            shutil.copy2(current,vd/f"{now().strftime('%Y%m%dT%H%M%S%z')}{current.suffix}")
+            current.unlink()
+        target.write_bytes(r.content)
+        return target.name
+    except requests.RequestException:
+        return ""
+
+def discover_blog_metadata():
+    """Archive only metadata that is publicly visible without authentication."""
+    urls=[
+      f"https://m.blog.naver.com/{BLOG}",
+      f"https://m.blog.naver.com/PostList.naver?blogId={BLOG}&tab=1",
+      f"https://blog.naver.com/PostList.naver?blogId={BLOG}&categoryNo=0&from=postList",
+    ]
+    soups=[];texts=[];source=""
+    for u in urls:
+        try:
+            r=get(u,canonical(""))
+            if r.ok and r.text:
+                soups.append(BeautifulSoup(r.text,"html.parser"));texts.append(r.text)
+                if not source:source=u
+        except requests.RequestException:
+            pass
+        time.sleep(float(CFG.get("request_delay_seconds",.5)))
+
+    if not soups:return load(BLOG_META_PATH,{})
+
+    merged="\n".join(texts)
+    title=""
+    nickname=""
+    intro=""
+    profile_url=""
+    categories=[]
+
+    for soup in soups:
+        if not title:
+            title=normalize_blog_title(meta_content(soup,[
+              'meta[property="og:title"]','meta[name="twitter:title"]','title',
+              '.blog_name','.blogname','.blog_title'
+            ]))
+        if not intro:
+            intro=meta_content(soup,[
+              'meta[property="og:description"]','meta[name="description"]',
+              '.profile_desc','.introduce','.blog_desc'
+            ])
+        if not profile_url:
+            for sel in ('.profile img','.profile_image img','.profile-img img','img.profile'):
+                n=soup.select_one(sel)
+                if n:
+                    profile_url=img_src(n) or ""
+                    if profile_url:break
+        if not categories:
+            categories=extract_categories(soup,str(soup))
+
+    title=js_value(merged,["blogName","blogTitle"]) or title
+    nickname=js_value(merged,["nickName","nickname","userName"])
+    intro=js_value(merged,["introduction","blogIntroduce","profileText","profileIntroduction"]) or intro
+    profile_url=js_value(merged,["profileImageUrl","profileImagePath","profileImage"]) or profile_url
+
+    if profile_url.startswith("//"):profile_url="https:"+profile_url
+    if profile_url.startswith("/"):profile_url="https://blog.naver.com"+profile_url
+
+    # Merge categories found across all fetched public pages.
+    merged_categories={}
+    cat_order=[]
+    for soup,text in zip(soups,texts):
+        for cat in extract_categories(soup,text):
+            no=cat["category_no"]
+            if no not in merged_categories:
+                merged_categories[no]=cat["category_name"];cat_order.append(no)
+    categories=[{"category_no":no,"category_name":merged_categories[no]} for no in cat_order]
+
+    old=load(BLOG_META_PATH,{})
+    profile_file=old.get("profile_image_file","")
+    if profile_url:
+        downloaded=download_blog_profile(profile_url,source or urls[0])
+        if downloaded:profile_file=downloaded
+
+    new={
+      "blog_id":BLOG,
+      "blog_name":title or old.get("blog_name",""),
+      "nickname":nickname or old.get("nickname",""),
+      "introduction":intro or old.get("introduction",""),
+      "profile_image_source":profile_url or old.get("profile_image_source",""),
+      "profile_image_file":profile_file,
+      "categories":categories or old.get("categories",[]),
+      "source_url":source or old.get("source_url",f"https://blog.naver.com/{BLOG}")
+    }
+    if new!=old:
+        save(BLOG_META_PATH,new)
+    return new
+
+def category_from_post(soup,raw_text):
+    # Prefer an actual visible category link on the public post page.
+    for a in soup.find_all("a",href=True):
+        href=html.unescape(a.get("href",""))
+        m=re.search(r"[?&]categoryNo=(\d+)",href)
+        if not m or m.group(1)=="0":continue
+        name=re.sub(r"\s+"," ",a.get_text(" ",strip=True)).strip()
+        if name and len(name)<=80:
+            return m.group(1),name
+    no=js_value(raw_text,["categoryNo"])
+    name=js_value(raw_text,["categoryName"])
+    return (no,name) if no and no!="0" else ("","")
 
 def deleted(text,status): return status in (404,410) or any(x in text for x in DEL_MARK)
 def private(text): return any(x in text for x in PRIVATE_MARK)
