@@ -403,3 +403,8 @@ a{color:inherit}
   width:74px;height:74px;object-fit:cover;border-radius:50%;
   display:block;margin:0 auto 13px;border:1px solid #e1e3e5;background:#f0f1f2
 }
+
+.category-link{text-decoration:none}
+.category-child{padding-left:22px;position:relative}
+.category-child:before{content:"└";position:absolute;left:8px;color:#bbb}
+.category-full{grid-column:1/-1;min-width:0}
