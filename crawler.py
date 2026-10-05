@@ -192,29 +192,175 @@ def maintenance(index,seen):
         index[pid]=m;time.sleep(float(CFG.get("request_delay_seconds",.5)))
     st={"cursor":(cur+min(n,len(ids)))%len(ids),"misses":misses};save(sp,st)
 
-def esc(x):return html.escape(str(x or ""),quote=True)
-def label(s):return {"active":"원본 확인됨","deleted":"원본 삭제 감지","private_or_unavailable":"원본 비공개/접근불가"}.get(s,s or "상태 미확인")
+def esc(x): return html.escape(str(x or ""),quote=True)
+def label(s): return {"active":"원본 확인됨","deleted":"원본 삭제 감지","private_or_unavailable":"원본 비공개/접근불가"}.get(s,s or "상태 미확인")
+
 def shell(title,body,prefix=""):
-    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>{esc(title)}</title><link rel="stylesheet" href="{prefix}assets/style.css"></head><body><header class="topbar"><a class="brand" href="{prefix}index.html">NAVER BLOG ARCHIVE</a></header><main class="container">{body}</main><footer class="footer">개인 아카이브 · 원본 출처는 각 게시물에 표시</footer></body></html>'''
+    return f'''<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>{esc(title)}</title>
+  <link rel="stylesheet" href="{prefix}assets/style.css">
+</head>
+<body>
+  <div class="archive-bar">
+    <div class="archive-bar-inner">
+      <a class="archive-mark" href="{prefix}index.html">NAVER BLOG ARCHIVE</a>
+      <span class="archive-pill">보존본</span>
+    </div>
+  </div>
+  <header class="blog-cover">
+    <div class="blog-cover-inner">
+      <p class="archive-kicker">개인 아카이브</p>
+      <a class="blog-title" href="{prefix}index.html">{esc(CFG.get("archive_title", BLOG+" Archive"))}</a>
+      <p class="blog-subtitle">네이버 블로그 공개 글을 자동 보존하는 미러 사이트</p>
+    </div>
+  </header>
+  <nav class="blog-nav">
+    <div class="blog-nav-inner">
+      <a class="active" href="{prefix}index.html">전체글</a>
+      <a href="https://blog.naver.com/{BLOG}" target="_blank" rel="noopener noreferrer">원본 블로그</a>
+      <a href="{prefix}index.html#archive-info">아카이브 안내</a>
+    </div>
+  </nav>
+  {body}
+  <footer class="footer">이 사이트는 네이버 공식 서비스가 아닌 개인 보존용 아카이브입니다.</footer>
+</body>
+</html>'''
+
+def build_sidebar(total,active,deleted_n,priv):
+    return f'''
+<aside class="sidebar">
+  <section class="side-card profile-card">
+    <div class="avatar">{esc(BLOG[:1].upper())}</div>
+    <div class="profile-name">{esc(BLOG)}</div>
+    <div class="profile-id">blog.naver.com/{esc(BLOG)}</div>
+    <p class="profile-desc">공개 게시물을 자동으로 보존하는 개인 아카이브입니다.</p>
+    <a class="profile-link" href="https://blog.naver.com/{esc(BLOG)}" target="_blank" rel="noopener noreferrer">네이버 원본 블로그 ↗</a>
+    <div class="stats-mini">
+      <div><strong>{total}</strong><span>보존 글</span></div>
+      <div><strong>{deleted_n}</strong><span>삭제 감지</span></div>
+      <div><strong>{priv}</strong><span>접근불가</span></div>
+    </div>
+  </section>
+  <section class="side-card">
+    <div class="side-heading">카테고리</div>
+    <div class="side-list">
+      <button class="side-btn active" type="button" data-filter="all"><span>전체글</span><span class="side-count">{total}</span></button>
+      <button class="side-btn" type="button" data-filter="active"><span>원본 확인됨</span><span class="side-count">{active}</span></button>
+      <button class="side-btn" type="button" data-filter="deleted"><span>원본 삭제됨</span><span class="side-count">{deleted_n}</span></button>
+      <button class="side-btn" type="button" data-filter="private_or_unavailable"><span>접근불가</span><span class="side-count">{priv}</span></button>
+    </div>
+    <input id="search" class="search-box" type="search" placeholder="이 블로그에서 검색">
+  </section>
+</aside>'''
 
 def build_site(index):
-    DOCS.mkdir(parents=True,exist_ok=True);(DOCS/"assets").mkdir(exist_ok=True);out=DOCS/"posts";out.mkdir(exist_ok=True)
+    DOCS.mkdir(parents=True,exist_ok=True)
+    (DOCS/"assets").mkdir(exist_ok=True)
+    out=DOCS/"posts"; out.mkdir(exist_ok=True)
+
     rows=sorted(index.values(),key=lambda m:m.get("published") or m.get("first_archived_at",""),reverse=True)
+    active=sum(m.get("source_status")=="active" for m in rows)
+    deleted_n=sum(m.get("source_status")=="deleted" for m in rows)
+    priv=sum(m.get("source_status")=="private_or_unavailable" for m in rows)
+    total=len(rows)
+
+    # Prepare stable neighbor relationships in displayed order.
+    positions={m["post_id"]:i for i,m in enumerate(rows)}
     cards=[]
+
     for m in rows:
-        pid=m["post_id"];status=m.get("source_status","active")
-        cards.append(f'<article class="card" data-search="{esc(m.get("title","")).lower()}"><div class="meta">{esc(m.get("published") or m.get("first_archived_at"))}</div><h2><a href="posts/{pid}/index.html">{esc(m.get("title"))}</a></h2><span class="status status-{esc(status)}">{esc(label(status))}</span></article>')
-        src=POSTS/pid;dst=out/pid;dst.mkdir(parents=True,exist_ok=True)
-        if (dst/"images").exists():shutil.rmtree(dst/"images")
-        if (src/"images").exists():shutil.copytree(src/"images",dst/"images")
+        pid=m["post_id"]
+        status=m.get("source_status","active")
+        cards.append(
+          f'<article class="card" data-search="{esc(m.get("title","")).lower()}" data-status="{esc(status)}">'
+          f'<div class="card-row"><div>'
+          f'<h2><a href="posts/{pid}/index.html">{esc(m.get("title"))}</a></h2>'
+          f'<div class="meta">{esc(m.get("published") or m.get("first_archived_at"))}</div>'
+          f'</div><span class="status status-{esc(status)}">{esc(label(status))}</span></div>'
+          f'</article>'
+        )
+
+        src=POSTS/pid
+        dst=out/pid
+        dst.mkdir(parents=True,exist_ok=True)
+        if (dst/"images").exists():
+            shutil.rmtree(dst/"images")
+        if (src/"images").exists():
+            shutil.copytree(src/"images",dst/"images")
+
         body=(src/"content.html").read_text(encoding="utf-8") if (src/"content.html").exists() else ""
-        notice='<div class="notice danger">원본 게시물의 삭제가 감지되었습니다. 아래 내용은 삭제 전에 저장된 사본입니다.</div>' if status=="deleted" else ('<div class="notice">현재 원본에 접근할 수 없습니다. 아래 내용은 이전에 저장된 사본입니다.</div>' if status=="private_or_unavailable" else "")
-        page=f'<a class="back" href="../../index.html">← 전체 글</a><article class="post"><h1>{esc(m.get("title"))}</h1><div class="postmeta"><span>{esc(m.get("published") or m.get("first_archived_at"))}</span><span>{esc(label(status))}</span><span>보존 버전 {esc(m.get("version_count",1))}</span></div>{notice}<div class="source"><a href="{esc(m.get("original_url"))}" target="_blank" rel="noopener noreferrer">네이버 원본 열기 ↗</a></div><div class="content">{body}</div></article>'
-        (dst/"index.html").write_text(shell(m.get("title","Archive"),page,"../../"),encoding="utf-8")
-    active=sum(m.get("source_status")=="active" for m in rows);deleted_n=sum(m.get("source_status")=="deleted" for m in rows);priv=sum(m.get("source_status")=="private_or_unavailable" for m in rows)
-    title=CFG.get("archive_title",BLOG+" Archive")
-    home=f'<section class="hero"><p class="eyebrow">AUTOMATIC MIRROR + ARCHIVE</p><h1>{esc(title)}</h1><p>GitHub Actions가 보존하는 네이버 블로그 아카이브</p></section><section class="stats"><div><strong>{len(rows)}</strong><span>보존 글</span></div><div><strong>{active}</strong><span>원본 확인</span></div><div><strong>{deleted_n}</strong><span>삭제 감지</span></div><div><strong>{priv}</strong><span>접근불가</span></div></section><input id="search" type="search" placeholder="제목 검색"><section class="grid">{"".join(cards) if cards else "<p>아직 보존된 글이 없습니다.</p>"}</section><script src="assets/app.js"></script>'
-    (DOCS/"index.html").write_text(shell(title,home),encoding="utf-8");(DOCS/".nojekyll").write_text("",encoding="utf-8")
+        notice=""
+        if status=="deleted":
+            notice='<div class="notice danger">원본 게시물의 삭제가 감지되었습니다. 아래 내용은 삭제 전에 저장된 보존본입니다.</div>'
+        elif status=="private_or_unavailable":
+            notice='<div class="notice">현재 원본 게시물에 접근할 수 없습니다. 아래 내용은 이전에 저장된 보존본입니다.</div>'
+
+        i=positions[pid]
+        newer=rows[i-1] if i>0 else None
+        older=rows[i+1] if i+1<len(rows) else None
+        neighbors='<div class="post-neighbors">'
+        if newer:
+            neighbors+=f'<a class="neighbor" href="../{newer["post_id"]}/index.html"><span class="neighbor-label">다음글</span><span class="neighbor-title">{esc(newer.get("title"))}</span></a>'
+        if older:
+            neighbors+=f'<a class="neighbor" href="../{older["post_id"]}/index.html"><span class="neighbor-label">이전글</span><span class="neighbor-title">{esc(older.get("title"))}</span></a>'
+        neighbors+='</div>'
+
+        main=f'''
+<div class="blog-layout">
+  {build_sidebar(total,active,deleted_n,priv).replace('id="search"','')}
+  <section class="content-panel">
+    <div class="mobile-profile">
+      <div class="mobile-avatar">{esc(BLOG[:1].upper())}</div>
+      <div><strong>{esc(BLOG)}</strong><span>네이버 블로그 보존본</span></div>
+    </div>
+    <div class="post-wrap">
+      <div class="post-toolbar"><a class="back" href="../../index.html">← 전체글</a></div>
+      <article class="post">
+        <h1 class="post-title">{esc(m.get("title"))}</h1>
+        <div class="postmeta">
+          <span>{esc(m.get("published") or m.get("first_archived_at"))}</span>
+          <span>{esc(label(status))}</span>
+          <span>보존 버전 {esc(m.get("version_count",1))}</span>
+        </div>
+        {notice}
+        <div class="source"><a href="{esc(m.get("original_url"))}" target="_blank" rel="noopener noreferrer">네이버 원문 보기 ↗</a></div>
+        <div class="content">{body}</div>
+        {neighbors}
+      </article>
+    </div>
+  </section>
+</div>
+'''
+        (dst/"index.html").write_text(shell(m.get("title","Archive"),main,"../../"),encoding="utf-8")
+
+    listing="".join(cards) if cards else '<div class="empty">아직 보존된 글이 없습니다.</div>'
+    home=f'''
+<div class="blog-layout">
+  {build_sidebar(total,active,deleted_n,priv)}
+  <section class="content-panel">
+    <div class="mobile-profile">
+      <div class="mobile-avatar">{esc(BLOG[:1].upper())}</div>
+      <div><strong>{esc(BLOG)}</strong><span>네이버 블로그 보존본</span></div>
+    </div>
+    <div class="list-head">
+      <h2>전체글</h2>
+      <span>총 {total}개의 글</span>
+    </div>
+    <section class="post-list" id="post-list">{listing}</section>
+    <section id="archive-info" class="side-card" style="margin-top:18px;padding:18px 20px;line-height:1.7;color:#777;font-size:12px">
+      원본 게시물이 삭제되거나 비공개로 전환되어도 이미 저장된 보존본은 유지됩니다.
+    </section>
+  </section>
+</div>
+<script src="assets/app.js"></script>
+'''
+    (DOCS/"index.html").write_text(shell(CFG.get("archive_title",BLOG+" Archive"),home),encoding="utf-8")
+    (DOCS/".nojekyll").write_text("",encoding="utf-8")
 
 def checkpoint(index, reason):
     """Persist a partial archive and push it so GitHub Pages can update mid-run."""
