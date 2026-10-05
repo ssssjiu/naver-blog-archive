@@ -8,7 +8,8 @@
   "last_archived_at": "2026-10-05T20:02:43+09:00",
   "source_status": "active",
   "content_hash": "b631102d1162aa5d0809cb773e0419ba38add041c3b6f22803922ed2b6950c88",
-  "category_no": "8",
-  "category_name": "블로그",
-  "version_count": 1
+  "category_no": "6",
+  "category_name": "하소",
+  "version_count": 1,
+  "parent_category_no": "6"
 }

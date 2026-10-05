@@ -9,9 +9,10 @@
     "last_archived_at": "2026-10-05T20:01:48+09:00",
     "source_status": "active",
     "content_hash": "e07f39fdf2f76e5b996abb8a2cb03359698345582e540f7b68aa40d9b097a8a8",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224427489560": {
     "post_id": "224427489560",
@@ -23,9 +24,10 @@
     "last_archived_at": "2026-10-05T20:01:50+09:00",
     "source_status": "active",
     "content_hash": "d796f7d0bb1df9e38d5279e30ada1ae5f3dc196da053c95262da4b1d1fa8eda1",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224415967966": {
     "post_id": "224415967966",
@@ -37,9 +39,10 @@
     "last_archived_at": "2026-10-05T20:01:50+09:00",
     "source_status": "active",
     "content_hash": "72c048c4273f241ccfbebda37de05237e559ddaa06dbf9defbd7281db1f1848f",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224410994111": {
     "post_id": "224410994111",
@@ -51,9 +54,10 @@
     "last_archived_at": "2026-10-05T20:01:51+09:00",
     "source_status": "active",
     "content_hash": "9fd0c1a4c8dd4a39b790177b54f71cab70f2dda0611263ce76168718dcb76f85",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224408679219": {
     "post_id": "224408679219",
@@ -65,9 +69,10 @@
     "last_archived_at": "2026-10-05T20:01:52+09:00",
     "source_status": "active",
     "content_hash": "dbd04976a7417464067fbed72e70efd8b23fa09570f7831214bfa9d3e297d4c3",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224406542920": {
     "post_id": "224406542920",
@@ -79,9 +84,10 @@
     "last_archived_at": "2026-10-05T20:01:53+09:00",
     "source_status": "active",
     "content_hash": "6c51e6fd5d2794c7fe6a1bf16d160e2417ae31f8aa0b051b72b5cd976df1d339",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224405353698": {
     "post_id": "224405353698",
@@ -93,9 +99,10 @@
     "last_archived_at": "2026-10-05T20:01:54+09:00",
     "source_status": "active",
     "content_hash": "d81883eef503a4a8aab880a3d888614f31a58258c9a9314cb777ea70d848d32b",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224404092059": {
     "post_id": "224404092059",
@@ -107,9 +114,10 @@
     "last_archived_at": "2026-10-05T20:01:55+09:00",
     "source_status": "active",
     "content_hash": "cebd3d329e1827828c0553628437df9fefb807beb1a72809d625522c9f7ebf9d",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224403349903": {
     "post_id": "224403349903",
@@ -121,9 +129,10 @@
     "last_archived_at": "2026-10-05T20:01:56+09:00",
     "source_status": "active",
     "content_hash": "9cb629de026eb68ab694dc39b8d55691480d1c846eb621ef187b03beccf00312",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224402448806": {
     "post_id": "224402448806",
@@ -135,9 +144,10 @@
     "last_archived_at": "2026-10-05T20:01:56+09:00",
     "source_status": "active",
     "content_hash": "5d28dbf2cca2428577225117d0646b469985aee6af47002ed9d358090f9b8319",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224399199321": {
     "post_id": "224399199321",
@@ -149,9 +159,10 @@
     "last_archived_at": "2026-10-05T20:02:01+09:00",
     "source_status": "active",
     "content_hash": "d43cbe3be61fae33d5cda12a01b7238d4159abd78cb95ab9c31f7aa91e3c81ef",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224395035969": {
     "post_id": "224395035969",
@@ -163,9 +174,10 @@
     "last_archived_at": "2026-10-05T20:02:02+09:00",
     "source_status": "active",
     "content_hash": "eca30e32e35c34d3a24c216c71a61a3a4250de61b631c71c2662768c1b1fa09e",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224393067165": {
     "post_id": "224393067165",
@@ -177,9 +189,10 @@
     "last_archived_at": "2026-10-05T20:02:03+09:00",
     "source_status": "active",
     "content_hash": "1c1a149cf1b0f9b310d7edf09081db9bdb771c3df4d8451bef5513ef7c5f2e5c",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224392433756": {
     "post_id": "224392433756",
@@ -191,9 +204,10 @@
     "last_archived_at": "2026-10-05T20:02:04+09:00",
     "source_status": "active",
     "content_hash": "c5c53d50e7d56eed023cc568f9de89d6e274a4786315d0a0e0f8ac8d527143a5",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224391269152": {
     "post_id": "224391269152",
@@ -205,9 +219,10 @@
     "last_archived_at": "2026-10-05T20:02:05+09:00",
     "source_status": "active",
     "content_hash": "d83640520214926ccb445d3c800ba18aa18a7a6ce620e24ef9dbc8950182add6",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224390178652": {
     "post_id": "224390178652",
@@ -219,9 +234,10 @@
     "last_archived_at": "2026-10-05T20:02:06+09:00",
     "source_status": "active",
     "content_hash": "84dbfb6e5d5b2b4c4e664cbea4e603a38e7a2ebcd30e4082409122a13ad50aa1",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224387722520": {
     "post_id": "224387722520",
@@ -233,9 +249,10 @@
     "last_archived_at": "2026-10-05T20:02:07+09:00",
     "source_status": "active",
     "content_hash": "da99b5f63664947621b63330af2ed489a1bbe12dc174712d5b309a8e4995cd89",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224387228010": {
     "post_id": "224387228010",
@@ -247,9 +264,10 @@
     "last_archived_at": "2026-10-05T20:02:07+09:00",
     "source_status": "active",
     "content_hash": "0e284957fb541984dc95d6c6438d99168ce6e14e9a4985defdc3223298d13f25",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224386048599": {
     "post_id": "224386048599",
@@ -261,9 +279,10 @@
     "last_archived_at": "2026-10-05T20:02:08+09:00",
     "source_status": "active",
     "content_hash": "7922a3e1f2ca656181ef4062d0d1ebac7ce8ace9e3c9ec031e8356c7077da039",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224370431717": {
     "post_id": "224370431717",
@@ -275,9 +294,10 @@
     "last_archived_at": "2026-10-05T20:02:09+09:00",
     "source_status": "active",
     "content_hash": "756739e7f537be10a5a58bb68df4e552e6ae444115eb7cccb1d14be162b60953",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224369938703": {
     "post_id": "224369938703",
@@ -289,9 +309,10 @@
     "last_archived_at": "2026-10-05T20:02:11+09:00",
     "source_status": "active",
     "content_hash": "63108ddc45f031fed87baf939e359fb13f9ba394d6dcaa361036d81320db3486",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224369326229": {
     "post_id": "224369326229",
@@ -303,9 +324,10 @@
     "last_archived_at": "2026-10-05T20:02:12+09:00",
     "source_status": "active",
     "content_hash": "4010d0347f3a744e94dd0919c98931f748bb0f5a9813b0f71ed9a2bd8e1f21e9",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224368322223": {
     "post_id": "224368322223",
@@ -317,9 +339,10 @@
     "last_archived_at": "2026-10-05T20:02:13+09:00",
     "source_status": "active",
     "content_hash": "0fa7767293cd3db7c5b99db6bbcaef346bccba3f8fd6288dbd30248cfc435c50",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224363121401": {
     "post_id": "224363121401",
@@ -331,9 +354,10 @@
     "last_archived_at": "2026-10-05T20:02:14+09:00",
     "source_status": "active",
     "content_hash": "29030b89425dc7621c7871ae473714112f0003d3d6d671b1abb6fa69e00ff0ce",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "version_count": 1,
+    "parent_category_no": "0"
   },
   "224354815488": {
     "post_id": "224354815488",
@@ -345,9 +369,10 @@
     "last_archived_at": "2026-10-05T20:02:15+09:00",
     "source_status": "active",
     "content_hash": "c7f44d00d770c79e1af9a32a189c8c9d7e2b1f06adeb37e4f695ffe3fd0232f5",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224354604193": {
     "post_id": "224354604193",
@@ -359,9 +384,10 @@
     "last_archived_at": "2026-10-05T20:02:16+09:00",
     "source_status": "active",
     "content_hash": "7c00e0a47452bba50b505301d49e7353c203c53fff8afae04682bebfc6706378",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224353530054": {
     "post_id": "224353530054",
@@ -373,9 +399,10 @@
     "last_archived_at": "2026-10-05T20:02:16+09:00",
     "source_status": "active",
     "content_hash": "e6029ff2e417454d4c2043577e3389ffda140906c75ca3bcadc26011f8cde4b8",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224350529313": {
     "post_id": "224350529313",
@@ -387,9 +414,10 @@
     "last_archived_at": "2026-10-05T20:02:17+09:00",
     "source_status": "active",
     "content_hash": "5de69a9cb30c757d13b78ca477e5b9ec3eefbdb926854cefcc3190eb0f4d8d0d",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224349761198": {
     "post_id": "224349761198",
@@ -401,9 +429,10 @@
     "last_archived_at": "2026-10-05T20:02:18+09:00",
     "source_status": "active",
     "content_hash": "b213ac5f320595d09f2d6c6bb84c69b96b4de6af418075a74138c461968fdd9a",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224349517611": {
     "post_id": "224349517611",
@@ -415,9 +444,10 @@
     "last_archived_at": "2026-10-05T20:02:19+09:00",
     "source_status": "active",
     "content_hash": "861ded907fb72b15dc7b408529b3c27dd040a92c4e18c35c91ac577774838404",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224349504673": {
     "post_id": "224349504673",
@@ -429,9 +459,10 @@
     "last_archived_at": "2026-10-05T20:02:21+09:00",
     "source_status": "active",
     "content_hash": "5c40c99bf27c230de024b55c1ed605844cd134c4b555ff99a4c318fb114cc901",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "version_count": 1,
+    "parent_category_no": "0"
   },
   "224349490718": {
     "post_id": "224349490718",
@@ -443,9 +474,10 @@
     "last_archived_at": "2026-10-05T20:02:22+09:00",
     "source_status": "active",
     "content_hash": "08ea35ae308016785c80660db237f853114ba2674c7108bd054ee1b240f2b06a",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "version_count": 1,
+    "parent_category_no": "0"
   },
   "224348957782": {
     "post_id": "224348957782",
@@ -457,9 +489,10 @@
     "last_archived_at": "2026-10-05T20:02:23+09:00",
     "source_status": "active",
     "content_hash": "2ca0debc3bd2c61c061d38c77c7e5f9a7a289b0c17e5b0eccce1aa30d987e3fa",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224347809614": {
     "post_id": "224347809614",
@@ -471,9 +504,10 @@
     "last_archived_at": "2026-10-05T20:02:24+09:00",
     "source_status": "active",
     "content_hash": "01f0beb99dbbf3be90b46b4c0fa7356bdbf97d4e11c040103a75eaac5894128b",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224346723735": {
     "post_id": "224346723735",
@@ -485,9 +519,10 @@
     "last_archived_at": "2026-10-05T20:02:25+09:00",
     "source_status": "active",
     "content_hash": "19e2e450a4a6342c3dc63137963fe4869e1b698725eae2192c9c9a8efcddba43",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224346690915": {
     "post_id": "224346690915",
@@ -499,9 +534,10 @@
     "last_archived_at": "2026-10-05T20:02:26+09:00",
     "source_status": "active",
     "content_hash": "6bf5491f558b25252d1478e2b02d2e53fd0a08f08c04f81ddfb640c35086ac5a",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224343844509": {
     "post_id": "224343844509",
@@ -513,9 +549,10 @@
     "last_archived_at": "2026-10-05T20:02:27+09:00",
     "source_status": "active",
     "content_hash": "6cacee72cbb71ac324065bf4c61d6075b9a66f60c1d4757a554ade3e0439feba",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224342972187": {
     "post_id": "224342972187",
@@ -527,9 +564,10 @@
     "last_archived_at": "2026-10-05T20:02:27+09:00",
     "source_status": "active",
     "content_hash": "ce81bdd28b50a4438c8b73ca219d44d652ab60f58b9266a91a638485b70e26cf",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224341876047": {
     "post_id": "224341876047",
@@ -541,9 +579,10 @@
     "last_archived_at": "2026-10-05T20:02:28+09:00",
     "source_status": "active",
     "content_hash": "9064d2d3aed9d5b2e9ff2e1ac3f3cc1ff32db37da4b329b26ab0f31a5411a428",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224338505905": {
     "post_id": "224338505905",
@@ -555,9 +594,10 @@
     "last_archived_at": "2026-10-05T20:02:29+09:00",
     "source_status": "active",
     "content_hash": "e5c6f55dc713060895cf8acc599c3e2b6748679eef00822af96802979226f6ce",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224336429987": {
     "post_id": "224336429987",
@@ -569,9 +609,10 @@
     "last_archived_at": "2026-10-05T20:02:31+09:00",
     "source_status": "active",
     "content_hash": "f3552ee06da75d8b885835b4cfa0d670364a0361484bb9adfabe50c7bac5c346",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224335786472": {
     "post_id": "224335786472",
@@ -583,9 +624,10 @@
     "last_archived_at": "2026-10-05T20:02:32+09:00",
     "source_status": "active",
     "content_hash": "0cc28bc313f426147f11523d9399b210f7086ad1641d412cf60c82a876a02637",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224334748974": {
     "post_id": "224334748974",
@@ -597,9 +639,10 @@
     "last_archived_at": "2026-10-05T20:02:33+09:00",
     "source_status": "active",
     "content_hash": "1da34e97e31137b4731259df4655870bf8f11d5fae32a880a4d42e9fb1a11f7d",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224334735074": {
     "post_id": "224334735074",
@@ -611,9 +654,10 @@
     "last_archived_at": "2026-10-05T20:02:34+09:00",
     "source_status": "active",
     "content_hash": "2b11b712a7783eeb30d82e7c7390830efc2779cc15b2d817f6f6941ae7b2f9ff",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224332700405": {
     "post_id": "224332700405",
@@ -625,9 +669,10 @@
     "last_archived_at": "2026-10-05T20:02:35+09:00",
     "source_status": "active",
     "content_hash": "234377b4d7f0de772021f62b2e41448a8ae845b86d50e1af77139830bb008a28",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224331027021": {
     "post_id": "224331027021",
@@ -639,9 +684,10 @@
     "last_archived_at": "2026-10-05T20:02:36+09:00",
     "source_status": "active",
     "content_hash": "4d4c1ff04c6d9b7cc18dbd657c347ee49f7f620faa6e6c90e09ed72281a4752d",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224329128125": {
     "post_id": "224329128125",
@@ -653,9 +699,10 @@
     "last_archived_at": "2026-10-05T20:02:37+09:00",
     "source_status": "active",
     "content_hash": "80ab347cf2769966da84a7d73d00fea8ffa4e8efa1877496ea9d5d8e694f172a",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224327386584": {
     "post_id": "224327386584",
@@ -667,9 +714,10 @@
     "last_archived_at": "2026-10-05T20:02:37+09:00",
     "source_status": "active",
     "content_hash": "31676c6a6a658a2baaaa0dfb1fe40f39bab827651561741d2b406c5318f26890",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224325943458": {
     "post_id": "224325943458",
@@ -681,9 +729,10 @@
     "last_archived_at": "2026-10-05T20:02:38+09:00",
     "source_status": "active",
     "content_hash": "7f248c400df25afc0d0a445524127f81415c154fa9a677ac76146ffb090fe712",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224325926253": {
     "post_id": "224325926253",
@@ -695,9 +744,10 @@
     "last_archived_at": "2026-10-05T20:02:39+09:00",
     "source_status": "active",
     "content_hash": "effc61fa7fa2784e0538a9da3a489bdee5d75f2c291336955f931256e43c7faa",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "version_count": 1,
+    "parent_category_no": "0"
   },
   "224303790892": {
     "post_id": "224303790892",
@@ -709,9 +759,10 @@
     "last_archived_at": "2026-10-05T20:02:42+09:00",
     "source_status": "active",
     "content_hash": "d9a72f11026243a84cf992b09480d8deef56b7b6748d841fd6c537571192432b",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224295826070": {
     "post_id": "224295826070",
@@ -723,9 +774,10 @@
     "last_archived_at": "2026-10-05T20:02:43+09:00",
     "source_status": "active",
     "content_hash": "b631102d1162aa5d0809cb773e0419ba38add041c3b6f22803922ed2b6950c88",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224325803320": {
     "post_id": "224325803320",
@@ -737,9 +789,10 @@
     "last_archived_at": "2026-10-05T20:02:44+09:00",
     "source_status": "active",
     "content_hash": "db60aaa34045a90c2e88f5b771edda9ada6dd66af065e1418adb32f5838a1f35",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224311023586": {
     "post_id": "224311023586",
@@ -751,9 +804,10 @@
     "last_archived_at": "2026-10-05T20:02:44+09:00",
     "source_status": "active",
     "content_hash": "678fb642d3c87362b0b26d5a9f0a68554059f47f1c8ddcdcecd1633e7efaa31a",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224311631372": {
     "post_id": "224311631372",
@@ -765,9 +819,10 @@
     "last_archived_at": "2026-10-05T20:02:45+09:00",
     "source_status": "active",
     "content_hash": "0c1cf7a240609efa15d4462a8d2b66b99fa559ddb4d0232859eb80d77bd6e258",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224303999237": {
     "post_id": "224303999237",
@@ -779,9 +834,10 @@
     "last_archived_at": "2026-10-05T20:02:46+09:00",
     "source_status": "active",
     "content_hash": "151fb725d78ee9302335438153c5e93e5e50ea8b01a79e8544464f16443018f1",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224309905425": {
     "post_id": "224309905425",
@@ -793,9 +849,10 @@
     "last_archived_at": "2026-10-05T20:02:47+09:00",
     "source_status": "active",
     "content_hash": "9e4d7a390e6784ad5c8e47a9ea86b61ab06613c8ecb064659055c4b31ad9f91e",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224285745675": {
     "post_id": "224285745675",
@@ -807,9 +864,10 @@
     "last_archived_at": "2026-10-05T20:02:48+09:00",
     "source_status": "active",
     "content_hash": "774278031218ca0bda1d3f340907b4df8b1ecc00cd0d0fd9e98bdff34ad482eb",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224296050767": {
     "post_id": "224296050767",
@@ -821,9 +879,10 @@
     "last_archived_at": "2026-10-05T20:02:49+09:00",
     "source_status": "active",
     "content_hash": "0b8bfbc4a0934bb3f97aa74fda66e7462864b85acaa513a0f315edd80cfbe9fb",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224295429990": {
     "post_id": "224295429990",
@@ -835,9 +894,10 @@
     "last_archived_at": "2026-10-05T20:02:50+09:00",
     "source_status": "active",
     "content_hash": "e22fa6d6146289a084d0193a0bdb3ad8003d75dbb1ee021995b1278834641d21",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224268422875": {
     "post_id": "224268422875",
@@ -849,9 +909,10 @@
     "last_archived_at": "2026-10-05T20:02:52+09:00",
     "source_status": "active",
     "content_hash": "738f540f6047b8596e797d7f4a5a1540ffe65c3dd762c6b01061707f57dbf8be",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224243187039": {
     "post_id": "224243187039",
@@ -863,9 +924,10 @@
     "last_archived_at": "2026-10-05T20:02:53+09:00",
     "source_status": "active",
     "content_hash": "0ac6eeb116a1de2cfe19db4a3567130049af2a68b80d3177383b2d601b7d8f63",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224283971317": {
     "post_id": "224283971317",
@@ -877,9 +939,10 @@
     "last_archived_at": "2026-10-05T20:02:54+09:00",
     "source_status": "active",
     "content_hash": "4485593934eb4bc230d8fb5e9cb4dfefd868b73be0aae0bab1307bd30c829d09",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224240016714": {
     "post_id": "224240016714",
@@ -891,9 +954,10 @@
     "last_archived_at": "2026-10-05T20:02:56+09:00",
     "source_status": "active",
     "content_hash": "5174205d4cf2d117f824da8e4b82276795f052122b003a51963abc6d5bdbdadf",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224243588419": {
     "post_id": "224243588419",
@@ -905,9 +969,10 @@
     "last_archived_at": "2026-10-05T20:02:57+09:00",
     "source_status": "active",
     "content_hash": "2c6aa46aab1b43962b16f8cbed4f35a033fde513f063e023f461834f0991dfa1",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224273706365": {
     "post_id": "224273706365",
@@ -919,9 +984,10 @@
     "last_archived_at": "2026-10-05T20:02:57+09:00",
     "source_status": "active",
     "content_hash": "b0279f49ad19c4905f671da6d87807677fdf603af84d0c95c86d6f26ff300e88",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224278161883": {
     "post_id": "224278161883",
@@ -933,9 +999,10 @@
     "last_archived_at": "2026-10-05T20:02:58+09:00",
     "source_status": "active",
     "content_hash": "0c703277825e3ab3f7df964a6d56d41b58a0ba3d0403b0880bd87a06ca038313",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224236091989": {
     "post_id": "224236091989",
@@ -947,9 +1014,10 @@
     "last_archived_at": "2026-10-05T20:02:59+09:00",
     "source_status": "active",
     "content_hash": "197e0c8f85da3028ab09562dcb0832b5e62513ecd54079767a33993fc4eac4e9",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224283435690": {
     "post_id": "224283435690",
@@ -961,9 +1029,10 @@
     "last_archived_at": "2026-10-05T20:03:00+09:00",
     "source_status": "active",
     "content_hash": "63bcc7e6ceda0771e10653dd78510a543ea34a3dea04aaae5900f8d2ae065369",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224264122422": {
     "post_id": "224264122422",
@@ -975,9 +1044,10 @@
     "last_archived_at": "2026-10-05T20:03:01+09:00",
     "source_status": "active",
     "content_hash": "805f854cb367de64bd1a2f2f6a9745937c4d6d802f36d5b550f0ec4da74a63bc",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224271884208": {
     "post_id": "224271884208",
@@ -989,9 +1059,10 @@
     "last_archived_at": "2026-10-05T20:03:03+09:00",
     "source_status": "active",
     "content_hash": "d9da7f7d8ed155e6644956a2281b36e60676434683e6b5b49c3d53c99ae4ff21",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224246905854": {
     "post_id": "224246905854",
@@ -1003,9 +1074,10 @@
     "last_archived_at": "2026-10-05T20:03:04+09:00",
     "source_status": "active",
     "content_hash": "48b060a9ef550e9df18baa423deffe4388a3a7ee34347e74983068269d631271",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224238795047": {
     "post_id": "224238795047",
@@ -1017,9 +1089,10 @@
     "last_archived_at": "2026-10-05T20:03:05+09:00",
     "source_status": "active",
     "content_hash": "4c618a8d94f00e945eb06ab79bd124575a8b56622c25147cb4620605db0e3231",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "version_count": 1,
+    "parent_category_no": "1"
   },
   "224262843862": {
     "post_id": "224262843862",
@@ -1031,9 +1104,10 @@
     "last_archived_at": "2026-10-05T20:03:06+09:00",
     "source_status": "active",
     "content_hash": "687d8e3835c21a180792b7070b879b0e2696d33ef58c3e827914a1d2135d1c4d",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "version_count": 1,
+    "parent_category_no": "1"
   },
   "224283418967": {
     "post_id": "224283418967",
@@ -1045,9 +1119,10 @@
     "last_archived_at": "2026-10-05T20:03:07+09:00",
     "source_status": "active",
     "content_hash": "0d05198734814de7fda2077e75bb17502b8e23af81e41dd014e4d1a60d786eb6",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "version_count": 1,
+    "parent_category_no": "1"
   },
   "224269714349": {
     "post_id": "224269714349",
@@ -1059,9 +1134,10 @@
     "last_archived_at": "2026-10-05T20:03:08+09:00",
     "source_status": "active",
     "content_hash": "ec67b2f85ed9b14324fbdc085503743ea536a3f117eecc8db778681e68ae941c",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224262848826": {
     "post_id": "224262848826",
@@ -1073,9 +1149,10 @@
     "last_archived_at": "2026-10-05T20:03:09+09:00",
     "source_status": "active",
     "content_hash": "b12f5228cd9bb43c24ae74ef980bb8fca6fc9dc84c09b0f8cb12d1bfaecf5044",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224254985731": {
     "post_id": "224254985731",
@@ -1087,9 +1164,10 @@
     "last_archived_at": "2026-10-05T20:03:10+09:00",
     "source_status": "active",
     "content_hash": "b467844f74f6faef6b7695f2ae757329733e4f2983edaf3f5d7d5873adf5717e",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224238700257": {
     "post_id": "224238700257",
@@ -1101,9 +1179,10 @@
     "last_archived_at": "2026-10-05T20:03:11+09:00",
     "source_status": "active",
     "content_hash": "2948d13f43f415e2632d9729c8f2579818954d07f13d48b25927ae3aca2fcdc9",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224274819593": {
     "post_id": "224274819593",
@@ -1115,9 +1194,10 @@
     "last_archived_at": "2026-10-05T20:03:12+09:00",
     "source_status": "active",
     "content_hash": "d27d5994ab1ed10cf8610b235c32e0295980fedc86accaa5834ab7528a656027",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224245694771": {
     "post_id": "224245694771",
@@ -1129,9 +1209,10 @@
     "last_archived_at": "2026-10-05T20:03:14+09:00",
     "source_status": "active",
     "content_hash": "aed27a279a9c1bcbbeb217744d86e5203ab88780ce9f24aafe1b18ca8d353afb",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224261750529": {
     "post_id": "224261750529",
@@ -1143,9 +1224,10 @@
     "last_archived_at": "2026-10-05T20:03:15+09:00",
     "source_status": "active",
     "content_hash": "0a4a4e705d0bdf73b1aeb597338abc31d7a51473251623a3bdf00be5a600801c",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224276761417": {
     "post_id": "224276761417",
@@ -1157,9 +1239,10 @@
     "last_archived_at": "2026-10-05T20:03:16+09:00",
     "source_status": "active",
     "content_hash": "5d57f7c6acceed2f29e96ed612fd95e3c81900873ef6a53c4d05a28b59f3c2b8",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "version_count": 1,
+    "parent_category_no": "1"
   },
   "224243392418": {
     "post_id": "224243392418",
@@ -1171,9 +1254,10 @@
     "last_archived_at": "2026-10-05T20:03:17+09:00",
     "source_status": "active",
     "content_hash": "66670e885f21f7893e1be2e8a108df0344b77f8b1f4f5091147ff8e9dbefbe7b",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "6",
+    "category_name": "하소",
+    "version_count": 1,
+    "parent_category_no": "6"
   },
   "224284566211": {
     "post_id": "224284566211",
@@ -1185,9 +1269,10 @@
     "last_archived_at": "2026-10-05T20:03:18+09:00",
     "source_status": "active",
     "content_hash": "6a569713a0d0af999457c4a449d3dd3d72ba29e4585f24c0143571791077d672",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224267314544": {
     "post_id": "224267314544",
@@ -1199,9 +1284,10 @@
     "last_archived_at": "2026-10-05T20:03:19+09:00",
     "source_status": "active",
     "content_hash": "c3553621d441a1e3d8bdc9fdae3217d60b758e1a02943e9449cbaf7f0c33d9c1",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224249061606": {
     "post_id": "224249061606",
@@ -1213,9 +1299,10 @@
     "last_archived_at": "2026-10-05T20:03:20+09:00",
     "source_status": "active",
     "content_hash": "9e732b6f81d6a2791a8f17c8f438846cb68428edc2704e07e7c3b410488c00dd",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "24",
+    "category_name": "욕구전사 +",
+    "version_count": 1,
+    "parent_category_no": "1"
   },
   "224239374475": {
     "post_id": "224239374475",
@@ -1227,9 +1314,10 @@
     "last_archived_at": "2026-10-05T20:03:21+09:00",
     "source_status": "active",
     "content_hash": "6fd1ccbe99276cae38af29dcdee197bab0d59401c6abc0aa3ce3aafc3a11ff8f",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224270895259": {
     "post_id": "224270895259",
@@ -1241,9 +1329,10 @@
     "last_archived_at": "2026-10-05T20:03:22+09:00",
     "source_status": "active",
     "content_hash": "5823845845d0ed642c3f7ed8f58660226f350f2afe206db30496a4e146c46832",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224252449294": {
     "post_id": "224252449294",
@@ -1255,9 +1344,10 @@
     "last_archived_at": "2026-10-05T20:03:23+09:00",
     "source_status": "active",
     "content_hash": "f5ee6ef8665c3f9d74973ed7c77b788abe135550be829e9f3349286c0cf73772",
-    "category_no": "8",
-    "category_name": "블로그",
-    "version_count": 1
+    "category_no": "20",
+    "category_name": "매일 기록",
+    "version_count": 1,
+    "parent_category_no": "20"
   },
   "224206434937": {
     "post_id": "224206434937",

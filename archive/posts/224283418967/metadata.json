@@ -8,7 +8,8 @@
   "last_archived_at": "2026-10-05T20:03:07+09:00",
   "source_status": "active",
   "content_hash": "0d05198734814de7fda2077e75bb17502b8e23af81e41dd014e4d1a60d786eb6",
-  "category_no": "8",
-  "category_name": "블로그",
-  "version_count": 1
+  "category_no": "24",
+  "category_name": "욕구전사 +",
+  "version_count": 1,
+  "parent_category_no": "1"
 }

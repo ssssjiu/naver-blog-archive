@@ -4,8 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="archive-build" content="e37de8636980010f">
   <title>26년 4월 22일 난 그저 술을 좋아하고 잘자는 것을 원하고 있을 뿐인데.</title>
-  <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="stylesheet" href="../../assets/style.css?v=e37de8636980010f">
+  <script>
+  (()=>{
+    const current="e37de8636980010f";
+    fetch("../../build.json?t="+Date.now(),{cache:"no-store"})
+      .then(r=>r.ok?r.json():null)
+      .then(x=>{
+        if(!x||!x.version||x.version===current)return;
+        const u=new URL(location.href);
+        if(u.searchParams.get("_v")===x.version)return;
+        u.searchParams.set("_v",x.version);
+        location.replace(u.toString());
+      }).catch(()=>{});
+  })();
+  </script>
 </head>
 <body>
   <div class="archive-bar">
@@ -46,7 +64,7 @@
   </section>
   <section class="side-card">
     <div class="side-heading">카테고리</div>
-    <div class="side-list"><button class="side-btn active" type="button" data-filter="all"><span>전체글</span><span class="side-count">170</span></button><button class="side-btn" type="button" data-category="8"><span>블로그</span><span class="side-count">170</span></button><button class="side-btn" type="button" data-category="20"><span>매일 기록</span><span class="side-count">0</span></button><button class="side-btn" type="button" data-filter="deleted"><span>원본 삭제됨</span><span class="side-count">0</span></button><button class="side-btn" type="button" data-filter="private_or_unavailable"><span>접근불가</span><span class="side-count">0</span></button></div>
+    <div class="side-list"><button class="side-btn active" type="button" data-filter="all"><span>전체글</span><span class="side-count">170</span></button><a class="side-btn category-link" href="../../categories/8/index.html"><span>블로그</span><span class="side-count">80</span></a><a class="side-btn category-link category-child" href="../../categories/20/index.html"><span>매일 기록</span><span class="side-count">69</span></a><a class="side-btn category-link category-child" href="../../categories/6/index.html"><span>하소</span><span class="side-count">12</span></a><a class="side-btn category-link category-child" href="../../categories/24/index.html"><span>욕구전사 +</span><span class="side-count">9</span></a><button class="side-btn" type="button" data-filter="deleted"><span>원본 삭제됨</span><span class="side-count">0</span></button><button class="side-btn" type="button" data-filter="private_or_unavailable"><span>접근불가</span><span class="side-count">0</span></button></div>
     <input  class="search-box" type="search" placeholder="이 블로그에서 검색">
   </section>
 </aside>
@@ -61,7 +79,7 @@
         <h1 class="post-title">26년 4월 22일 난 그저 술을 좋아하고 잘자는 것을 원하고 있을 뿐인데.</h1>
         <div class="postmeta">
           <span>2026-10-05T20:03:15+09:00</span>
-          <span>블로그</span>
+          <span>매일 기록</span>
           <span>원본 확인됨</span>
           <span>보존 버전 1</span>
         </div>
