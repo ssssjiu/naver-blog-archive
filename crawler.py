@@ -329,6 +329,7 @@ def archive_one(c,index):
             old["source_status"]="private_or_unavailable";old["unavailable_detected_at"]=iso();save(mp,old);index[pid]=old;return "private"
         return "unchanged"
     soup=BeautifulSoup(r.text,"html.parser"); node=content_node(soup,pid)
+    category_no,category_name=category_from_post(soup,r.text)
     if not node:return "unparsed"
     title=title_of(soup,c.get("title","")); body=localize(node,pdir,c["url"])
     h=hashlib.sha256((title+"\n"+re.sub(r"\s+"," ",body)).encode()).hexdigest()
@@ -342,6 +343,8 @@ def archive_one(c,index):
       "published":c.get("published") or old.get("published",""),
       "first_archived_at":old.get("first_archived_at",iso()),
       "last_archived_at":iso(),"source_status":"active","content_hash":h,
+      "category_no":category_no or old.get("category_no",""),
+      "category_name":category_name or old.get("category_name",""),
       "version_count":(int(old.get("version_count",0))+1 if old.get("content_hash")!=h else int(old.get("version_count",1)))
     }
     cp.write_text(body,encoding="utf-8");save(mp,meta);index[pid]=meta
@@ -373,7 +376,8 @@ def maintenance(index,seen):
 def esc(x): return html.escape(str(x or ""),quote=True)
 def label(s): return {"active":"원본 확인됨","deleted":"원본 삭제 감지","private_or_unavailable":"원본 비공개/접근불가"}.get(s,s or "상태 미확인")
 
-def shell(title,body,prefix=""):
+def shell(title,body,prefix="",blogmeta=None):
+    blogmeta=blogmeta or load(BLOG_META_PATH,{})
     return f'''<!doctype html>
 <html lang="ko">
 <head>
@@ -393,8 +397,8 @@ def shell(title,body,prefix=""):
   <header class="blog-cover">
     <div class="blog-cover-inner">
       <p class="archive-kicker">개인 아카이브</p>
-      <a class="blog-title" href="{prefix}index.html">{esc(CFG.get("archive_title", BLOG+" Archive"))}</a>
-      <p class="blog-subtitle">네이버 블로그 공개 글을 자동 보존하는 미러 사이트</p>
+      <a class="blog-title" href="{prefix}index.html">{esc(blogmeta.get("blog_name") or CFG.get("archive_title", BLOG+" Archive"))}</a>
+      <p class="blog-subtitle">{esc(blogmeta.get("introduction") or "네이버 블로그 공개 글을 자동 보존하는 미러 사이트")}</p>
     </div>
   </header>
   <nav class="blog-nav">
@@ -409,14 +413,27 @@ def shell(title,body,prefix=""):
 </body>
 </html>'''
 
-def build_sidebar(total,active,deleted_n,priv):
+def build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts):
+    pname=blogmeta.get("nickname") or blogmeta.get("blog_name") or BLOG
+    intro=blogmeta.get("introduction") or "공개 게시물을 자동으로 보존하는 개인 아카이브입니다."
+    pfile=blogmeta.get("profile_image_file","")
+    avatar=(f'<img src="blog/{esc(pfile)}" alt="" class="profile-photo">' if pfile else f'<div class="avatar">{esc(BLOG[:1].upper())}</div>')
+    cats=[]
+    cats.append(f'<button class="side-btn active" type="button" data-filter="all"><span>전체글</span><span class="side-count">{total}</span></button>')
+    for cat in blogmeta.get("categories",[]):
+        no=str(cat.get("category_no",""))
+        name=cat.get("category_name","")
+        if not no or not name:continue
+        cats.append(f'<button class="side-btn" type="button" data-category="{esc(no)}"><span>{esc(name)}</span><span class="side-count">{category_counts.get(no,0)}</span></button>')
+    cats.append(f'<button class="side-btn" type="button" data-filter="deleted"><span>원본 삭제됨</span><span class="side-count">{deleted_n}</span></button>')
+    cats.append(f'<button class="side-btn" type="button" data-filter="private_or_unavailable"><span>접근불가</span><span class="side-count">{priv}</span></button>')
     return f'''
 <aside class="sidebar">
   <section class="side-card profile-card">
-    <div class="avatar">{esc(BLOG[:1].upper())}</div>
-    <div class="profile-name">{esc(BLOG)}</div>
+    {avatar}
+    <div class="profile-name">{esc(pname)}</div>
     <div class="profile-id">blog.naver.com/{esc(BLOG)}</div>
-    <p class="profile-desc">공개 게시물을 자동으로 보존하는 개인 아카이브입니다.</p>
+    <p class="profile-desc">{esc(intro)}</p>
     <a class="profile-link" href="https://blog.naver.com/{esc(BLOG)}" target="_blank" rel="noopener noreferrer">네이버 원본 블로그 ↗</a>
     <div class="stats-mini">
       <div><strong>{total}</strong><span>보존 글</span></div>
@@ -426,19 +443,18 @@ def build_sidebar(total,active,deleted_n,priv):
   </section>
   <section class="side-card">
     <div class="side-heading">카테고리</div>
-    <div class="side-list">
-      <button class="side-btn active" type="button" data-filter="all"><span>전체글</span><span class="side-count">{total}</span></button>
-      <button class="side-btn" type="button" data-filter="active"><span>원본 확인됨</span><span class="side-count">{active}</span></button>
-      <button class="side-btn" type="button" data-filter="deleted"><span>원본 삭제됨</span><span class="side-count">{deleted_n}</span></button>
-      <button class="side-btn" type="button" data-filter="private_or_unavailable"><span>접근불가</span><span class="side-count">{priv}</span></button>
-    </div>
+    <div class="side-list">{''.join(cats)}</div>
     <input id="search" class="search-box" type="search" placeholder="이 블로그에서 검색">
   </section>
 </aside>'''
 
 def build_site(index):
+    blogmeta=load(BLOG_META_PATH,{})
     DOCS.mkdir(parents=True,exist_ok=True)
     (DOCS/"assets").mkdir(exist_ok=True)
+    blog_out=DOCS/"blog";blog_out.mkdir(exist_ok=True)
+    pfile=blogmeta.get("profile_image_file","")
+    if pfile and (BLOG_META_DIR/pfile).exists(): shutil.copy2(BLOG_META_DIR/pfile,blog_out/pfile)
     out=DOCS/"posts"; out.mkdir(exist_ok=True)
 
     rows=sorted(index.values(),key=lambda m:m.get("published") or m.get("first_archived_at",""),reverse=True)
@@ -446,6 +462,10 @@ def build_site(index):
     deleted_n=sum(m.get("source_status")=="deleted" for m in rows)
     priv=sum(m.get("source_status")=="private_or_unavailable" for m in rows)
     total=len(rows)
+    category_counts={}
+    for m in rows:
+        no=str(m.get("category_no",""))
+        if no: category_counts[no]=category_counts.get(no,0)+1
 
     # Prepare stable neighbor relationships in displayed order.
     positions={m["post_id"]:i for i,m in enumerate(rows)}
@@ -455,7 +475,7 @@ def build_site(index):
         pid=m["post_id"]
         status=m.get("source_status","active")
         cards.append(
-          f'<article class="card" data-search="{esc(m.get("title","")).lower()}" data-status="{esc(status)}">'
+          f'<article class="card" data-search="{esc(m.get("title","")).lower()}" data-status="{esc(status)}" data-category="{esc(m.get("category_no",""))}">'
           f'<div class="card-row"><div>'
           f'<h2><a href="posts/{pid}/index.html">{esc(m.get("title"))}</a></h2>'
           f'<div class="meta">{esc(m.get("published") or m.get("first_archived_at"))}</div>'
@@ -490,7 +510,7 @@ def build_site(index):
 
         main=f'''
 <div class="blog-layout">
-  {build_sidebar(total,active,deleted_n,priv).replace('id="search"','')}
+  {build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts).replace('id="search"','')}
   <section class="content-panel">
     <div class="mobile-profile">
       <div class="mobile-avatar">{esc(BLOG[:1].upper())}</div>
@@ -502,6 +522,7 @@ def build_site(index):
         <h1 class="post-title">{esc(m.get("title"))}</h1>
         <div class="postmeta">
           <span>{esc(m.get("published") or m.get("first_archived_at"))}</span>
+          <span>{esc(m.get("category_name") or "전체글")}</span>
           <span>{esc(label(status))}</span>
           <span>보존 버전 {esc(m.get("version_count",1))}</span>
         </div>
@@ -519,7 +540,7 @@ def build_site(index):
     listing="".join(cards) if cards else '<div class="empty">아직 보존된 글이 없습니다.</div>'
     home=f'''
 <div class="blog-layout">
-  {build_sidebar(total,active,deleted_n,priv)}
+  {build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts)}
   <section class="content-panel">
     <div class="mobile-profile">
       <div class="mobile-avatar">{esc(BLOG[:1].upper())}</div>
@@ -562,6 +583,10 @@ def checkpoint(index, reason):
 def main():
     POSTS.mkdir(parents=True,exist_ok=True);STATE.mkdir(parents=True,exist_ok=True)
     index=load(INDEX,{})
+    try:
+        discover_blog_metadata()
+    except Exception as e:
+        print("Blog metadata warning:",e)
     mode="fast" if "--fast" in sys.argv else ("discover" if "--discover" in sys.argv else "maintenance")
     c={}
     try:c.update(rss_candidates())
