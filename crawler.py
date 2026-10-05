@@ -575,7 +575,7 @@ def build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts):
         name=cat.get("category_name","")
         if not no or not name:continue
         parent=str(cat.get("parent_category_no") or "")
-        nested=" category-child" if parent not in ("","0","-1") else ""
+        nested=" category-child" if parent not in ("","0","-1",no) else ""
         cats.append(f'<a class="side-btn category-link{nested}" href="categories/{esc(no)}/index.html"><span>{esc(name)}</span><span class="side-count">{category_counts.get(no,0)}</span></a>')
     cats.append(f'<button class="side-btn" type="button" data-filter="deleted"><span>원본 삭제됨</span><span class="side-count">{deleted_n}</span></button>')
     cats.append(f'<button class="side-btn" type="button" data-filter="private_or_unavailable"><span>접근불가</span><span class="side-count">{priv}</span></button>')
@@ -606,6 +606,27 @@ def post_preview(pid, base_prefix=""):
     files=sorted([p for p in idir.iterdir() if p.is_file()])
     if not files:return "",0
     return f'{base_prefix}posts/{pid}/images/{files[0].name}',len(files)
+
+def post_has_video(pid):
+    cp=POSTS/pid/"content.html"
+    if not cp.exists():return False
+    try:
+        t=cp.read_text(encoding="utf-8",errors="ignore").lower()
+    except Exception:
+        return False
+    marks=("<video","<iframe","tv.naver.com","video.naver.com","serviceapi.nmv.naver.com","se-module-video")
+    return any(x in t for x in marks)
+
+def post_search_text(pid,title,category):
+    cp=POSTS/pid/"content.html"
+    text=""
+    if cp.exists():
+        try:
+            soup=BeautifulSoup(cp.read_text(encoding="utf-8",errors="ignore"),"html.parser")
+            text=re.sub(r"\s+"," ",soup.get_text(" ",strip=True))[:1200]
+        except Exception:
+            pass
+    return " ".join([str(title or ""),str(category or ""),text]).strip()
 
 def build_site(index):
     blogmeta=load(BLOG_META_PATH,{})
@@ -647,13 +668,15 @@ def build_site(index):
         pid=m["post_id"]
         status=m.get("source_status","active")
         preview,preview_count=post_preview(pid)
+        video_flag="1" if post_has_video(pid) else "0"
+        search_blob=post_search_text(pid,m.get("title"),m.get("category_name"))
         preview_html=(
           f'<a class="card-thumb" href="posts/{pid}/index.html"><img src="{esc(preview)}" alt="" loading="lazy">'
           f'{f"<span>{preview_count}</span>" if preview_count>1 else ""}</a>'
           if preview else ""
         )
         cards.append(
-          f'<article class="card" data-search="{esc(m.get("title","")).lower()}" data-status="{esc(status)}" data-category="{esc(m.get("category_no",""))}">'
+          f'<article class="card" data-search="{esc(search_blob).lower()}" data-status="{esc(status)}" data-category="{esc(m.get("category_no",""))}" data-video="{video_flag}">'
           f'<div class="card-row"><div class="card-main">'
           f'<h2><a href="posts/{pid}/index.html">{esc(m.get("title"))}</a></h2>'
           f'<div class="meta">{esc(m.get("category_name") or "전체글")} · {esc(m.get("published") or m.get("first_archived_at"))}</div>'
@@ -758,13 +781,15 @@ def build_site(index):
         for m in cat_rows:
             status=m.get("source_status","active")
             preview,preview_count=post_preview(m["post_id"],"../../")
+            video_flag="1" if post_has_video(m["post_id"]) else "0"
+            search_blob=post_search_text(m["post_id"],m.get("title"),m.get("category_name"))
             preview_html=(
               f'<a class="card-thumb" href="../../posts/{m["post_id"]}/index.html"><img src="{esc(preview)}" alt="" loading="lazy">'
               f'{f"<span>{preview_count}</span>" if preview_count>1 else ""}</a>'
               if preview else ""
             )
             cat_cards.append(
-              f'<article class="card" data-search="{esc(m.get("title","")).lower()}" data-status="{esc(status)}" data-category="{esc(no)}">'
+              f'<article class="card" data-search="{esc(search_blob).lower()}" data-status="{esc(status)}" data-category="{esc(no)}" data-video="{video_flag}">'
               f'<div class="card-row"><div class="card-main"><h2><a href="../../posts/{m["post_id"]}/index.html">{esc(m.get("title"))}</a></h2>'
               f'<div class="meta">{esc(m.get("published") or m.get("first_archived_at"))}</div></div>'
               f'{preview_html}<span class="status status-{esc(status)}">{esc(label(status))}</span></div></article>'
