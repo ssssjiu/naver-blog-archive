@@ -8496,13 +8496,13 @@
     "original_url": "https://blog.naver.com/abydost/221182326419",
     "published": "",
     "first_archived_at": "2026-10-05T20:24:07+09:00",
-    "last_archived_at": "2026-10-05T20:24:07+09:00",
+    "last_archived_at": "2026-10-05T20:37:56+09:00",
     "source_status": "active",
-    "content_hash": "ac5375b78dd241b36d4997cf883291b3cbbe4aea532591883841bb2ebccee324",
+    "content_hash": "47d9f50c44811d75a9b7ab9c7433374b9347d3ed03df9ea15b3aee3e120a8676",
     "category_no": "7",
     "category_name": "?",
     "parent_category_no": "7",
-    "version_count": 1
+    "version_count": 2
   },
   "221182269421": {
     "post_id": "221182269421",
@@ -8511,13 +8511,13 @@
     "original_url": "https://blog.naver.com/abydost/221182269421",
     "published": "",
     "first_archived_at": "2026-10-05T20:24:08+09:00",
-    "last_archived_at": "2026-10-05T20:24:08+09:00",
+    "last_archived_at": "2026-10-05T20:37:55+09:00",
     "source_status": "active",
-    "content_hash": "def5b216cdc4dc5218d814807441d55e10f130dd572f0e9f70b1b9ea79419603",
+    "content_hash": "2e1b1bdb8826a113e6fba75c37f1c981e99c514ebbf770c3ea8446776f2fb7b8",
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "version_count": 1
+    "version_count": 2
   },
   "221181556589": {
     "post_id": "221181556589",
@@ -8526,13 +8526,13 @@
     "original_url": "https://blog.naver.com/abydost/221181556589",
     "published": "",
     "first_archived_at": "2026-10-05T20:24:09+09:00",
-    "last_archived_at": "2026-10-05T20:24:09+09:00",
+    "last_archived_at": "2026-10-05T20:37:54+09:00",
     "source_status": "active",
-    "content_hash": "80e1c52b46202b38f9702bb71f511ea7c9d56d7e282d0d629c342ea8fdb97921",
+    "content_hash": "4d36aa2371982d6765d72ae32811f9e061634d9512d28ee9e8d1eb8eb6172eb9",
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "version_count": 1
+    "version_count": 2
   },
   "221175271168": {
     "post_id": "221175271168",
@@ -8541,13 +8541,13 @@
     "original_url": "https://blog.naver.com/abydost/221175271168",
     "published": "",
     "first_archived_at": "2026-10-05T20:24:10+09:00",
-    "last_archived_at": "2026-10-05T20:24:10+09:00",
+    "last_archived_at": "2026-10-05T20:37:53+09:00",
     "source_status": "active",
-    "content_hash": "cb5d9e60c1b918eed79f4eeb929648e0e714dc4b5a434a81d951f13c63f3a118",
+    "content_hash": "38945f17c19792c423faff3eebdd968b4c772accb69f3889cd1f243ff859bb34",
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 2
   },
   "221170786006": {
     "post_id": "221170786006",
@@ -8556,13 +8556,13 @@
     "original_url": "https://blog.naver.com/abydost/221170786006",
     "published": "",
     "first_archived_at": "2026-10-05T20:24:11+09:00",
-    "last_archived_at": "2026-10-05T20:24:11+09:00",
+    "last_archived_at": "2026-10-05T20:37:52+09:00",
     "source_status": "active",
-    "content_hash": "42e00065205245a8bf4dbaf1a2690ec58ab6f9e341130622bd5bb5d2bcf27161",
+    "content_hash": "5e89fe5b6b03dfeb13eb2d0eae314a54c9b8cf430fb72875fdba9d0a4ac0cfb5",
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 2
   },
   "221168596846": {
     "post_id": "221168596846",
