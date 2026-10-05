@@ -4,7 +4,7 @@ import hashlib, html, json, mimetypes, re, shutil, subprocess, sys, time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote_plus
 import requests
 from bs4 import BeautifulSoup
 
@@ -53,25 +53,79 @@ def rss_candidates():
     return out
 
 def discover_history():
+    """Discover public posts and retain Naver's category hierarchy fields."""
     out={}
     pages=int(CFG.get("initial_discovery_pages",30))
     delay=float(CFG.get("request_delay_seconds",.5))
+    empty_rounds=0
+
     for page in range(1,pages+1):
         before=len(out)
-        urls=[
-          f"https://m.blog.naver.com/PostList.naver?blogId={BLOG}&categoryNo=0&listStyle=style1&currentPage={page}",
-          f"https://blog.naver.com/PostTitleListAsync.naver?blogId={BLOG}&currentPage={page}&categoryNo=0&parentCategoryNo=0&countPerPage=30"
-        ]
-        for u in urls:
+
+        # Mobile list is a fallback source for IDs.
+        mobile_url=f"https://m.blog.naver.com/PostList.naver?blogId={BLOG}&categoryNo=0&listStyle=style1&currentPage={page}"
+        try:
+            t=html.unescape(get(mobile_url,canonical("")).text)
+            ids=set(re.findall(r'[?&]logNo[=:"\']+(\d{6,})',t))
+            ids.update(re.findall(rf'/{re.escape(BLOG)}/(\d{{6,}})(?:[/?#"\'<]|$)',t))
+            for pid in ids:
+                out.setdefault(pid,{
+                  "post_id":pid,"url":canonical(pid),"title":"","published":"",
+                  "category_no":"","parent_category_no":""
+                })
+        except requests.RequestException:
+            pass
+        time.sleep(delay)
+
+        # Naver's public async title list carries categoryNo and parentCategoryNo
+        # per post. Prefer this over guessing from arbitrary links in PostView.
+        async_url=(
+          f"https://blog.naver.com/PostTitleListAsync.naver?blogId={BLOG}"
+          f"&viewdate=&currentPage={page}&categoryNo=0&parentCategoryNo=0&countPerPage=30"
+        )
+        try:
+            r=get(async_url,canonical(""))
+            raw=r.text
+            data=None
             try:
-                t=html.unescape(get(u,canonical("")).text)
-                ids=set(re.findall(r'[?&]logNo[=:"\']+(\d{6,})',t))
-                ids.update(re.findall(rf'/{re.escape(BLOG)}/(\d{{6,}})(?:[/?#"\'<]|$)',t))
-                ids.update(re.findall(r'"logNo"\s*:\s*"?(\d{6,})"?',t))
-                for pid in ids:out.setdefault(pid,{"post_id":pid,"url":canonical(pid),"title":"","published":""})
-            except requests.RequestException: pass
-            time.sleep(delay)
-        if page>=3 and len(out)==before: break
+                data=r.json()
+            except Exception:
+                try:data=json.loads(raw)
+                except Exception:data=None
+
+            if isinstance(data,dict):
+                for item in data.get("postList",[]) or []:
+                    pid=str(item.get("logNo") or "").strip()
+                    if not pid:continue
+                    title=unquote_plus(str(item.get("title") or ""))
+                    title=html.unescape(title)
+                    cand=out.setdefault(pid,{
+                      "post_id":pid,"url":canonical(pid),"title":"","published":"",
+                      "category_no":"","parent_category_no":""
+                    })
+                    if title:cand["title"]=title
+                    cand["category_no"]=str(item.get("categoryNo") or cand.get("category_no") or "")
+                    cand["parent_category_no"]=str(item.get("parentCategoryNo") or cand.get("parent_category_no") or "")
+                    add_date=str(item.get("addDate") or "")
+                    if add_date and not cand.get("published"):cand["published"]=add_date
+            else:
+                # Resilient fallback if response stops being valid JSON.
+                for m in re.finditer(r'"logNo"\s*:\s*"?(?P<id>\d{6,})"?.{0,800}?"categoryNo"\s*:\s*"?(?P<cat>\d*)"?(?:.{0,300}?"parentCategoryNo"\s*:\s*"?(?P<parent>\d*)")?',raw,re.S):
+                    pid=m.group("id")
+                    cand=out.setdefault(pid,{
+                      "post_id":pid,"url":canonical(pid),"title":"","published":"",
+                      "category_no":"","parent_category_no":""
+                    })
+                    cand["category_no"]=m.group("cat") or cand.get("category_no","")
+                    cand["parent_category_no"]=m.group("parent") or cand.get("parent_category_no","")
+        except requests.RequestException:
+            pass
+        time.sleep(delay)
+
+        if len(out)==before:empty_rounds+=1
+        else:empty_rounds=0
+        if page>=3 and empty_rounds>=2:break
+
     return out
 
 def backfill():
@@ -249,18 +303,80 @@ def discover_blog_metadata():
         save(BLOG_META_PATH,new)
     return new
 
-def category_from_post(soup,raw_text):
-    # Prefer an actual visible category link on the public post page.
-    for a in soup.find_all("a",href=True):
-        href=html.unescape(a.get("href",""))
-        m=re.search(r"[?&]categoryNo=(\d+)",href)
-        if not m or m.group(1)=="0":continue
-        name=re.sub(r"\s+"," ",a.get_text(" ",strip=True)).strip()
-        if name and len(name)<=80:
-            return m.group(1),name
-    no=js_value(raw_text,["categoryNo"])
-    name=js_value(raw_text,["categoryName"])
-    return (no,name) if no and no!="0" else ("","")
+def script_number(text, names):
+    for name in names:
+        for pat in (
+          rf'(?:var\s+)?{re.escape(name)}\s*=\s*["\']?(-?\d+)["\']?',
+          rf'"{re.escape(name)}"\s*:\s*"?(-?\d+)"?'
+        ):
+            m=re.search(pat,text,re.I)
+            if m:return m.group(1)
+    return ""
+
+def script_string(text, names):
+    for name in names:
+        for pat in (
+          rf'(?:var\s+)?{re.escape(name)}\s*=\s*["\']((?:\\.|[^"\'])*)["\']',
+          rf'"{re.escape(name)}"\s*:\s*"((?:\\.|[^"\\])*)"'
+        ):
+            m=re.search(pat,text,re.I)
+            if m:return html.unescape(m.group(1).replace("\\/","/")).strip()
+    return ""
+
+def category_from_post(soup,raw_text,candidate=None):
+    """Read the actual post category, not the first category-looking link."""
+    candidate=candidate or {}
+    no=str(candidate.get("category_no") or "")
+    parent=str(candidate.get("parent_category_no") or "")
+    name=""
+
+    # SmartEditor 4 header. This is the category label shown above a post title.
+    for sel in (
+      ".se-documentTitle .blog2_series",
+      ".se-documentTitle [class*='blog2_series']",
+      ".blog2_series"
+    ):
+        n=soup.select_one(sel)
+        if not n:continue
+        name=re.sub(r"\s+"," ",n.get_text(" ",strip=True)).strip()
+        link=n if n.name=="a" else (n.find("a",href=True) or n.find_parent("a",href=True))
+        if link:
+            href=html.unescape(link.get("href",""))
+            m=re.search(r"[?&]categoryNo=(\d+)",href)
+            if m:no=m.group(1)
+            p=re.search(r"[?&]parentCategoryNo=(-?\d+)",href)
+            if p:parent=p.group(1)
+        if name:break
+
+    # Classic editor / analytics variables expose the rendered category name.
+    if not name:
+        for pat in (
+          r'baParams\.categoryName\s*=\s*["\']((?:\\.|[^"\'])*)["\']',
+          r'nlog2Params\.categoryName\s*=\s*["\']((?:\\.|[^"\'])*)["\']',
+          r'(?:var\s+)?categoryName\s*=\s*["\']((?:\\.|[^"\'])*)["\']'
+        ):
+            m=re.search(pat,raw_text,re.I)
+            if m:
+                name=html.unescape(m.group(1).replace("\\/","/")).strip()
+                break
+
+    if not no:
+        no=script_number(raw_text,["currentCategoryNo","categoryNo"])
+    if not parent:
+        parent=script_number(raw_text,["parentCategoryNo"])
+
+    # Last fallback only for the name; category number still comes from the
+    # public title-list metadata when possible.
+    if not name:
+        name=script_string(raw_text,["categoryName"])
+
+    if name in ("전체보기","블로그"):
+        # "블로그" is often the top menu label, not the post category.
+        # Keep it only when the title-list metadata really points there.
+        if str(candidate.get("category_no") or "") and str(candidate.get("category_no"))!=no:
+            name=""
+
+    return no,name,parent
 
 def deleted(text,status): return status in (404,410) or any(x in text for x in DEL_MARK)
 def private(text): return any(x in text for x in PRIVATE_MARK)
@@ -329,12 +445,26 @@ def archive_one(c,index):
             old["source_status"]="private_or_unavailable";old["unavailable_detected_at"]=iso();save(mp,old);index[pid]=old;return "private"
         return "unchanged"
     soup=BeautifulSoup(r.text,"html.parser"); node=content_node(soup,pid)
-    category_no,category_name=category_from_post(soup,r.text)
+    category_no,category_name,parent_category_no=category_from_post(soup,r.text,c)
     if not node:return "unparsed"
     title=title_of(soup,c.get("title","")); body=localize(node,pdir,c["url"])
     h=hashlib.sha256((title+"\n"+re.sub(r"\s+"," ",body)).encode()).hexdigest()
     if old.get("content_hash")==h and old.get("source_status")=="active":
-        index[pid]=old;return "unchanged"
+        metadata_changed=False
+        corrections={
+          "category_no":category_no or c.get("category_no") or old.get("category_no",""),
+          "category_name":category_name or old.get("category_name",""),
+          "parent_category_no":parent_category_no or c.get("parent_category_no") or old.get("parent_category_no","")
+        }
+        for key,value in corrections.items():
+            value=str(value or "")
+            if value and str(old.get(key,""))!=value:
+                old[key]=value;metadata_changed=True
+        index[pid]=old
+        if metadata_changed:
+            save(mp,old)
+            return "metadata"
+        return "unchanged"
     if old and cp.exists() and old.get("content_hash")!=h:
         vd=pdir/"versions"/now().strftime("%Y%m%dT%H%M%S%z");vd.mkdir(parents=True,exist_ok=True)
         shutil.copy2(cp,vd/"content.html");shutil.copy2(mp,vd/"metadata.json")
@@ -343,8 +473,9 @@ def archive_one(c,index):
       "published":c.get("published") or old.get("published",""),
       "first_archived_at":old.get("first_archived_at",iso()),
       "last_archived_at":iso(),"source_status":"active","content_hash":h,
-      "category_no":category_no or old.get("category_no",""),
+      "category_no":category_no or c.get("category_no") or old.get("category_no",""),
       "category_name":category_name or old.get("category_name",""),
+      "parent_category_no":parent_category_no or c.get("parent_category_no") or old.get("parent_category_no",""),
       "version_count":(int(old.get("version_count",0))+1 if old.get("content_hash")!=h else int(old.get("version_count",1)))
     }
     cp.write_text(body,encoding="utf-8");save(mp,meta);index[pid]=meta
@@ -376,7 +507,7 @@ def maintenance(index,seen):
 def esc(x): return html.escape(str(x or ""),quote=True)
 def label(s): return {"active":"원본 확인됨","deleted":"원본 삭제 감지","private_or_unavailable":"원본 비공개/접근불가"}.get(s,s or "상태 미확인")
 
-def shell(title,body,prefix="",blogmeta=None):
+def shell(title,body,prefix="",blogmeta=None,version="0"):
     blogmeta=blogmeta or load(BLOG_META_PATH,{})
     return f'''<!doctype html>
 <html lang="ko">
@@ -384,8 +515,26 @@ def shell(title,body,prefix="",blogmeta=None):
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="archive-build" content="{esc(version)}">
   <title>{esc(title)}</title>
-  <link rel="stylesheet" href="{prefix}assets/style.css">
+  <link rel="stylesheet" href="{prefix}assets/style.css?v={esc(version)}">
+  <script>
+  (()=>{{
+    const current={json.dumps(version)};
+    fetch("{prefix}build.json?t="+Date.now(),{{cache:"no-store"}})
+      .then(r=>r.ok?r.json():null)
+      .then(x=>{{
+        if(!x||!x.version||x.version===current)return;
+        const u=new URL(location.href);
+        if(u.searchParams.get("_v")===x.version)return;
+        u.searchParams.set("_v",x.version);
+        location.replace(u.toString());
+      }}).catch(()=>{{}});
+  }})();
+  </script>
 </head>
 <body>
   <div class="archive-bar">
@@ -424,7 +573,9 @@ def build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts):
         no=str(cat.get("category_no",""))
         name=cat.get("category_name","")
         if not no or not name:continue
-        cats.append(f'<button class="side-btn" type="button" data-category="{esc(no)}"><span>{esc(name)}</span><span class="side-count">{category_counts.get(no,0)}</span></button>')
+        parent=str(cat.get("parent_category_no") or "")
+        nested=" category-child" if parent not in ("","0","-1") else ""
+        cats.append(f'<a class="side-btn category-link{nested}" href="categories/{esc(no)}/index.html"><span>{esc(name)}</span><span class="side-count">{category_counts.get(no,0)}</span></a>')
     cats.append(f'<button class="side-btn" type="button" data-filter="deleted"><span>원본 삭제됨</span><span class="side-count">{deleted_n}</span></button>')
     cats.append(f'<button class="side-btn" type="button" data-filter="private_or_unavailable"><span>접근불가</span><span class="side-count">{priv}</span></button>')
     return f'''
@@ -462,6 +613,19 @@ def build_site(index):
     deleted_n=sum(m.get("source_status")=="deleted" for m in rows)
     priv=sum(m.get("source_status")=="private_or_unavailable" for m in rows)
     total=len(rows)
+    version_material={
+      "posts":[
+        (m.get("post_id"),m.get("content_hash"),m.get("source_status"),
+         m.get("category_no"),m.get("category_name"),m.get("parent_category_no"))
+        for m in rows
+      ],
+      "blog":blogmeta
+    }
+    build_version=hashlib.sha256(
+      json.dumps(version_material,ensure_ascii=False,sort_keys=True).encode("utf-8")
+    ).hexdigest()[:16]
+    save(DOCS/"build.json",{"version":build_version})
+
     category_counts={}
     for m in rows:
         no=str(m.get("category_no",""))
@@ -478,7 +642,7 @@ def build_site(index):
           f'<article class="card" data-search="{esc(m.get("title","")).lower()}" data-status="{esc(status)}" data-category="{esc(m.get("category_no",""))}">'
           f'<div class="card-row"><div>'
           f'<h2><a href="posts/{pid}/index.html">{esc(m.get("title"))}</a></h2>'
-          f'<div class="meta">{esc(m.get("published") or m.get("first_archived_at"))}</div>'
+          f'<div class="meta">{esc(m.get("category_name") or "전체글")} · {esc(m.get("published") or m.get("first_archived_at"))}</div>'
           f'</div><span class="status status-{esc(status)}">{esc(label(status))}</span></div>'
           f'</article>'
         )
@@ -510,7 +674,7 @@ def build_site(index):
 
         main=f'''
 <div class="blog-layout">
-  {build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts).replace('id="search"','')}
+  {build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts).replace('id="search"','').replace('href="categories/','href="../../categories/').replace('src="blog/','src="../../blog/')}
   <section class="content-panel">
     <div class="mobile-profile">
       <div class="mobile-avatar">{esc(BLOG[:1].upper())}</div>
@@ -535,7 +699,69 @@ def build_site(index):
   </section>
 </div>
 '''
-        (dst/"index.html").write_text(shell(m.get("title","Archive"),main,"../../"),encoding="utf-8")
+        (dst/"index.html").write_text(shell(m.get("title","Archive"),main,"../../",blogmeta,build_version),encoding="utf-8")
+
+    # Persist category structure independently from the HTML view.
+    category_meta={}
+    for cat in blogmeta.get("categories",[]):
+        no=str(cat.get("category_no") or "")
+        if not no:continue
+        category_meta[no]={
+          "category_no":no,
+          "category_name":cat.get("category_name") or no,
+          "parent_category_no":str(cat.get("parent_category_no") or ""),
+          "count":0
+        }
+    for m in rows:
+        no=str(m.get("category_no") or "")
+        if not no:continue
+        entry=category_meta.setdefault(no,{
+          "category_no":no,
+          "category_name":m.get("category_name") or no,
+          "parent_category_no":str(m.get("parent_category_no") or ""),
+          "count":0
+        })
+        if m.get("category_name") and entry.get("category_name") in ("",no,"블로그"):
+            entry["category_name"]=m.get("category_name")
+        if m.get("parent_category_no"):
+            entry["parent_category_no"]=str(m.get("parent_category_no"))
+        entry["count"]+=1
+
+    cat_root=ARCH/"categories";cat_root.mkdir(exist_ok=True)
+    catalog=sorted(category_meta.values(),key=lambda x:(x.get("parent_category_no",""),x.get("category_name","")))
+    save(cat_root/"index.json",catalog)
+    cat_docs=DOCS/"categories";cat_docs.mkdir(exist_ok=True)
+
+    for cat in catalog:
+        no=cat["category_no"]
+        cat_rows=[m for m in rows if str(m.get("category_no") or "")==no]
+        save(cat_root/f"{no}.json",{
+          "category":cat,
+          "posts":[m.get("post_id") for m in cat_rows]
+        })
+        if not cat_rows:continue
+        cat_cards=[]
+        for m in cat_rows:
+            status=m.get("source_status","active")
+            cat_cards.append(
+              f'<article class="card" data-search="{esc(m.get("title","")).lower()}" data-status="{esc(status)}" data-category="{esc(no)}">'
+              f'<div class="card-row"><div><h2><a href="../../posts/{m["post_id"]}/index.html">{esc(m.get("title"))}</a></h2>'
+              f'<div class="meta">{esc(m.get("published") or m.get("first_archived_at"))}</div></div>'
+              f'<span class="status status-{esc(status)}">{esc(label(status))}</span></div></article>'
+            )
+        cat_body=f'''
+<div class="blog-layout">
+  <section class="content-panel category-full">
+    <div class="list-head"><h2>{esc(cat.get("category_name"))}</h2><span>총 {len(cat_rows)}개의 글</span></div>
+    <section class="post-list">{''.join(cat_cards)}</section>
+  </section>
+</div>
+'''
+        cat_dir=cat_docs/no;cat_dir.mkdir(exist_ok=True)
+        (cat_dir/"index.html").write_text(
+          shell(cat.get("category_name") or "Category",cat_body,"../../",blogmeta,build_version),
+          encoding="utf-8"
+        )
 
     listing="".join(cards) if cards else '<div class="empty">아직 보존된 글이 없습니다.</div>'
     home=f'''
@@ -556,14 +782,32 @@ def build_site(index):
     </section>
   </section>
 </div>
-<script src="assets/app.js"></script>
+<script src="assets/app.js?v={build_version}"></script>
 '''
-    (DOCS/"index.html").write_text(shell(CFG.get("archive_title",BLOG+" Archive"),home),encoding="utf-8")
+    (DOCS/"index.html").write_text(shell(CFG.get("archive_title",BLOG+" Archive"),home,"",blogmeta,build_version),encoding="utf-8")
     (DOCS/".nojekyll").write_text("",encoding="utf-8")
+
+def merge_category_metadata_from_posts(index):
+    blogmeta=load(BLOG_META_PATH,{})
+    by_no={str(x.get("category_no") or ""):dict(x) for x in blogmeta.get("categories",[]) if x.get("category_no")}
+    order=[str(x.get("category_no")) for x in blogmeta.get("categories",[]) if x.get("category_no")]
+    for m in index.values():
+        no=str(m.get("category_no") or "")
+        if not no:continue
+        if no not in by_no:
+            by_no[no]={"category_no":no,"category_name":m.get("category_name") or no,"parent_category_no":str(m.get("parent_category_no") or "")}
+            order.append(no)
+        else:
+            if m.get("category_name") and by_no[no].get("category_name") in ("","블로그",no):
+                by_no[no]["category_name"]=m.get("category_name")
+            if m.get("parent_category_no"):
+                by_no[no]["parent_category_no"]=str(m.get("parent_category_no"))
+    blogmeta["categories"]=[by_no[x] for x in order if x in by_no]
+    save(BLOG_META_PATH,blogmeta)
 
 def checkpoint(index, reason):
     """Persist a partial archive and push it so GitHub Pages can update mid-run."""
-    save(INDEX,index);build_site(index)
+    save(INDEX,index);merge_category_metadata_from_posts(index);build_site(index)
     subprocess.run(["git","config","user.name","github-actions[bot]"],check=True)
     subprocess.run(["git","config","user.email","41898282+github-actions[bot]@users.noreply.github.com"],check=True)
     subprocess.run(["git","add","archive","docs","state"],check=False)
@@ -605,7 +849,7 @@ def main():
     stats={}
     pending_changes=0
     last_checkpoint=time.monotonic()
-    changed_results={"new","updated","deleted","private"}
+    changed_results={"new","updated","metadata","deleted","private"}
 
     for i,x in enumerate(c.values(),1):
         result=archive_one(x,index);stats[result]=stats.get(result,0)+1
