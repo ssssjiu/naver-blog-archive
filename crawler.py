@@ -702,9 +702,9 @@ def ensure_manual_media_crops():
     if not (s1.exists() and s2.exists()):return
     specs=[
       (s1,(180,1395,325,1533),idir/"sticker.webp",90),
-      (s1,(175,1560,840,2048),idir/"photo-1.webp",82),
-      (s2,(175,0,840,505),idir/"photo-2.webp",82),
-      (s2,(175,710,840,1605),idir/"photo-3.webp",76),
+      (s1,(175,1560,840,2004),idir/"photo-1.webp",82),
+      (s2,(175,0,840,494),idir/"photo-2.webp",82),
+      (s2,(175,710,840,1584),idir/"photo-3.webp",76),
     ]
     for src,box,dst,quality in specs:
         try:
