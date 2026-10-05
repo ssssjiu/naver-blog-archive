@@ -694,6 +694,11 @@ def build_sidebar(total,active,deleted_n,priv,blogmeta,category_counts):
 </aside>'''
 
 def post_preview(pid, base_prefix=""):
+    meta=load(POSTS/pid/"metadata.json",{})
+    # Screenshot archives keep full-page screenshots as evidence files.
+    # Do not misrepresent those source screenshots as the post's own photos.
+    if meta.get("source_type")=="screenshot_archive":
+        return "",int(meta.get("media_count",0) or 0)
     idir=POSTS/pid/"images"
     if not idir.exists():return "",0
     files=sorted([p for p in idir.iterdir() if p.is_file()])
