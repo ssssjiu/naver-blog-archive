@@ -650,102 +650,277 @@ def parse_comment_html(pid,raw,download_media=True):
     complete=(reported==0 and not out) or (reported is not None and len(out)>=reported)
     return {"reported_count":reported,"comments":out,"complete":complete}
 
-def _browser_comment_html(pid):
-    """Best-effort JS fallback for recent posts whose public comments are client-rendered."""
-    if not CFG.get("comment_browser_fallback",True):return ""
+def _extract_jsonp(raw):
+    s=str(raw or "").strip()
+    try:return json.loads(s)
+    except Exception:pass
+    left=s.find("(");right=s.rfind(")")
+    if left>=0 and right>left:
+        try:return json.loads(s[left+1:right])
+        except Exception:return None
+    return None
+
+def _comment_bootstrap(pid):
+    """Get numeric blogNo/comment count without opening PostView."""
+    url=f"https://m.blog.naver.com/api/blogs/{BLOG}/posts/{pid}/comments-info"
     try:
-        from selenium import webdriver
-        from selenium.webdriver.chrome.options import Options
-        from selenium.webdriver.chrome.service import Service
-        from selenium.webdriver.common.by import By
-    except Exception as e:
-        print("[COMMENTS] selenium unavailable:",e)
-        return ""
+        r=get(url,f"https://m.blog.naver.com/{BLOG}/{pid}",30)
+        if not r.ok:return {}
+        data=r.json()
+        if isinstance(data,dict) and data.get("isSuccess") and isinstance(data.get("result"),dict):
+            return data["result"]
+    except Exception:
+        pass
+    return {}
 
-    opts=Options()
-    opts.add_argument("--headless=new")
-    opts.add_argument("--no-sandbox")
-    opts.add_argument("--disable-dev-shm-usage")
-    opts.add_argument("--disable-gpu")
-    opts.add_argument(f"--user-agent={UA}")
-    binary=shutil.which("google-chrome") or shutil.which("google-chrome-stable") or shutil.which("chromium")
-    if binary:opts.binary_location=binary
-    driver_path=shutil.which("chromedriver")
-    service=Service(driver_path) if driver_path else Service()
-    driver=None
+def _comment_blog_no(raw):
+    for pat in (
+      r"\bvar\s+blogNo\s*=\s*['\"](\d+)['\"]",
+      r'["\']blogNo["\']\s*:\s*["\']?(\d+)'
+    ):
+        m=re.search(pat,str(raw or ""))
+        if m:return m.group(1)
+    return ""
+
+def _comment_content_text(v):
+    if v is None:return ""
+    if not isinstance(v,str):v=str(v)
+    return BeautifulSoup(v,"html.parser").get_text("\n",strip=True)
+
+def _comment_image_urls(item):
+    out=[]
+    values=item.get("imageList") or []
+    if isinstance(values,dict):values=[values]
+    if not isinstance(values,list):values=[]
+    for obj in values:
+        if isinstance(obj,str):
+            candidates=[obj]
+        elif isinstance(obj,dict):
+            candidates=[
+              obj.get("imageUrl"),obj.get("url"),obj.get("src"),
+              obj.get("originalUrl"),obj.get("originalImageUrl")
+            ]
+        else:
+            candidates=[]
+        for u in candidates:
+            if not u or not isinstance(u,str):continue
+            full=urljoin("https://m.blog.naver.com/",u)
+            if full.startswith("http") and full not in out:out.append(full)
+    return out
+
+def _normalize_cbox_comment(pid,item,order,referer):
+    cid=str(item.get("commentNo") or "")
+    if not cid:return None
+    parent=str(item.get("parentCommentNo") or cid)
+    level=_int_text(item.get("replyLevel"),1)
+    secret=bool(item.get("secret"))
+    visible=item.get("visible")
+    status_raw=str(item.get("status") or "").upper()
+    deleted=bool(item.get("deleted")) or status_raw in ("DELETE","DELETED","REMOVED")
+    hidden=(visible is False) or status_raw in ("BLIND","HIDDEN")
+    source_status="deleted" if deleted else ("hidden" if hidden else "active")
+
+    profile_id=str(item.get("profileUserId") or "").strip()
+    author=str(item.get("userName") or item.get("maskedUserName") or profile_id or "").strip()
+    profile=(f"https://blog.naver.com/{profile_id}" if profile_id else "")
+    content=_comment_content_text(item.get("contents") or "")
+
+    media_urls=_comment_image_urls(item)
+    media_files=[]
+    for u in media_urls:
+        local=_comment_media_file(u,POSTS/pid,referer)
+        if local and local not in media_files:media_files.append(local)
+
+    links=[]
+    soup=BeautifulSoup(str(item.get("contents") or ""),"html.parser")
+    for a in soup.find_all("a",href=True):
+        href=urljoin("https://m.blog.naver.com/",a.get("href",""))
+        if href and href not in links:links.append(href)
+
+    return {
+      "comment_id":cid,
+      "parent_comment_id":parent,
+      "reply_level":level,
+      "order":order,
+      "author_name":author,
+      "author_profile_url":profile,
+      "created_at":str(item.get("modTime") or item.get("regTime") or ""),
+      "content":content,
+      "likes":_int_text(item.get("sympathyCount"),0),
+      "antipathy":_int_text(item.get("antipathyCount"),0),
+      "reply_count":_int_text(item.get("replyCount"),0),
+      "links":links,
+      "media_source_urls":media_urls,
+      "media_files":media_files,
+      "sticker_id":str(item.get("stickerId") or ""),
+      "secret":secret,
+      "source_status":source_status
+    }
+
+def _flatten_cbox_page(pid,comment_list,start_order,referer):
+    out=[];order=start_order
+    for top in comment_list or []:
+        if not isinstance(top,dict):continue
+        row=_normalize_cbox_comment(pid,top,order,referer)
+        if row:
+            out.append(row);order+=1
+        replies=top.get("replyList") or []
+        if isinstance(replies,dict):replies=[replies]
+        for reply in replies:
+            if not isinstance(reply,dict):continue
+            row=_normalize_cbox_comment(pid,reply,order,referer)
+            if row:
+                out.append(row);order+=1
+    return out,order
+
+def _cbox_request(blog_no,pid,page=1,pool="blogid",jsonp=False):
+    endpoint=(
+      "https://apis.naver.com/commentBox/cbox/web_naver_list_jsonp.json"
+      if jsonp else
+      "https://apis.naver.com/commentBox/cbox/web_naver_list_json.json"
+    )
+    params={
+      "ticket":"blog",
+      "templateId":"default",
+      "pool":pool,
+      "lang":"ko",
+      "country":"",
+      "objectId":f"{blog_no}_201_{pid}",
+      "groupId":str(blog_no),
+      "categoryId":"",
+      "pageSize":"50",
+      "indexSize":"10",
+      "listType":"OBJECT",
+      "pageType":"more",
+      "page":str(page),
+      "initialize":"true" if page==1 else "false",
+      "userType":"",
+      "useAltSort":"true",
+      "replyPageSize":"100",
+      "followSize":"5",
+      "moveTo":"",
+      "showReply":"true",
+      "sort":"NEW",
+      "_cv":""
+    }
+    if jsonp:params["_callback"]="cb"
+    ref=f"https://m.blog.naver.com/PostList.nhn?blogId={BLOG}"
     try:
-        driver=webdriver.Chrome(service=service,options=opts)
-        driver.set_page_load_timeout(30)
-        driver.get(comment_page(pid))
-        time.sleep(1.5)
+        r=S.get(endpoint,params=params,headers={"Referer":ref},timeout=30)
+        if not r.ok:return None
+        data=_extract_jsonp(r.text)
+        if not isinstance(data,dict) or data.get("success") is False:return data
+        return data
+    except requests.RequestException:
+        return None
 
-        # Load additional comment pages / lazy content.
-        for _ in range(12):
-            clicked=False
-            for sel in (".u_cbox_btn_more",".u_cbox_btn_view_comment",".u_cbox_next"):
-                for el in driver.find_elements(By.CSS_SELECTOR,sel)[:3]:
-                    try:
-                        if el.is_displayed():
-                            driver.execute_script("arguments[0].click();",el)
-                            clicked=True
-                            time.sleep(.35)
-                    except Exception:
-                        pass
+def _fetch_cbox_comments(blog_no,pid,reported_hint=None):
+    """Fetch public comments/replies from Naver CBOX without telemetry or login."""
+    referer=f"https://m.blog.naver.com/PostList.nhn?blogId={BLOG}"
+    all_rows=[];seen=set();page=1;order=0
+    source=""
+    count_total=None;count_comment=None;count_reply=None
+    page_exhausted=False
 
-            # Expand reply threads which advertise a nonzero reply count.
-            expanded=0
-            for el in driver.find_elements(By.CSS_SELECTOR,"a.u_cbox_btn_reply")[:100]:
-                try:
-                    if el.get_attribute("aria-expanded")=="true":continue
-                    txt=el.text or ""
-                    nums=re.findall(r"\d+",txt)
-                    if nums and int(nums[-1])>0:
-                        driver.execute_script("arguments[0].click();",el)
-                        expanded+=1
-                        time.sleep(.08)
-                except Exception:
-                    pass
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(.35)
-            if not clicked and expanded==0:break
-        return driver.page_source
-    except Exception as e:
-        print(f"[COMMENTS] browser fallback failed {pid}:",e)
-        return ""
-    finally:
-        if driver:
-            try:driver.quit()
-            except Exception:pass
+    while page<=100:
+        data=_cbox_request(blog_no,pid,page=page,pool="blogid",jsonp=False)
+        if not (isinstance(data,dict) and data.get("success") is not False and isinstance(data.get("result"),dict)):
+            # Older/current variants sometimes still accept the JSONP/cbox9 route.
+            data=_cbox_request(blog_no,pid,page=page,pool="cbox9",jsonp=True)
+            source="cbox9-jsonp"
+        else:
+            source="blogid-json"
+
+        if not (isinstance(data,dict) and data.get("success") is not False and isinstance(data.get("result"),dict)):
+            return {
+              "status":"cbox_error","comments":[],"complete":False,
+              "reported_count":reported_hint,"source":source,
+              "message":str((data or {}).get("message") or (data or {}).get("code") or "")
+            }
+
+        result=data["result"]
+        counts=result.get("count") or {}
+        if isinstance(counts,dict):
+            if counts.get("total") is not None:count_total=_int_text(counts.get("total"),0)
+            if counts.get("comment") is not None:count_comment=_int_text(counts.get("comment"),0)
+            if counts.get("reply") is not None:count_reply=_int_text(counts.get("reply"),0)
+        raw_list=result.get("commentList") or []
+        if not isinstance(raw_list,list):raw_list=[]
+        rows,order=_flatten_cbox_page(pid,raw_list,order,referer)
+        added=0
+        for row in rows:
+            cid=str(row.get("comment_id") or "")
+            if not cid or cid in seen:continue
+            seen.add(cid);all_rows.append(row);added+=1
+
+        # count.comment is top-level count; paging is over top-level comments.
+        top_seen=sum(int(x.get("reply_level",1) or 1)<=1 for x in all_rows)
+        if not raw_list or len(raw_list)<50:
+            page_exhausted=True
+            break
+        if count_comment is not None and top_seen>=count_comment:
+            page_exhausted=True
+            break
+        if added==0:
+            break
+        page+=1
+
+    reported=count_total
+    if reported is None and reported_hint is not None:
+        reported=_int_text(reported_hint,0)
+    if reported is None:
+        reported=len(all_rows) if page_exhausted else None
+
+    # Preserve API order (NEW for parent threads, replies directly after parent).
+    # A snapshot is complete only when the API count is fully accounted for.
+    complete=page_exhausted and (reported is None or len(all_rows)>=reported)
+    if count_total==0:complete=True
+    return {
+      "status":"ok",
+      "comments":all_rows,
+      "complete":bool(complete),
+      "reported_count":reported,
+      "top_level_count":count_comment,
+      "reply_count":count_reply,
+      "source":source
+    }
 
 def fetch_public_comments(pid,allow_browser=False):
-    url=comment_page(pid)
+    """Archive only comments visible through Naver's anonymous public APIs."""
+    bootstrap=_comment_bootstrap(pid)
+    blog_no=str(bootstrap.get("blogNo") or "").strip()
+    reported=bootstrap.get("totalCount")
+    if reported is not None:reported=_int_text(reported,0)
+
+    if reported==0 and blog_no:
+        return {
+          "status":"ok","comments":[],"complete":True,"reported_count":0,
+          "top_level_count":0,"reply_count":0,"source":"comments-info"
+        }
+
+    if blog_no:
+        result=_fetch_cbox_comments(blog_no,pid,reported_hint=reported)
+        if result.get("status")=="ok":
+            return result
+
+    # Legacy/public HTML fallback. This does not attempt login or private access.
     try:
-        r=get(url,canonical(pid),30)
-        if not r.ok:return {"status":"http_error","http_status":r.status_code,"comments":[],"complete":False,"reported_count":None}
+        r=get(comment_page(pid),canonical(pid),30)
+        if not r.ok:
+            return {"status":"http_error","http_status":r.status_code,"comments":[],"complete":False,"reported_count":reported}
         parsed=parse_comment_html(pid,r.text,download_media=True)
         if parsed["comments"] or parsed["reported_count"]==0:
-            parsed["status"]="ok"
+            parsed["status"]="ok";parsed["source"]="legacy-html"
             return parsed
-
-        # Only recent/new posts use a browser fallback by default. Old-post
-        # backfills stay lightweight unless the static page already exposes data.
-        if allow_browser:
-            rendered=_browser_comment_html(pid)
-            if rendered:
-                parsed2=parse_comment_html(pid,rendered,download_media=True)
-                if parsed2["comments"] or parsed2["reported_count"]==0:
-                    parsed2["status"]="ok"
-                    return parsed2
-                if (parsed2.get("reported_count") or parsed.get("reported_count") or 0)>0:
-                    dbg=STATE/f"comment_debug_{pid}.html"
-                    if not dbg.exists():
-                        dbg.parent.mkdir(parents=True,exist_ok=True)
-                        dbg.write_text(rendered,encoding="utf-8")
-                        print(f"[COMMENTS] saved public render debug {dbg.name}")
+        if not blog_no:
+            blog_no=_comment_blog_no(r.text)
+            if blog_no:
+                result=_fetch_cbox_comments(blog_no,pid,reported_hint=parsed.get("reported_count"))
+                if result.get("status")=="ok":return result
         parsed["status"]="unparsed"
         return parsed
     except requests.RequestException as e:
-        return {"status":"request_error","error":str(e),"comments":[],"complete":False,"reported_count":None}
+        return {"status":"request_error","error":str(e),"comments":[],"complete":False,"reported_count":reported}
 
 def _comment_public_fingerprint(items):
     fields=(
