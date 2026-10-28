@@ -10,6 +10,5 @@
   "comment_collection_enabled": true,
   "comment_recent_posts_per_maintenance": 10,
   "comment_backfill_posts_per_run": 25,
-  "comment_request_delay_seconds": 0.75,
-  "comment_browser_fallback": true
+  "comment_request_delay_seconds": 0.75
 }
