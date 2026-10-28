@@ -925,12 +925,14 @@ def render_comments(pid):
         likes=int(x.get("likes",0) or 0)
         meta=[esc(x.get("created_at") or "")]
         if likes:meta.append(f"공감 {likes}")
+        media_html='<div class="comment-media">'+"".join(media)+"</div>" if media else ""
+        meta_html=" · ".join(m for m in meta if m)
         parts.append(
           f'<article class="{cls}">'
           f'<div class="comment-author">{author_html}{status_html}</div>'
           f'<div class="comment-text">{text_html}</div>'
-          f'{"<div class=\\"comment-media\\">"+"".join(media)+"</div>" if media else ""}'
-          f'<div class="comment-meta">{" · ".join(m for m in meta if m)}</div>'
+          f'{media_html}'
+          f'<div class="comment-meta">{meta_html}</div>'
           f'</article>'
         )
     parts+=['</div>','<div class="comments-note">공개 상태에서 확인된 댓글만 보존합니다. 삭제·비공개 이후에도 이전 공개 보존본은 남을 수 있습니다.</div>','</section>']
