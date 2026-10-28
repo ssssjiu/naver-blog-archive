@@ -892,7 +892,7 @@ def _fetch_cbox_comments(blog_no,pid,reported_hint=None):
       "source":source
     }
 
-def fetch_public_comments(pid,allow_browser=False):
+def fetch_public_comments(pid):
     """Archive only comments visible through Naver's anonymous public APIs."""
     bootstrap=_comment_bootstrap(pid)
     blog_no=str(bootstrap.get("blogNo") or "").strip()
@@ -937,7 +937,7 @@ def _comment_public_fingerprint(items):
     view=[{k:x.get(k) for k in fields if k in x} for x in items]
     return hashlib.sha256(json.dumps(view,ensure_ascii=False,sort_keys=True).encode("utf-8")).hexdigest()
 
-def sync_comments_for_post(pid,index,allow_browser=False):
+def sync_comments_for_post(pid,index):
     m=index.get(pid) or {}
     if m.get("source_type","naver")!="naver" or m.get("source_status")!="active":
         return False
@@ -945,7 +945,7 @@ def sync_comments_for_post(pid,index,allow_browser=False):
     if not pdir.exists():return False
     path=pdir/"comments.json"
     old=load(path,{"comments":[]})
-    result=fetch_public_comments(pid,allow_browser=allow_browser)
+    result=fetch_public_comments(pid)
     if result.get("status")!="ok":
         print(f"[COMMENTS] {pid} {result.get('status')} count={result.get('reported_count')}")
         return False
@@ -1056,25 +1056,36 @@ def comment_maintenance(index,seen,mode="maintenance"):
     rotate_n=int(CFG.get("comment_backfill_posts_per_run",50 if mode=="discover" else 25))
     recent=[pid for pid in ids[:recent_n] if pid not in seen]
 
+    # During initial comment backfill, posts never checked before take priority.
+    # A zero-comment snapshot also creates comments.json, so this list steadily shrinks.
+    missing=[
+      pid for pid in ids
+      if pid not in seen and pid not in recent and not (POSTS/pid/"comments.json").exists()
+    ][:rotate_n]
+
     sp=STATE/"comment_cursor.json"
     st=load(sp,{"cursor":0})
     cur=int(st.get("cursor",0))%len(ids)
     rotating=[]
     offset=0
-    while len(rotating)<min(rotate_n,len(ids)) and offset<len(ids):
+    remaining=max(0,rotate_n-len(missing))
+    while len(rotating)<min(remaining,len(ids)) and offset<len(ids):
         pid=ids[(cur+offset)%len(ids)];offset+=1
-        if pid in seen or pid in recent:continue
+        if pid in seen or pid in recent or pid in missing:continue
         rotating.append(pid)
 
-    targets=recent+rotating
+    targets=recent+missing+rotating
     delay=float(CFG.get("comment_request_delay_seconds",.75))
     for i,pid in enumerate(targets,1):
-        # Browser fallback is restricted to recent posts to keep runs lightweight.
-        sync_comments_for_post(pid,index,allow_browser=(pid in recent))
+        sync_comments_for_post(pid,index)
         print(f"[COMMENTS {i}/{len(targets)}] {pid}")
         time.sleep(delay)
 
-    save(sp,{"cursor":(cur+offset)%len(ids),"updated_at":iso()})
+    save(sp,{
+      "cursor":(cur+offset)%len(ids),
+      "updated_at":iso(),
+      "remaining_unchecked":sum(not (POSTS[pid]/"comments.json").exists() for pid in ids)
+    })
 
 def render_comments(pid):
     data=load(POSTS/pid/"comments.json",{})
@@ -1797,7 +1808,7 @@ def main():
         if result in changed_results:
             pending_changes+=1
             if result in ("new","updated","metadata"):
-                try:sync_comments_for_post(str(x["post_id"]),index,allow_browser=True)
+                try:sync_comments_for_post(str(x["post_id"]),index)
                 except Exception as e:print("[COMMENTS] new-post sync warning:",e)
         if pending_changes and time.monotonic()-last_checkpoint>=90:
             checkpoint(index,f"{i}/{len(todo)} new posts")
