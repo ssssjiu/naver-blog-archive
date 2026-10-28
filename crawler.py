@@ -788,15 +788,15 @@ def _cbox_request(blog_no,pid,page=1,pool="blogid",jsonp=False):
       "objectId":f"{blog_no}_201_{pid}",
       "groupId":str(blog_no),
       "categoryId":"",
-      "pageSize":"50",
+      "pageSize":"10",
       "indexSize":"10",
       "listType":"OBJECT",
       "pageType":"more",
       "page":str(page),
-      "initialize":"true" if page==1 else "false",
+      "initialize":"true",
       "userType":"",
       "useAltSort":"true",
-      "replyPageSize":"100",
+      "replyPageSize":"10",
       "followSize":"5",
       "moveTo":"",
       "showReply":"true",
@@ -846,6 +846,10 @@ def _fetch_cbox_comments(blog_no,pid,reported_hint=None):
             if counts.get("reply") is not None:count_reply=_int_text(counts.get("reply"),0)
         raw_list=result.get("commentList") or []
         if not isinstance(raw_list,list):raw_list=[]
+        page_model=result.get("pageModel") or {}
+        total_pages=_int_text(page_model.get("totalPages"),0) if isinstance(page_model,dict) else 0
+        current_page=_int_text(page_model.get("page"),page) if isinstance(page_model,dict) else page
+
         rows,order=_flatten_cbox_page(pid,raw_list,order,referer)
         added=0
         for row in rows:
@@ -853,14 +857,17 @@ def _fetch_cbox_comments(blog_no,pid,reported_hint=None):
             if not cid or cid in seen:continue
             seen.add(cid);all_rows.append(row);added+=1
 
-        # count.comment is top-level count; paging is over top-level comments.
-        top_seen=sum(int(x.get("reply_level",1) or 1)<=1 for x in all_rows)
-        if not raw_list or len(raw_list)<50:
+        if not raw_list:
             page_exhausted=True
             break
-        if count_comment is not None and top_seen>=count_comment:
+        if total_pages and current_page>=total_pages:
             page_exhausted=True
             break
+        if count_comment is not None:
+            top_seen=sum(int(x.get("reply_level",1) or 1)<=1 for x in all_rows)
+            if top_seen>=count_comment:
+                page_exhausted=True
+                break
         if added==0:
             break
         page+=1
