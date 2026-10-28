@@ -6,5 +6,10 @@
   "request_delay_seconds": 0.75,
   "enabled": true,
   "daily_discovery_pages": 5,
-  "manual_archive_revision": "2026-10-05T21:27+09:00"
+  "manual_archive_revision": "2026-10-05T21:27+09:00",
+  "comment_collection_enabled": true,
+  "comment_recent_posts_per_maintenance": 10,
+  "comment_backfill_posts_per_run": 25,
+  "comment_request_delay_seconds": 0.75,
+  "comment_browser_fallback": true
 }
