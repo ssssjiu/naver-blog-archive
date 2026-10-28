@@ -1652,7 +1652,12 @@
     "category_no": "6",
     "category_name": "하소",
     "version_count": 1,
-    "parent_category_no": "6"
+    "parent_category_no": "6",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:05+09:00"
   },
   "224284566211": {
     "post_id": "224284566211",
@@ -1667,7 +1672,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:06+09:00"
   },
   "224267314544": {
     "post_id": "224267314544",
@@ -1682,7 +1692,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:07+09:00"
   },
   "224249061606": {
     "post_id": "224249061606",
@@ -1697,7 +1712,12 @@
     "category_no": "24",
     "category_name": "욕구전사 +",
     "version_count": 1,
-    "parent_category_no": "1"
+    "parent_category_no": "1",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:08+09:00"
   },
   "224239374475": {
     "post_id": "224239374475",
@@ -1712,7 +1732,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 1,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "4703d58323b637c209522a3fff06db3f2b7587fdaa261ed19e338c3cdfccf8eb",
+    "comments_last_changed_at": "2026-10-28T15:33:10+09:00"
   },
   "224270895259": {
     "post_id": "224270895259",
@@ -1727,7 +1752,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:11+09:00"
   },
   "224252449294": {
     "post_id": "224252449294",
@@ -1742,7 +1772,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:12+09:00"
   },
   "224206434937": {
     "post_id": "224206434937",
@@ -1757,7 +1792,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:13+09:00"
   },
   "224215578380": {
     "post_id": "224215578380",
@@ -1772,7 +1812,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:14+09:00"
   },
   "224214356443": {
     "post_id": "224214356443",
@@ -1787,7 +1832,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:15+09:00"
   },
   "224189925267": {
     "post_id": "224189925267",
@@ -1802,7 +1852,12 @@
     "category_no": "21",
     "category_name": "매일 5천",
     "version_count": 1,
-    "parent_category_no": "1"
+    "parent_category_no": "1",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "2bdfea23500a7c9877010b5d884d45397c8c68896b18d07bf2581d5bc8077cff",
+    "comments_last_changed_at": "2026-10-28T15:33:16+09:00"
   },
   "224205814225": {
     "post_id": "224205814225",
@@ -1817,7 +1872,12 @@
     "category_no": "21",
     "category_name": "매일 5천",
     "version_count": 1,
-    "parent_category_no": "1"
+    "parent_category_no": "1",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:17+09:00"
   },
   "224185816936": {
     "post_id": "224185816936",
@@ -1832,7 +1892,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:18+09:00"
   },
   "224211799010": {
     "post_id": "224211799010",
@@ -1847,7 +1912,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:19+09:00"
   },
   "224179318825": {
     "post_id": "224179318825",
@@ -1862,7 +1932,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:20+09:00"
   },
   "224188659892": {
     "post_id": "224188659892",
@@ -1877,7 +1952,12 @@
     "category_no": "21",
     "category_name": "매일 5천",
     "version_count": 1,
-    "parent_category_no": "1"
+    "parent_category_no": "1",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:21+09:00"
   },
   "224207212529": {
     "post_id": "224207212529",
@@ -1892,7 +1972,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:22+09:00"
   },
   "224171165556": {
     "post_id": "224171165556",
@@ -1907,7 +1992,12 @@
     "category_no": "21",
     "category_name": "매일 5천",
     "version_count": 1,
-    "parent_category_no": "1"
+    "parent_category_no": "1",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "2d37ee8b5748c5903ce184f33db6203e960be02020db278d3e99b50b86e3de4d",
+    "comments_last_changed_at": "2026-10-28T15:33:24+09:00"
   },
   "224213151837": {
     "post_id": "224213151837",
@@ -1922,7 +2012,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:25+09:00"
   },
   "224205890535": {
     "post_id": "224205890535",
@@ -1937,7 +2032,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "b914410a3bd6b4c7e7c03d3c34407f7e72c2f3036e5e01aa74fe337c0bed173e",
+    "comments_last_changed_at": "2026-10-28T15:33:26+09:00"
   },
   "224180643727": {
     "post_id": "224180643727",
@@ -1952,7 +2052,12 @@
     "category_no": "21",
     "category_name": "매일 5천",
     "version_count": 1,
-    "parent_category_no": "1"
+    "parent_category_no": "1",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "c229528f5fdf4d117cc1ee1780550d75853aebb6a682ad521585a68fc8ef0609",
+    "comments_last_changed_at": "2026-10-28T15:33:27+09:00"
   },
   "224179304439": {
     "post_id": "224179304439",
@@ -1967,7 +2072,12 @@
     "category_no": "21",
     "category_name": "매일 5천",
     "version_count": 1,
-    "parent_category_no": "1"
+    "parent_category_no": "1",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:28+09:00"
   },
   "224209715591": {
     "post_id": "224209715591",
@@ -1982,7 +2092,12 @@
     "category_no": "24",
     "category_name": "욕구전사 +",
     "version_count": 1,
-    "parent_category_no": "1"
+    "parent_category_no": "1",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-28T15:33:29+09:00"
   },
   "224183157143": {
     "post_id": "224183157143",
@@ -1997,7 +2112,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 1,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "4e1884a95909e314a7d12cb078a4e15c198b026fc8d577466422824ba5afab78",
+    "comments_last_changed_at": "2026-10-28T15:33:31+09:00"
   },
   "224195273464": {
     "post_id": "224195273464",
@@ -2012,7 +2132,12 @@
     "category_no": "20",
     "category_name": "매일 기록",
     "version_count": 1,
-    "parent_category_no": "20"
+    "parent_category_no": "20",
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "c6185e5ebd0863031644a8e7214f998182b97d4b39ec05ebd6f22d14be335497",
+    "comments_last_changed_at": "2026-10-28T15:33:32+09:00"
   },
   "224203613912": {
     "post_id": "224203613912",

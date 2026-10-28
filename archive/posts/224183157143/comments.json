@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "224183157143",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=224183157143",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-28T15:33:31+09:00",
+  "comments_hash": "4e1884a95909e314a7d12cb078a4e15c198b026fc8d577466422824ba5afab78",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "886196472507269301",
+      "parent_comment_id": "886196472507269301",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "부동산중개 마당발",
+      "author_profile_url": "https://blog.naver.com/rich1377",
+      "created_at": "2026-02-25T20:39:40+0900",
+      "content": "차분하게 정리된 내용이 인상적이네요. 덕분에 필요한 정보를 쉽게 얻었어요. 다음 글도 기대하겠습니다",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-28T15:33:31+09:00",
+      "last_seen_at": "2026-10-28T15:33:31+09:00"
+    }
+  ]
+}
