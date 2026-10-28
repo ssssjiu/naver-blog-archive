@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "224100012587",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=224100012587",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-29T07:43:42+09:00",
+  "comments_hash": "cd9cfeed9a9f97f781b5af3f3ed7b346f777fc23a271ec718e5d551e3a2f72b1",
+  "active_count": 0,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "879004837700698311",
+      "parent_comment_id": "879004837700698311",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "",
+      "author_profile_url": "",
+      "created_at": "2025-12-10T08:10:48+0900",
+      "content": "",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": true,
+      "source_status": "hidden",
+      "first_seen_at": "2026-10-29T07:43:42+09:00",
+      "last_seen_at": "2026-10-29T07:43:42+09:00"
+    }
+  ]
+}

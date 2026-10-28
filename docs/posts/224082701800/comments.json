@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "224082701800",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=224082701800",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-29T07:43:59+09:00",
+  "comments_hash": "d4a91c5a8e903f0c5af129a3458175689416a6729f64ee83a633e58489c6e36d",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "877209796065886232",
+      "parent_comment_id": "877209796065886232",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "둥이네",
+      "author_profile_url": "https://blog.naver.com/crazebin",
+      "created_at": "2025-11-20T23:48:06+0900",
+      "content": "컨디션 조절도 힘든데 꿋꿋이 버티시는 모습 정말 대단해요. 전장 1등 축하드리고 돈도 잘 모으고 계시네요. 제주도 여행 꼭 가셔서 푹 쉬다 오시면 좋겠어요.",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-29T07:43:59+09:00",
+      "last_seen_at": "2026-10-29T07:43:59+09:00"
+    }
+  ]
+}
