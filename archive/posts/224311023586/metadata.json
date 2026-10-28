@@ -11,5 +11,10 @@
   "category_no": "20",
   "category_name": "매일 기록",
   "version_count": 1,
-  "parent_category_no": "20"
+  "parent_category_no": "20",
+  "comment_count": 1,
+  "comment_reply_count": 0,
+  "comment_archive_count": 1,
+  "comments_hash": "94ae2b1dab6bab86029b62d1a5f5e49fd7a40c331d09d501552339185003ba2b",
+  "comments_last_changed_at": "2026-10-28T15:35:27+09:00"
 }

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "224311023586",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=224311023586",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-28T15:35:27+09:00",
+  "comments_hash": "94ae2b1dab6bab86029b62d1a5f5e49fd7a40c331d09d501552339185003ba2b",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "895853368461754486",
+      "parent_comment_id": "895853368461754486",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "정부장",
+      "author_profile_url": "https://blog.naver.com/jun482505",
+      "created_at": "2026-06-09T22:54:25+0900",
+      "content": "간결한 구성 덕분에 읽기 편했어요. 핵심만 쏙쏙 들어와서 좋았습니다. 앞으로도 훌륭한 글 부탁드립니다 ✨",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-28T15:35:27+09:00",
+      "last_seen_at": "2026-10-28T15:35:27+09:00"
+    }
+  ]
+}

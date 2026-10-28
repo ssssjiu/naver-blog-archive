@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "224218770044",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=224218770044",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-28T15:35:39+09:00",
+  "comments_hash": "907ccc7c41acf4cdc4619ce5ca73bfbde62d5fd1152db58767b75604e794622d",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "887965605271961680",
+      "parent_comment_id": "887965605271961680",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "여행하는 J",
+      "author_profile_url": "https://blog.naver.com/2h2a_b",
+      "created_at": "2026-03-16T22:20:13+0900",
+      "content": "하소님 반갑습니당ꈍ◡ꈍ\"\n와,, 이렇게 재밌고 공감가는 글은 첨이에여ㅎㅎ\n하소님이랑 제가 공통점이 많아서 그런가봐용,,[하트]\n글 자주 써주시면 자주 놀러와서 공감하고 갈게용 >_<\n오늘도 기분좋은 월요일 보내시구\n시간되시면 제꺼두 보러오세용🧡",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "cafe_001-1",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-28T15:35:39+09:00",
+      "last_seen_at": "2026-10-28T15:35:39+09:00"
+    }
+  ]
+}
