@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from pathlib import Path
-from urllib.parse import urlparse, unquote_plus
+from urllib.parse import urlparse, unquote_plus, urljoin
 import requests
 from bs4 import BeautifulSoup
 from PIL import Image
@@ -31,6 +31,7 @@ def save(p,obj):
     p.write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding="utf-8")
 def canonical(pid): return f"https://blog.naver.com/{BLOG}/{pid}"
 def postview(pid): return f"https://blog.naver.com/PostView.naver?blogId={BLOG}&logNo={pid}&redirect=Dlog&widgetTypeCall=true&noTrackingCode=true&directAccess=false"
+def comment_page(pid): return f"https://m.blog.naver.com/CommentList.naver?blogId={BLOG}&logNo={pid}"
 def pid_from(s):
     if not s:return None
     for pat in (r"[?&]logNo=(\d+)",rf"/{re.escape(BLOG)}/(\d+)(?:[/?#]|$)"):
@@ -505,6 +506,436 @@ def archive_response(c,index,r):
     return "new" if not old else "updated"
 
 
+
+# ---------------------------------------------------------------------------
+# Public Naver comment archive
+# ---------------------------------------------------------------------------
+
+def _comment_info_value(raw,key,default=""):
+    if not raw:return default
+    pats=(
+      rf"(?:^|,)\s*{re.escape(key)}\s*:\s*'([^']*)'",
+      rf'(?:^|,)\s*{re.escape(key)}\s*:\s*"([^"]*)"',
+      rf"(?:^|,)\s*{re.escape(key)}\s*:\s*(true|false|undefined|null|-?\d+)"
+    )
+    for pat in pats:
+        m=re.search(pat,raw,re.I)
+        if m:return m.group(1)
+    return default
+
+def _as_bool(v):
+    return str(v).strip().lower()=="true"
+
+def _int_text(v,default=0):
+    try:return int(re.sub(r"[^\d-]","",str(v or "")) or default)
+    except Exception:return default
+
+def _comment_count_from_soup(soup,raw):
+    node=soup.select_one(".u_cbox_count")
+    if node:
+        n=_int_text(node.get_text(" ",strip=True),-1)
+        if n>=0:return n
+    for pat in (
+      r'["\']commentCount["\']\s*[:=]\s*["\']?(\d+)',
+      r'["\']replyCount["\']\s*[:=]\s*["\']?(\d+)',
+      r'\bcommentCount\s*=\s*["\']?(\d+)'
+    ):
+        m=re.search(pat,raw,re.I)
+        if m:return int(m.group(1))
+    return None
+
+def _comment_media_file(url,pdir,referer):
+    if not url:return ""
+    try:
+        full=urljoin("https://m.blog.naver.com/",url)
+        r=get(full,referer,30)
+        if not r.ok or not r.content:return ""
+        ctype=r.headers.get("Content-Type","")
+        if ctype and not ctype.startswith("image/"):return ""
+        idir=pdir/"comment-images";idir.mkdir(parents=True,exist_ok=True)
+        name=hashlib.sha256(r.content).hexdigest()[:20]+ext_for(full,ctype)
+        fp=idir/name
+        if not fp.exists():fp.write_bytes(r.content)
+        return "comment-images/"+name
+    except requests.RequestException:
+        return ""
+
+def parse_comment_html(pid,raw,download_media=True):
+    soup=BeautifulSoup(raw,"html.parser")
+    reported=_comment_count_from_soup(soup,raw)
+    rows=soup.select("li.u_cbox_comment")
+    if not rows:
+        rows=soup.select("#naverComment_wai_u_cbox_content_wrap_tabpanel li")
+    out=[]
+    pdir=POSTS/pid
+    ref=comment_page(pid)
+
+    for order,row in enumerate(rows):
+        info=row.get("data-info","")
+        classes=" ".join(row.get("class",[]))
+        cid=_comment_info_value(info,"commentNo","")
+        if not cid:
+            m=re.search(r"(?:^|\s)cbox_module__comment_(\d+)(?:\s|$)",classes)
+            cid=m.group(1) if m else ""
+        if not cid:
+            # Keep a stable fallback ID without inventing private information.
+            cid="dom-"+hashlib.sha256(str(row).encode("utf-8")).hexdigest()[:16]
+
+        parent=_comment_info_value(info,"parentCommentNo","") or cid
+        level=_int_text(_comment_info_value(info,"replyLevel","1"),1)
+        deleted=_as_bool(_comment_info_value(info,"deleted","false")) or "u_cbox_comment_deleted" in classes
+        visible=not (_comment_info_value(info,"visible","true").lower()=="false")
+        secret=_as_bool(_comment_info_value(info,"secret","false")) or bool(row.select_one(".u_cbox_secret"))
+
+        nick=row.select_one(".u_cbox_nick") or row.select_one(".u_cbox_name")
+        author=nick.get_text(" ",strip=True) if nick else ""
+        profile=""
+        name_link=row.select_one("a.u_cbox_name[href]") or row.select_one("a.u_cbox_thumb_wrap[href]")
+        if name_link:profile=urljoin("https://m.blog.naver.com/",name_link.get("href",""))
+
+        date_node=row.select_one(".u_cbox_date")
+        created=""
+        if date_node:
+            created=(date_node.get("data-value") or date_node.get_text(" ",strip=True)).strip()
+
+        content_node=row.select_one(".u_cbox_contents")
+        content=content_node.get_text("\n",strip=True) if content_node else ""
+        if "비밀" in content and "댓글" in content:secret=True
+        if "삭제된 댓글" in content:deleted=True
+
+        likes=0
+        like_node=row.select_one(".u_cbox_cnt_recomm")
+        if like_node:likes=_int_text(like_node.get_text(" ",strip=True),0)
+
+        links=[]
+        if content_node:
+            for a in content_node.find_all("a",href=True):
+                href=urljoin("https://m.blog.naver.com/",a.get("href",""))
+                if href and href not in links:links.append(href)
+
+        media_urls=[]
+        for img in row.find_all("img"):
+            cls=" ".join(img.get("class",[])).lower()
+            if "profile" in cls or "ico" in cls:continue
+            src=img.get("src") or img.get("data-src") or img.get("data-lazy-src") or ""
+            if not src:continue
+            full=urljoin("https://m.blog.naver.com/",src)
+            if full not in media_urls:media_urls.append(full)
+        media_files=[]
+        if download_media:
+            for u in media_urls:
+                local=_comment_media_file(u,pdir,ref)
+                if local and local not in media_files:media_files.append(local)
+
+        status="deleted" if deleted else ("hidden" if not visible else "active")
+        out.append({
+          "comment_id":str(cid),
+          "parent_comment_id":str(parent),
+          "reply_level":level,
+          "order":order,
+          "author_name":author,
+          "author_profile_url":profile,
+          "created_at":created,
+          "content":content,
+          "likes":likes,
+          "links":links,
+          "media_source_urls":media_urls,
+          "media_files":media_files,
+          "secret":bool(secret),
+          "source_status":status
+        })
+
+    # Count normally includes replies. Only declare a complete snapshot when the
+    # loaded DOM accounts for everything Naver reports, or explicitly reports 0.
+    complete=(reported==0 and not out) or (reported is not None and len(out)>=reported)
+    return {"reported_count":reported,"comments":out,"complete":complete}
+
+def _browser_comment_html(pid):
+    """Best-effort JS fallback for recent posts whose public comments are client-rendered."""
+    if not CFG.get("comment_browser_fallback",True):return ""
+    try:
+        from selenium import webdriver
+        from selenium.webdriver.chrome.options import Options
+        from selenium.webdriver.chrome.service import Service
+        from selenium.webdriver.common.by import By
+    except Exception as e:
+        print("[COMMENTS] selenium unavailable:",e)
+        return ""
+
+    opts=Options()
+    opts.add_argument("--headless=new")
+    opts.add_argument("--no-sandbox")
+    opts.add_argument("--disable-dev-shm-usage")
+    opts.add_argument("--disable-gpu")
+    opts.add_argument(f"--user-agent={UA}")
+    binary=shutil.which("google-chrome") or shutil.which("google-chrome-stable") or shutil.which("chromium")
+    if binary:opts.binary_location=binary
+    driver_path=shutil.which("chromedriver")
+    service=Service(driver_path) if driver_path else Service()
+    driver=None
+    try:
+        driver=webdriver.Chrome(service=service,options=opts)
+        driver.set_page_load_timeout(30)
+        driver.get(comment_page(pid))
+        time.sleep(1.5)
+
+        # Load additional comment pages / lazy content.
+        for _ in range(12):
+            clicked=False
+            for sel in (".u_cbox_btn_more",".u_cbox_btn_view_comment",".u_cbox_next"):
+                for el in driver.find_elements(By.CSS_SELECTOR,sel)[:3]:
+                    try:
+                        if el.is_displayed():
+                            driver.execute_script("arguments[0].click();",el)
+                            clicked=True
+                            time.sleep(.35)
+                    except Exception:
+                        pass
+
+            # Expand reply threads which advertise a nonzero reply count.
+            expanded=0
+            for el in driver.find_elements(By.CSS_SELECTOR,"a.u_cbox_btn_reply")[:100]:
+                try:
+                    if el.get_attribute("aria-expanded")=="true":continue
+                    txt=el.text or ""
+                    nums=re.findall(r"\d+",txt)
+                    if nums and int(nums[-1])>0:
+                        driver.execute_script("arguments[0].click();",el)
+                        expanded+=1
+                        time.sleep(.08)
+                except Exception:
+                    pass
+            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(.35)
+            if not clicked and expanded==0:break
+        return driver.page_source
+    except Exception as e:
+        print(f"[COMMENTS] browser fallback failed {pid}:",e)
+        return ""
+    finally:
+        if driver:
+            try:driver.quit()
+            except Exception:pass
+
+def fetch_public_comments(pid,allow_browser=False):
+    url=comment_page(pid)
+    try:
+        r=get(url,canonical(pid),30)
+        if not r.ok:return {"status":"http_error","http_status":r.status_code,"comments":[],"complete":False,"reported_count":None}
+        parsed=parse_comment_html(pid,r.text,download_media=True)
+        if parsed["comments"] or parsed["reported_count"]==0:
+            parsed["status"]="ok"
+            return parsed
+
+        # Only recent/new posts use a browser fallback by default. Old-post
+        # backfills stay lightweight unless the static page already exposes data.
+        if allow_browser:
+            rendered=_browser_comment_html(pid)
+            if rendered:
+                parsed2=parse_comment_html(pid,rendered,download_media=True)
+                if parsed2["comments"] or parsed2["reported_count"]==0:
+                    parsed2["status"]="ok"
+                    return parsed2
+        parsed["status"]="unparsed"
+        return parsed
+    except requests.RequestException as e:
+        return {"status":"request_error","error":str(e),"comments":[],"complete":False,"reported_count":None}
+
+def _comment_public_fingerprint(items):
+    fields=(
+      "comment_id","parent_comment_id","reply_level","order","author_name","author_profile_url",
+      "created_at","content","likes","links","media_files","secret","source_status","deleted_detected_at"
+    )
+    view=[{k:x.get(k) for k in fields if k in x} for x in items]
+    return hashlib.sha256(json.dumps(view,ensure_ascii=False,sort_keys=True).encode("utf-8")).hexdigest()
+
+def sync_comments_for_post(pid,index,allow_browser=False):
+    m=index.get(pid) or {}
+    if m.get("source_type","naver")!="naver" or m.get("source_status")!="active":
+        return False
+    pdir=POSTS/pid
+    if not pdir.exists():return False
+    path=pdir/"comments.json"
+    old=load(path,{"comments":[]})
+    result=fetch_public_comments(pid,allow_browser=allow_browser)
+    if result.get("status")!="ok":
+        print(f"[COMMENTS] {pid} {result.get('status')} count={result.get('reported_count')}")
+        return False
+
+    stamp=iso()
+    current=result.get("comments",[])
+    old_items=old.get("comments",[]) or []
+    old_by={str(x.get("comment_id")):x for x in old_items if x.get("comment_id")}
+    seen=set()
+    merged=[]
+
+    for cur in current:
+        cid=str(cur.get("comment_id") or "")
+        if not cid:continue
+        seen.add(cid)
+        prev=old_by.get(cid)
+        if prev:
+            item=dict(prev)
+            old_content=prev.get("content","")
+            new_content=cur.get("content","")
+            if new_content and old_content and new_content!=old_content:
+                hist=list(item.get("edit_history") or [])
+                hist.append({"content":old_content,"observed_until":stamp})
+                item["edit_history"]=hist[-20:]
+            previous_status=item.get("source_status")
+            for key,val in cur.items():
+                if key in ("content","author_name","author_profile_url","created_at") and not val:
+                    continue
+                if key=="media_files" and not val and item.get("media_files"):
+                    continue
+                item[key]=val
+            item.setdefault("first_seen_at",prev.get("first_seen_at") or stamp)
+            item["last_seen_at"]=stamp
+            item.pop("deleted_detected_at",None)
+            if previous_status=="deleted" and item.get("source_status")=="active":
+                item["restored_at"]=stamp
+        else:
+            item=dict(cur)
+            item["first_seen_at"]=stamp
+            item["last_seen_at"]=stamp
+        merged.append(item)
+
+    # Preserve comments that disappeared. Only call them deleted when this was a
+    # complete public snapshot; a partial/lazy parse must never erase history.
+    for old_item in old_items:
+        cid=str(old_item.get("comment_id") or "")
+        if not cid or cid in seen:continue
+        item=dict(old_item)
+        if result.get("complete") and item.get("source_status")!="deleted":
+            item["source_status"]="deleted"
+            item.setdefault("deleted_detected_at",stamp)
+        merged.append(item)
+
+    # Stable ordering: current DOM order first, then historical-only records.
+    merged.sort(key=lambda x:(
+      1 if str(x.get("comment_id")) not in seen else 0,
+      _int_text(x.get("order"),10**9),
+      str(x.get("created_at") or ""),
+      str(x.get("comment_id") or "")
+    ))
+
+    new_hash=_comment_public_fingerprint(merged)
+    old_hash=old.get("comments_hash") or _comment_public_fingerprint(old_items)
+    changed=(new_hash!=old_hash) or (not path.exists())
+    active_count=sum(x.get("source_status")=="active" for x in merged)
+    reply_count=sum(x.get("source_status")=="active" and int(x.get("reply_level",1) or 1)>1 for x in merged)
+
+    if changed:
+        payload={
+          "schema_version":1,
+          "post_id":pid,
+          "source_url":comment_page(pid),
+          "public_only":True,
+          "complete_snapshot":bool(result.get("complete")),
+          "source_reported_count":result.get("reported_count"),
+          "last_changed_at":stamp,
+          "comments_hash":new_hash,
+          "active_count":active_count,
+          "reply_count":reply_count,
+          "archived_count":len(merged),
+          "comments":merged
+        }
+        save(path,payload)
+        m["comment_count"]=active_count
+        m["comment_reply_count"]=reply_count
+        m["comment_archive_count"]=len(merged)
+        m["comments_hash"]=new_hash
+        m["comments_last_changed_at"]=stamp
+        save(pdir/"metadata.json",m)
+        index[pid]=m
+        print(f"[COMMENTS] {pid} changed active={active_count} archived={len(merged)} complete={result.get('complete')}")
+        return True
+
+    print(f"[COMMENTS] {pid} unchanged active={active_count} complete={result.get('complete')}")
+    return False
+
+def comment_maintenance(index,seen,mode="maintenance"):
+    if not CFG.get("comment_collection_enabled",True):return
+    ids=[
+      str(m.get("post_id")) for m in sorted(index.values(),key=sort_timestamp,reverse=True)
+      if m.get("source_type","naver")=="naver"
+      and m.get("source_status")=="active"
+      and str(m.get("post_id","")).isdigit()
+    ]
+    if not ids:return
+
+    recent_n=int(CFG.get("comment_recent_posts_per_maintenance",10))
+    rotate_n=int(CFG.get("comment_backfill_posts_per_run",50 if mode=="discover" else 25))
+    recent=[pid for pid in ids[:recent_n] if pid not in seen]
+
+    sp=STATE/"comment_cursor.json"
+    st=load(sp,{"cursor":0})
+    cur=int(st.get("cursor",0))%len(ids)
+    rotating=[]
+    offset=0
+    while len(rotating)<min(rotate_n,len(ids)) and offset<len(ids):
+        pid=ids[(cur+offset)%len(ids)];offset+=1
+        if pid in seen or pid in recent:continue
+        rotating.append(pid)
+
+    targets=recent+rotating
+    delay=float(CFG.get("comment_request_delay_seconds",.75))
+    for i,pid in enumerate(targets,1):
+        # Browser fallback is restricted to recent posts to keep runs lightweight.
+        sync_comments_for_post(pid,index,allow_browser=(pid in recent))
+        print(f"[COMMENTS {i}/{len(targets)}] {pid}")
+        time.sleep(delay)
+
+    save(sp,{"cursor":(cur+offset)%len(ids),"updated_at":iso()})
+
+def render_comments(pid):
+    data=load(POSTS/pid/"comments.json",{})
+    items=data.get("comments",[]) or []
+    if not items:return ""
+    active=sum(x.get("source_status")=="active" for x in items)
+    total=len(items)
+    parts=[
+      '<section class="comments-archive">',
+      f'<div class="comments-head"><h2>댓글</h2><span>현재 {active} · 보존 {total}</span></div>',
+      '<div class="comments-list">'
+    ]
+    for x in items:
+        level=max(1,min(4,int(x.get("reply_level",1) or 1)))
+        status=x.get("source_status","active")
+        cls=f"comment-item reply-level-{level} comment-{esc(status)}"
+        author=esc(x.get("author_name") or "익명")
+        profile=x.get("author_profile_url") or ""
+        if profile:
+            author_html=f'<a href="{esc(profile)}" target="_blank" rel="noopener noreferrer">{author}</a>'
+        else:
+            author_html=author
+        status_html=""
+        if status=="deleted":status_html='<span class="comment-status">삭제 감지</span>'
+        elif status=="hidden":status_html='<span class="comment-status">비공개/숨김</span>'
+        if x.get("secret"):status_html+='<span class="comment-status">비밀댓글</span>'
+
+        text=x.get("content") or ""
+        if not text and x.get("secret"):text="공개 화면에서 내용을 확인할 수 없는 비밀댓글입니다."
+        elif not text and status=="deleted":text="삭제된 댓글입니다."
+        text_html=esc(text).replace("\n","<br>")
+
+        media=[]
+        for rel in x.get("media_files") or []:
+            media.append(f'<img src="{esc(rel)}" alt="댓글 첨부 이미지" loading="lazy">')
+        likes=int(x.get("likes",0) or 0)
+        meta=[esc(x.get("created_at") or "")]
+        if likes:meta.append(f"공감 {likes}")
+        parts.append(
+          f'<article class="{cls}">'
+          f'<div class="comment-author">{author_html}{status_html}</div>'
+          f'<div class="comment-text">{text_html}</div>'
+          f'{"<div class=\\"comment-media\\">"+"".join(media)+"</div>" if media else ""}'
+          f'<div class="comment-meta">{" · ".join(m for m in meta if m)}</div>'
+          f'</article>'
+        )
+    parts+=['</div>','<div class="comments-note">공개 상태에서 확인된 댓글만 보존합니다. 삭제·비공개 이후에도 이전 공개 보존본은 남을 수 있습니다.</div>','</section>']
+    return "".join(parts)
+
 def archive_one(c,index):
     try:r=get(postview(c["post_id"]),c.get("url") or canonical(c["post_id"]))
     except requests.RequestException:return "error"
@@ -836,7 +1267,7 @@ def build_site(index):
     version_material={
       "posts":[
         (m.get("post_id"),m.get("content_hash"),m.get("source_status"),
-         m.get("category_no"),m.get("category_name"),m.get("parent_category_no"))
+         m.get("category_no"),m.get("category_name"),m.get("parent_category_no"),m.get("comments_hash"))
         for m in rows
       ],
       "blog":blogmeta
@@ -872,7 +1303,7 @@ def build_site(index):
           f'<article class="card" data-search="{esc(search_blob).lower()}" data-status="{esc(status)}" data-category="{esc(m.get("category_no",""))}" data-video="{video_flag}">'
           f'<div class="card-row"><div class="card-main">'
           f'<h2><a href="posts/{pid}/index.html">{esc(m.get("title"))}</a></h2>'
-          f'<div class="meta">{esc(m.get("category_name") or "전체글")} · {esc(published_text(m))}</div>'
+          f'<div class="meta">{esc(m.get("category_name") or "전체글")} · {esc(published_text(m))}{f" · 댓글 {int(m.get(\"comment_count\",0) or 0)}" if int(m.get("comment_count",0) or 0)>0 else ""}</div>'
           f'</div>{preview_html}{badge_html}</div>'
           f'</article>'
         )
@@ -884,6 +1315,12 @@ def build_site(index):
             shutil.rmtree(dst/"images")
         if (src/"images").exists():
             shutil.copytree(src/"images",dst/"images")
+        if (dst/"comment-images").exists():
+            shutil.rmtree(dst/"comment-images")
+        if (src/"comment-images").exists():
+            shutil.copytree(src/"comment-images",dst/"comment-images")
+        if (src/"comments.json").exists():
+            shutil.copy2(src/"comments.json",dst/"comments.json")
 
         body=(src/"content.html").read_text(encoding="utf-8") if (src/"content.html").exists() else ""
         if body:
@@ -896,6 +1333,8 @@ def build_site(index):
             notice='<div class="notice danger">원본 게시물의 삭제가 감지되었습니다. 아래 내용은 삭제 전에 저장된 보존본입니다.</div>'
         elif status=="private_or_unavailable":
             notice='<div class="notice">현재 원본 게시물에 접근할 수 없습니다. 아래 내용은 이전에 저장된 보존본입니다.</div>'
+
+        comments_html=render_comments(pid)
 
         i=positions[pid]
         newer=rows[i-1] if i>0 else None
@@ -935,6 +1374,7 @@ def build_site(index):
         {notice}
         {source_block}
         <div class="content">{body}</div>
+        {comments_html}
         {neighbors}
       </article>
     </div>
@@ -1162,7 +1602,11 @@ def main():
     for i,x in enumerate(todo,1):
         result=archive_one(x,index);stats[result]=stats.get(result,0)+1
         print(f"[new {i}/{len(todo)}] {x['post_id']} {result}")
-        if result in changed_results:pending_changes+=1
+        if result in changed_results:
+            pending_changes+=1
+            if result in ("new","updated","metadata"):
+                try:sync_comments_for_post(str(x["post_id"]),index,allow_browser=True)
+                except Exception as e:print("[COMMENTS] new-post sync warning:",e)
         if pending_changes and time.monotonic()-last_checkpoint>=90:
             checkpoint(index,f"{i}/{len(todo)} new posts")
             pending_changes=0;last_checkpoint=time.monotonic()
@@ -1172,6 +1616,10 @@ def main():
     # The same single request checks deletion/private status AND content edits.
     if mode=="maintenance":
         maintenance(index,set(x["post_id"] for x in todo))
+
+    if mode in ("maintenance","discover"):
+        try:comment_maintenance(index,set(x["post_id"] for x in todo),mode=mode)
+        except Exception as e:print("[COMMENTS] maintenance warning:",e)
 
     if mode=="discover":
         save(initial_done,{
