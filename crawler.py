@@ -1301,11 +1301,13 @@ def build_site(index):
         )
         badge=archive_badge(m)
         badge_html=(f'<span class="status status-{esc(status)}">{esc(badge)}</span>' if badge else "")
+        comment_count=int(m.get("comment_count",0) or 0)
+        comment_suffix=f" · 댓글 {comment_count}" if comment_count>0 else ""
         cards.append(
           f'<article class="card" data-search="{esc(search_blob).lower()}" data-status="{esc(status)}" data-category="{esc(m.get("category_no",""))}" data-video="{video_flag}">'
           f'<div class="card-row"><div class="card-main">'
           f'<h2><a href="posts/{pid}/index.html">{esc(m.get("title"))}</a></h2>'
-          f'<div class="meta">{esc(m.get("category_name") or "전체글")} · {esc(published_text(m))}{f" · 댓글 {int(m.get(\"comment_count\",0) or 0)}" if int(m.get("comment_count",0) or 0)>0 else ""}</div>'
+          f'<div class="meta">{esc(m.get("category_name") or "전체글")} · {esc(published_text(m))}{comment_suffix}</div>'
           f'</div>{preview_html}{badge_html}</div>'
           f'</article>'
         )
