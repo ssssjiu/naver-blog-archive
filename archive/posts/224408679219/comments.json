@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "224408679219",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=224408679219",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-28T15:30:18+09:00",
+  "comments_hash": "a55799431dff7c08883c5d846c9377357e0a70833edf6e877bdec783bb4ed092",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "904568372434305050",
+      "parent_comment_id": "904568372434305050",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "여행하는 J",
+      "author_profile_url": "https://blog.naver.com/2h2a_b",
+      "created_at": "2026-09-11T21:29:05+0900",
+      "content": "하소님 반갑습니당'◡'\n이번 포스팅 넘 인상깊게 봐써용,,ㅎㅎ\n글을 쭉,, 읽다보니 하소님 블로그를 알게된게 행운인거 가타요,,❤\n남은 금요일도 멋지게 보내시구용!",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "cafe_004-6",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-28T15:30:18+09:00",
+      "last_seen_at": "2026-10-28T15:30:18+09:00"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "224261750529",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=224261750529",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-28T15:30:48+09:00",
+  "comments_hash": "efcaed67dd047dce58a358dbdd1eebc14f3ce57de207ab8b6c060dc0b69f1ba6",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "891404472624873559",
+      "parent_comment_id": "891404472624873559",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "광킹",
+      "author_profile_url": "https://blog.naver.com/testjsd",
+      "created_at": "2026-04-22T23:58:28+0900",
+      "content": "오늘은 푹 쉬신 날이네요ㅎㅎ 맛있는 거 드시고 다시 힘내세요!",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-28T15:30:48+09:00",
+      "last_seen_at": "2026-10-28T15:30:48+09:00"
+    }
+  ]
+}
