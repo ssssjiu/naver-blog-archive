@@ -736,6 +736,12 @@ def fetch_public_comments(pid,allow_browser=False):
                 if parsed2["comments"] or parsed2["reported_count"]==0:
                     parsed2["status"]="ok"
                     return parsed2
+                if (parsed2.get("reported_count") or parsed.get("reported_count") or 0)>0:
+                    dbg=STATE/f"comment_debug_{pid}.html"
+                    if not dbg.exists():
+                        dbg.parent.mkdir(parents=True,exist_ok=True)
+                        dbg.write_text(rendered,encoding="utf-8")
+                        print(f"[COMMENTS] saved public render debug {dbg.name}")
         parsed["status"]="unparsed"
         return parsed
     except requests.RequestException as e:
