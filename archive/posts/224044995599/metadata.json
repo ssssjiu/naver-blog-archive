@@ -11,5 +11,10 @@
   "category_no": "21",
   "category_name": "매일 5천",
   "parent_category_no": "1",
-  "version_count": 1
+  "version_count": 1,
+  "comment_count": 0,
+  "comment_reply_count": 0,
+  "comment_archive_count": 1,
+  "comments_hash": "2f89a2772640179e4f29c8452399b301f472fc0d1bfd0e96e8e129a1e9d7b574",
+  "comments_last_changed_at": "2026-10-29T07:49:09+09:00"
 }
