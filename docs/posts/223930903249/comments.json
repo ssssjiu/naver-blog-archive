@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "223930903249",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=223930903249",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-30T07:52:37+09:00",
+  "comments_hash": "8b3284fdfa379f5e53816e06738dbc66a6bf97ed1779984e86e2dc10c0e94f2b",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "865033806782922935",
+      "parent_comment_id": "865033806782922935",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "소카톨리카",
+      "author_profile_url": "https://blog.naver.com/abydost",
+      "created_at": "2025-07-12T17:51:53+0900",
+      "content": "? 뭣?",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-30T07:52:37+09:00",
+      "last_seen_at": "2026-10-30T07:52:37+09:00"
+    }
+  ]
+}

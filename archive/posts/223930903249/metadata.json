@@ -11,5 +11,10 @@
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1
+  "version_count": 1,
+  "comment_count": 1,
+  "comment_reply_count": 0,
+  "comment_archive_count": 1,
+  "comments_hash": "8b3284fdfa379f5e53816e06738dbc66a6bf97ed1779984e86e2dc10c0e94f2b",
+  "comments_last_changed_at": "2026-10-30T07:52:37+09:00"
 }
