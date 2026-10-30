@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "223764052717",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=223764052717",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-30T22:13:54+09:00",
+  "comments_hash": "35a5c9aa0313e21833b7ffeb436b75e1aad37ef9a0f41f5e1ac47b97fcb26f2a",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "851620898141110282",
+      "parent_comment_id": "851620898141110282",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "지유의 하루일기",
+      "author_profile_url": "https://blog.naver.com/gowlwhdk02",
+      "created_at": "2025-02-18T03:56:07+0900",
+      "content": "좋은 글 잘 보고갑니다😙\n오늘도 행복한 하루 되시고\n제 블로그도 놀러와주세요",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-30T22:13:54+09:00",
+      "last_seen_at": "2026-10-30T22:13:54+09:00"
+    }
+  ]
+}
