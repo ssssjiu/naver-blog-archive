@@ -11,5 +11,10 @@
   "category_no": "14",
   "category_name": "오락",
   "parent_category_no": "14",
-  "version_count": 1
+  "version_count": 1,
+  "comment_count": 2,
+  "comment_reply_count": 1,
+  "comment_archive_count": 2,
+  "comments_hash": "51a683afa3cf5597782dbcbec72b67463c27d93b1b0f151a69cd397548666d25",
+  "comments_last_changed_at": "2026-10-31T07:37:46+09:00"
 }

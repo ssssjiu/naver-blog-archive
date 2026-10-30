@@ -7592,7 +7592,12 @@
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:32+09:00"
   },
   "223178847004": {
     "post_id": "223178847004",
@@ -7607,7 +7612,12 @@
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:33+09:00"
   },
   "223172512737": {
     "post_id": "223172512737",
@@ -7622,7 +7632,12 @@
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:34+09:00"
   },
   "223166302446": {
     "post_id": "223166302446",
@@ -7637,7 +7652,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "673d6702ec9e621c4011de346b6b06d722344dcce875b04c0da20aff9ee9c41c",
+    "comments_last_changed_at": "2026-10-31T07:37:35+09:00"
   },
   "223165344210": {
     "post_id": "223165344210",
@@ -7652,7 +7672,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:36+09:00"
   },
   "223127345396": {
     "post_id": "223127345396",
@@ -7667,7 +7692,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:38+09:00"
   },
   "223126382838": {
     "post_id": "223126382838",
@@ -7682,7 +7712,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:39+09:00"
   },
   "223104185435": {
     "post_id": "223104185435",
@@ -7697,7 +7732,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:40+09:00"
   },
   "223078832507": {
     "post_id": "223078832507",
@@ -7712,7 +7752,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:40+09:00"
   },
   "223077822329": {
     "post_id": "223077822329",
@@ -7727,7 +7772,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "aa26082ab8c4ccfa6bea464aac16e92cde6a0ed8a9b8a5831eab43372213315a",
+    "comments_last_changed_at": "2026-10-31T07:37:42+09:00"
   },
   "223074769049": {
     "post_id": "223074769049",
@@ -7742,7 +7792,12 @@
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:43+09:00"
   },
   "223071735957": {
     "post_id": "223071735957",
@@ -7757,7 +7812,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:44+09:00"
   },
   "223063934553": {
     "post_id": "223063934553",
@@ -7772,7 +7832,12 @@
     "category_no": "14",
     "category_name": "오락",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 2,
+    "comment_reply_count": 1,
+    "comment_archive_count": 2,
+    "comments_hash": "51a683afa3cf5597782dbcbec72b67463c27d93b1b0f151a69cd397548666d25",
+    "comments_last_changed_at": "2026-10-31T07:37:46+09:00"
   },
   "223063918793": {
     "post_id": "223063918793",
@@ -7787,7 +7852,12 @@
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:47+09:00"
   },
   "223056152700": {
     "post_id": "223056152700",
@@ -7802,7 +7872,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:48+09:00"
   },
   "223051761706": {
     "post_id": "223051761706",
@@ -7817,7 +7892,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:49+09:00"
   },
   "223047670508": {
     "post_id": "223047670508",
@@ -7832,7 +7912,12 @@
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 1,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "dd0fc8f3f4081cd8fdff8ad2a37ceb281b227ffd33aaa62b9a1c949f1cd259af",
+    "comments_last_changed_at": "2026-10-31T07:37:50+09:00"
   },
   "223042620328": {
     "post_id": "223042620328",
@@ -7847,7 +7932,12 @@
     "category_no": "1",
     "category_name": "소설",
     "parent_category_no": "1",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:51+09:00"
   },
   "223037803857": {
     "post_id": "223037803857",
@@ -7862,7 +7952,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:52+09:00"
   },
   "223037735318": {
     "post_id": "223037735318",
@@ -7877,7 +7972,12 @@
     "category_no": "14",
     "category_name": "오락",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:53+09:00"
   },
   "223036171395": {
     "post_id": "223036171395",
@@ -7892,7 +7992,12 @@
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:54+09:00"
   },
   "223035671871": {
     "post_id": "223035671871",
@@ -7907,7 +8012,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:55+09:00"
   },
   "223004969361": {
     "post_id": "223004969361",
@@ -7922,7 +8032,12 @@
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:56+09:00"
   },
   "223004293532": {
     "post_id": "223004293532",
@@ -7937,7 +8052,12 @@
     "category_no": "16",
     "category_name": "블루 아카이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:57+09:00"
   },
   "223003470019": {
     "post_id": "223003470019",
@@ -7952,7 +8072,12 @@
     "category_no": "7",
     "category_name": "?",
     "parent_category_no": "7",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:37:59+09:00"
   },
   "223003271690": {
     "post_id": "223003271690",
