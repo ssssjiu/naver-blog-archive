@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "223746663021",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=223746663021",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-31T07:30:45+09:00",
+  "comments_hash": "67740e5eee5796eb481e8ac18cfa432c1f3be3370fb6347290a2479635b37d9d",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "850304063818956862",
+      "parent_comment_id": "850304063818956862",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "다온 퍼스널헤어",
+      "author_profile_url": "https://blog.naver.com/daon_hair_perm",
+      "created_at": "2025-02-03T23:16:10+0900",
+      "content": "하소님\n블로그 포스팅 몇몇개 읽어보고 갑니다!!\n제 블로그에서 헤어스타일도 구경해보세용!!",
+      "likes": 1,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-31T07:30:45+09:00",
+      "last_seen_at": "2026-10-31T07:30:45+09:00"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "223593635490",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=223593635490",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-31T07:31:03+09:00",
+  "comments_hash": "6b0adce2280fcda862865fa6e23ccb2f2923002e99f5d25848f019623c15e864",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "838114809076514822",
+      "parent_comment_id": "838114809076514822",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "매력있지현",
+      "author_profile_url": "https://blog.naver.com/in_so_k",
+      "created_at": "2024-09-25T13:54:01+0900",
+      "content": "블로그가 너무 매력적이네요!!\n또 놀러올께요옹 ♡",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "cafe_002-6",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-31T07:31:03+09:00",
+      "last_seen_at": "2026-10-31T07:31:03+09:00"
+    }
+  ]
+}

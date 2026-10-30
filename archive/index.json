@@ -7092,7 +7092,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 1,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "ef8c19e993a305c03b1ce3c6c0ec3f4966de3cf193bcb81480ccb21c2f5cb60c",
+    "comments_last_changed_at": "2026-10-31T07:30:43+09:00"
   },
   "223746663021": {
     "post_id": "223746663021",
@@ -7107,7 +7112,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 1,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "67740e5eee5796eb481e8ac18cfa432c1f3be3370fb6347290a2479635b37d9d",
+    "comments_last_changed_at": "2026-10-31T07:30:45+09:00"
   },
   "223745632339": {
     "post_id": "223745632339",
@@ -7122,7 +7132,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "ac9acaffea147cbaf97f1ffc7a4e5897fb7c690544474777499a0902a942b4a1",
+    "comments_last_changed_at": "2026-10-31T07:30:46+09:00"
   },
   "223743683622": {
     "post_id": "223743683622",
@@ -7137,7 +7152,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:47+09:00"
   },
   "223740181320": {
     "post_id": "223740181320",
@@ -7152,7 +7172,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:48+09:00"
   },
   "223726964091": {
     "post_id": "223726964091",
@@ -7167,7 +7192,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:49+09:00"
   },
   "223715013545": {
     "post_id": "223715013545",
@@ -7182,7 +7212,12 @@
     "category_no": "17",
     "category_name": "트릭컬 리바이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:50+09:00"
   },
   "223713946821": {
     "post_id": "223713946821",
@@ -7197,7 +7232,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "e5f4c842465892c1e52eb30d71750c230d8c8e6638dcb63f58527db7904ee8d7",
+    "comments_last_changed_at": "2026-10-31T07:30:51+09:00"
   },
   "223696864661": {
     "post_id": "223696864661",
@@ -7212,7 +7252,12 @@
     "category_no": "17",
     "category_name": "트릭컬 리바이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:52+09:00"
   },
   "223638578871": {
     "post_id": "223638578871",
@@ -7227,7 +7272,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:53+09:00"
   },
   "223627868851": {
     "post_id": "223627868851",
@@ -7242,7 +7292,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:54+09:00"
   },
   "223618459941": {
     "post_id": "223618459941",
@@ -7257,7 +7312,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:55+09:00"
   },
   "223615485578": {
     "post_id": "223615485578",
@@ -7272,7 +7332,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:56+09:00"
   },
   "223612850660": {
     "post_id": "223612850660",
@@ -7287,7 +7352,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:57+09:00"
   },
   "223610430641": {
     "post_id": "223610430641",
@@ -7302,7 +7372,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:30:58+09:00"
   },
   "223605769131": {
     "post_id": "223605769131",
@@ -7317,7 +7392,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 1,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "ad609c7880f7762a580cdc8c7065d2bb5276393a65ddfaf00fb1045d80533c13",
+    "comments_last_changed_at": "2026-10-31T07:31:00+09:00"
   },
   "223604717580": {
     "post_id": "223604717580",
@@ -7332,7 +7412,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:31:01+09:00"
   },
   "223602455489": {
     "post_id": "223602455489",
@@ -7347,7 +7432,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:31:02+09:00"
   },
   "223593635490": {
     "post_id": "223593635490",
@@ -7362,7 +7452,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 1,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "6b0adce2280fcda862865fa6e23ccb2f2923002e99f5d25848f019623c15e864",
+    "comments_last_changed_at": "2026-10-31T07:31:03+09:00"
   },
   "223571001568": {
     "post_id": "223571001568",
@@ -7377,7 +7472,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:31:04+09:00"
   },
   "223555998026": {
     "post_id": "223555998026",
@@ -7392,7 +7492,12 @@
     "category_no": "17",
     "category_name": "트릭컬 리바이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 1,
+    "comment_reply_count": 0,
+    "comment_archive_count": 1,
+    "comments_hash": "eacbc704dbc45a42a05b16d2f29395b3425fa5a3b281dc7eda434fc7660526d0",
+    "comments_last_changed_at": "2026-10-31T07:31:05+09:00"
   },
   "223387252859": {
     "post_id": "223387252859",
@@ -7407,7 +7512,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 1,
+    "comment_reply_count": 0,
+    "comment_archive_count": 2,
+    "comments_hash": "d08a32b7bc0adf5dc6ea6ea9a9f1c463c19bbec4621f73347074aa44d93708ce",
+    "comments_last_changed_at": "2026-10-31T07:31:07+09:00"
   },
   "223288787821": {
     "post_id": "223288787821",
@@ -7422,7 +7532,12 @@
     "category_no": "17",
     "category_name": "트릭컬 리바이브",
     "parent_category_no": "14",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:31:08+09:00"
   },
   "223261349262": {
     "post_id": "223261349262",
@@ -7437,7 +7552,12 @@
     "category_no": "7",
     "category_name": "?",
     "parent_category_no": "7",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 0,
+    "comment_reply_count": 0,
+    "comment_archive_count": 0,
+    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "comments_last_changed_at": "2026-10-31T07:31:09+09:00"
   },
   "223198854427": {
     "post_id": "223198854427",
@@ -7452,7 +7572,12 @@
     "category_no": "6",
     "category_name": "하소",
     "parent_category_no": "6",
-    "version_count": 1
+    "version_count": 1,
+    "comment_count": 2,
+    "comment_reply_count": 1,
+    "comment_archive_count": 2,
+    "comments_hash": "b1d2a4040d74b85e577cf9ffa630db0a1d718ff5c4b45c959bb2b2d4de0cac86",
+    "comments_last_changed_at": "2026-10-31T07:31:10+09:00"
   },
   "223198843188": {
     "post_id": "223198843188",

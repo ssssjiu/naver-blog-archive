@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "223555998026",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=223555998026",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-31T07:31:05+09:00",
+  "comments_hash": "eacbc704dbc45a42a05b16d2f29395b3425fa5a3b281dc7eda434fc7660526d0",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "834893466549878847",
+      "parent_comment_id": "834893466549878847",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "지쏘맘",
+      "author_profile_url": "https://blog.naver.com/ssoyu_52",
+      "created_at": "2024-08-21T20:32:12+0900",
+      "content": "인사드려요 ㅎ\n블로그를 눈팅하면서\n평소 궁금하던 부분에 도움이 되어서 공감 꾸욱! ^-^\n오늘도 여유있는 하루가 되시길 바래용\n답방도 부탁드립니당>_<",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-31T07:31:05+09:00",
+      "last_seen_at": "2026-10-31T07:31:05+09:00"
+    }
+  ]
+}

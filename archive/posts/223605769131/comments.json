@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "223605769131",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=223605769131",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-10-31T07:31:00+09:00",
+  "comments_hash": "ad609c7880f7762a580cdc8c7065d2bb5276393a65ddfaf00fb1045d80533c13",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "838896129394344122",
+      "parent_comment_id": "838896129394344122",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "솔냥이일상",
+      "author_profile_url": "https://blog.naver.com/thfdk0608",
+      "created_at": "2024-10-04T00:01:43+0900",
+      "content": "하소 안녕하세요.\n썸네일 보고 왔는데\n포스팅이 읽기 편해서 공감 꾹 누르고갑니다!!\n제 블로그에서도 놀러와주실꺼죠?ㅎㅎ",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-10-31T07:31:00+09:00",
+      "last_seen_at": "2026-10-31T07:31:00+09:00"
+    }
+  ]
+}
