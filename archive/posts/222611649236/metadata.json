@@ -11,5 +11,10 @@
   "category_no": "12",
   "category_name": "위스키",
   "parent_category_no": "10",
-  "version_count": 1
+  "version_count": 1,
+  "comment_count": 4,
+  "comment_reply_count": 1,
+  "comment_archive_count": 4,
+  "comments_hash": "149365d4386dd5651f6421f5b24f746db298684054102f79752fbec064dae597",
+  "comments_last_changed_at": "2026-10-31T21:50:44+09:00"
 }
