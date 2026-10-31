@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "222461722269",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=222461722269",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-11-01T06:45:41+09:00",
+  "comments_hash": "98c9458c597cb1f7a42ef3d7b88d779bce88c28f1eaf90fcd683b87402d7034e",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "4819509067",
+      "parent_comment_id": "4819509067",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "딸바보 엄마",
+      "author_profile_url": "https://blog.naver.com/banyoul1",
+      "created_at": "2021-08-08T15:53:35+0900",
+      "content": "인사드리고 갑니당~^^\n건강 관리 유위하시고 즐건 주말 되세용 ♥\n오늘도 홧팅홧팅!!",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-11-01T06:45:41+09:00",
+      "last_seen_at": "2026-11-01T06:45:41+09:00"
+    }
+  ]
+}
