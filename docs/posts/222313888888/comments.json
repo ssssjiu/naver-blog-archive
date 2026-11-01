@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "post_id": "222313888888",
+  "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=222313888888",
+  "public_only": true,
+  "complete_snapshot": true,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-11-01T15:28:05+09:00",
+  "comments_hash": "9331d509d7f237ce95f3e17130cbacbab8d58e6985798c3ea0ce457e08f47993",
+  "active_count": 1,
+  "reply_count": 0,
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "4645792871",
+      "parent_comment_id": "4645792871",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "세상",
+      "author_profile_url": "https://blog.naver.com/leehyuntech2131",
+      "created_at": "2021-04-18T06:37:45+0900",
+      "content": "매끄러운 포스팅에 정독하고 가용(❛◡❛)✿\n제 블로그에도 꿀정보 둘러보기^^♥",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-11-01T15:28:05+09:00",
+      "last_seen_at": "2026-11-01T15:28:05+09:00"
+    }
+  ]
+}
