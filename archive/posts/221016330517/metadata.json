@@ -1,20 +1,16 @@
 {
   "post_id": "221016330517",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "신중함.",
   "original_url": "https://blog.naver.com/abydost/221016330517",
-  "published": "",
+  "published": "2017. 5. 28. 23:27",
   "first_archived_at": "2026-10-05T20:24:46+09:00",
-  "last_archived_at": "2026-10-05T20:24:46+09:00",
+  "last_archived_at": "2026-11-07T04:34:07+09:00",
   "source_status": "active",
-  "content_hash": "378f9d06e1d945c6bdc91ed03f35db101fc080c84af2a24a1ccba920e52fe4af",
+  "content_hash": "181af39656f1f027e8d06d3537be4f026fb3f26d173d6305d7107a33d3d16a38",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1,
-  "comment_count": 0,
-  "comment_reply_count": 0,
-  "comment_archive_count": 0,
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "comments_last_changed_at": "2026-11-02T07:21:03+09:00"
+  "version_count": 2
 }
