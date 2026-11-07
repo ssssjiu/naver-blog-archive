@@ -1,20 +1,16 @@
 {
   "post_id": "221026366613",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "혼돈, 고요의 속성.",
   "original_url": "https://blog.naver.com/abydost/221026366613",
-  "published": "",
+  "published": "2017. 6. 11. 2:30",
   "first_archived_at": "2026-10-05T20:24:41+09:00",
-  "last_archived_at": "2026-10-05T20:24:41+09:00",
+  "last_archived_at": "2026-11-07T22:20:15+09:00",
   "source_status": "active",
-  "content_hash": "5474fe585951bc83ea5f588372ed9ba4a6b2f9688670d09f8ea0ca079210a2b7",
+  "content_hash": "3d44555facb6879258732c04691709df3764033010f0d9c061387da42f7bd315",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1,
-  "comment_count": 0,
-  "comment_reply_count": 0,
-  "comment_archive_count": 0,
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "comments_last_changed_at": "2026-11-02T07:20:56+09:00"
+  "version_count": 2
 }

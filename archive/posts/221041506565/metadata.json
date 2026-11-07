@@ -1,20 +1,16 @@
 {
   "post_id": "221041506565",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "후회하는 일.",
   "original_url": "https://blog.naver.com/abydost/221041506565",
-  "published": "",
+  "published": "2017. 7. 1. 6:01",
   "first_archived_at": "2026-10-05T20:24:39+09:00",
-  "last_archived_at": "2026-10-05T20:24:39+09:00",
+  "last_archived_at": "2026-11-07T22:20:19+09:00",
   "source_status": "active",
-  "content_hash": "90a9eeb8b1814e7122e6853030ef057fc3b7c99dc45d974872e7ce9d58023614",
+  "content_hash": "c8f388fc95e82f23cafb2ca77d38468c405196d350e0f0647da676eb86e10d86",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1,
-  "comment_count": 0,
-  "comment_reply_count": 0,
-  "comment_archive_count": 0,
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "comments_last_changed_at": "2026-11-02T07:20:54+09:00"
+  "version_count": 2
 }
