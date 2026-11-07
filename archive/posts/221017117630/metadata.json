@@ -1,20 +1,16 @@
 {
   "post_id": "221017117630",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "적응.",
   "original_url": "https://blog.naver.com/abydost/221017117630",
-  "published": "",
+  "published": "2017. 5. 29. 21:59",
   "first_archived_at": "2026-10-05T20:24:45+09:00",
-  "last_archived_at": "2026-10-05T20:24:45+09:00",
+  "last_archived_at": "2026-11-07T15:16:11+09:00",
   "source_status": "active",
-  "content_hash": "92343f3dc8f21fda4d46f1fbee9d053aaf3d982868cddfaaba4d2fd0c6179520",
+  "content_hash": "22fd60ef2419a9915b745480cdf186def6b1421d587dadeb11431b328b364d06",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1,
-  "comment_count": 0,
-  "comment_reply_count": 0,
-  "comment_archive_count": 0,
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "comments_last_changed_at": "2026-11-02T07:21:02+09:00"
+  "version_count": 2
 }
