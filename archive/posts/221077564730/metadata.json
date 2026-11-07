@@ -1,20 +1,16 @@
 {
   "post_id": "221077564730",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "이어지는 궤적.",
   "original_url": "https://blog.naver.com/abydost/221077564730",
-  "published": "",
+  "published": "2017. 8. 19. 18:38",
   "first_archived_at": "2026-10-05T20:24:33+09:00",
-  "last_archived_at": "2026-10-05T20:24:33+09:00",
+  "last_archived_at": "2026-11-08T07:04:08+09:00",
   "source_status": "active",
-  "content_hash": "83f6bed79dfec2284cc6dd33d644c1d7be6d066acc3c83c2ce69e6c8e1988575",
+  "content_hash": "da3a142e8d292e0020f6d92c2b273fabee35b00d4a6025c2b1fc8402434a7bb9",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1,
-  "comment_count": 0,
-  "comment_reply_count": 0,
-  "comment_archive_count": 0,
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "comments_last_changed_at": "2026-11-02T07:20:48+09:00"
+  "version_count": 2
 }
