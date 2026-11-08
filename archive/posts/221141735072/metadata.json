@@ -1,20 +1,16 @@
 {
   "post_id": "221141735072",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "빛이 빚어내는 시간.",
   "original_url": "https://blog.naver.com/abydost/221141735072",
-  "published": "",
+  "published": "2017. 11. 16. 22:43",
   "first_archived_at": "2026-10-05T20:24:23+09:00",
-  "last_archived_at": "2026-10-05T20:24:23+09:00",
+  "last_archived_at": "2026-11-08T22:43:37+09:00",
   "source_status": "active",
-  "content_hash": "0544c43736aa10745915c75968d3589108ea1a1d60e69405a8bd5ee8aca5cec5",
+  "content_hash": "247df56c745d73ed409cbd2da26a4c181b4f6b7c640f6802c5d808e1ba0fa465",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1,
-  "comment_count": 0,
-  "comment_reply_count": 0,
-  "comment_archive_count": 0,
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "comments_last_changed_at": "2026-11-02T07:20:40+09:00"
+  "version_count": 2
 }

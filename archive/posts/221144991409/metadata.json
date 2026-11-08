@@ -1,20 +1,16 @@
 {
   "post_id": "221144991409",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "그림을 배워 봅시다.",
   "original_url": "https://blog.naver.com/abydost/221144991409",
-  "published": "",
+  "published": "2017. 11. 21. 14:12",
   "first_archived_at": "2026-10-05T20:24:19+09:00",
-  "last_archived_at": "2026-10-05T20:24:19+09:00",
+  "last_archived_at": "2026-11-08T22:43:41+09:00",
   "source_status": "active",
-  "content_hash": "4a9817b1e3490f537f1202045d8764aa49a445cfef845e6a6f7c815ead3dccfe",
+  "content_hash": "62c5016baaeac665b4c1b25de7a2f69df55d6bc8adbcb11889f2fc8734f99278",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1,
-  "comment_count": 2,
-  "comment_reply_count": 1,
-  "comment_archive_count": 2,
-  "comments_hash": "39a6260d7844d29ae8a90304549d1c9169f7d54559ad910356726872e419bbd9",
-  "comments_last_changed_at": "2026-11-02T07:20:37+09:00"
+  "version_count": 2
 }
