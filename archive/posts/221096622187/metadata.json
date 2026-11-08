@@ -1,20 +1,16 @@
 {
   "post_id": "221096622187",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "끝에 보이는 것.",
   "original_url": "https://blog.naver.com/abydost/221096622187",
-  "published": "",
+  "published": "2017. 9. 14. 11:47",
   "first_archived_at": "2026-10-05T20:24:32+09:00",
-  "last_archived_at": "2026-10-05T20:24:32+09:00",
+  "last_archived_at": "2026-11-08T15:21:40+09:00",
   "source_status": "active",
-  "content_hash": "149dd8248053cbadb61cfdc6223b34978b49cf06cb436662f63d448dbf0f49da",
+  "content_hash": "043217084bc72b82c440cf6fffc476fbc06ebd819a0a79c0ad3270d016670973",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1,
-  "comment_count": 0,
-  "comment_reply_count": 0,
-  "comment_archive_count": 0,
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "comments_last_changed_at": "2026-11-02T07:20:46+09:00"
+  "version_count": 2
 }

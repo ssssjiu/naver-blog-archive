@@ -1,20 +1,16 @@
 {
   "post_id": "221110884250",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "순풍의 재회.",
   "original_url": "https://blog.naver.com/abydost/221110884250",
-  "published": "",
+  "published": "2017. 10. 5. 6:34",
   "first_archived_at": "2026-10-05T20:24:30+09:00",
-  "last_archived_at": "2026-10-05T20:24:30+09:00",
+  "last_archived_at": "2026-11-08T15:21:42+09:00",
   "source_status": "active",
-  "content_hash": "dab3113334d17affd7beeb0023ef19dcf93387a4c9187f5e76f5a1e2c7d68d56",
+  "content_hash": "ba2ca0e602146cf661cb854baf34d46e99dd70d9807e8822987fdb91f25006f6",
   "category_no": "1",
   "category_name": "소설",
   "parent_category_no": "1",
-  "version_count": 1,
-  "comment_count": 2,
-  "comment_reply_count": 1,
-  "comment_archive_count": 2,
-  "comments_hash": "a40ee9634319668b79d1a54356f7bbecc10f0dff5bb5812a60159bebd8226f75",
-  "comments_last_changed_at": "2026-11-02T07:20:43+09:00"
+  "version_count": 2
 }

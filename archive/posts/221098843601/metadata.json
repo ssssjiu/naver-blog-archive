@@ -1,20 +1,16 @@
 {
   "post_id": "221098843601",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "다시 하루를 맞이하며.",
   "original_url": "https://blog.naver.com/abydost/221098843601",
-  "published": "",
+  "published": "2017. 9. 17. 16:39",
   "first_archived_at": "2026-10-05T20:24:31+09:00",
-  "last_archived_at": "2026-10-05T20:24:31+09:00",
+  "last_archived_at": "2026-11-08T15:21:41+09:00",
   "source_status": "active",
-  "content_hash": "43200dad17e51fff9ee8613445443916abb98c4cc488234c6deccf6d1ee7b275",
+  "content_hash": "bfde00d577d10608cd405899229aa7aca5ba33b95d401dee2661b1c2314d1789",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 1,
-  "comment_count": 0,
-  "comment_reply_count": 0,
-  "comment_archive_count": 0,
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "comments_last_changed_at": "2026-11-02T07:20:45+09:00"
+  "version_count": 2
 }
