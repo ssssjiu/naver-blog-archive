@@ -1,20 +1,16 @@
 {
   "post_id": "221175271168",
   "blog_id": "abydost",
+  "source_type": "naver",
   "title": "2018년을 시작하기 위한 자기 보고서.",
   "original_url": "https://blog.naver.com/abydost/221175271168",
-  "published": "",
+  "published": "2018. 1. 1. 7:31",
   "first_archived_at": "2026-10-05T20:24:10+09:00",
-  "last_archived_at": "2026-10-05T20:37:53+09:00",
+  "last_archived_at": "2026-11-09T15:55:07+09:00",
   "source_status": "active",
-  "content_hash": "38945f17c19792c423faff3eebdd968b4c772accb69f3889cd1f243ff859bb34",
+  "content_hash": "7b581c2a12e018dbb3d40f53b7e54766d17a09f4e5005fbd182f687035a4086b",
   "category_no": "6",
   "category_name": "하소",
   "parent_category_no": "6",
-  "version_count": 2,
-  "comment_count": 0,
-  "comment_reply_count": 0,
-  "comment_archive_count": 0,
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "comments_last_changed_at": "2026-11-02T07:13:38+09:00"
+  "version_count": 3
 }
