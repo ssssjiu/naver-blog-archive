@@ -4,11 +4,33 @@
   "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=224478235851",
   "public_only": true,
   "complete_snapshot": true,
-  "source_reported_count": 0,
-  "last_changed_at": "2026-11-15T23:22:00+09:00",
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "active_count": 0,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-11-18T16:44:23+09:00",
+  "comments_hash": "67e4689dfdee1e3aa981235c357c6144b6c20ee6b6b999ff51198b630c71f5a7",
+  "active_count": 1,
   "reply_count": 0,
-  "archived_count": 0,
-  "comments": []
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "910848132063953159",
+      "parent_comment_id": "910848132063953159",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "서울숙면치과 부천",
+      "author_profile_url": "https://blog.naver.com/seoulsmdc2",
+      "created_at": "2026-11-18T14:03:48+0900",
+      "content": "개그에서 차곡차곡 쌓은 흐름이 뜻밖에 꺾일 때 감탄하게 된다는 말씀에 공감해요.",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-11-18T16:44:23+09:00",
+      "last_seen_at": "2026-11-18T16:44:23+09:00"
+    }
+  ]
 }
