@@ -12257,10 +12257,10 @@
     "category_name": "매일 5천",
     "parent_category_no": "1",
     "version_count": 1,
-    "comment_count": 0,
+    "comment_count": 1,
     "comment_reply_count": 0,
-    "comment_archive_count": 0,
-    "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-    "comments_last_changed_at": "2026-11-20T23:11:52+09:00"
+    "comment_archive_count": 1,
+    "comments_hash": "3202c7b1ccf6be819fed60f23e5839e37bee7d6b5548e13e310b078ff40dc8c5",
+    "comments_last_changed_at": "2026-11-24T19:08:26+09:00"
   }
 }

@@ -4,11 +4,33 @@
   "source_url": "https://m.blog.naver.com/CommentList.naver?blogId=abydost&logNo=224485213054",
   "public_only": true,
   "complete_snapshot": true,
-  "source_reported_count": 0,
-  "last_changed_at": "2026-11-20T23:11:52+09:00",
-  "comments_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "active_count": 0,
+  "source_reported_count": 1,
+  "last_changed_at": "2026-11-24T19:08:26+09:00",
+  "comments_hash": "3202c7b1ccf6be819fed60f23e5839e37bee7d6b5548e13e310b078ff40dc8c5",
+  "active_count": 1,
   "reply_count": 0,
-  "archived_count": 0,
-  "comments": []
+  "archived_count": 1,
+  "comments": [
+    {
+      "comment_id": "911420611929047238",
+      "parent_comment_id": "911420611929047238",
+      "reply_level": 1,
+      "order": 0,
+      "author_name": "하소",
+      "author_profile_url": "https://blog.naver.com/abydost",
+      "created_at": "2026-11-24T18:09:51+0900",
+      "content": "https://woowayouths.esafetykorea.or.kr/main/myLecture/class?le_code=WW2604&mb_cp_code=woowayouth&cl_start_date=2026-11-01#",
+      "likes": 0,
+      "antipathy": 0,
+      "reply_count": 0,
+      "links": [],
+      "media_source_urls": [],
+      "media_files": [],
+      "sticker_id": "",
+      "secret": false,
+      "source_status": "active",
+      "first_seen_at": "2026-11-24T19:08:26+09:00",
+      "last_seen_at": "2026-11-24T19:08:26+09:00"
+    }
+  ]
 }
